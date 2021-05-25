@@ -27,7 +27,9 @@ import org.kie.workbench.common.stunner.bpmn.client.shape.view.handler.TaskViewH
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
@@ -50,6 +52,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(GenericServiceTask.class, BPMNSVGViewFactory::genericServiceTask)
                     .put(UserTask.class, BPMNSVGViewFactory::userTask)
                     .put(ScriptTask.class, BPMNSVGViewFactory::scriptTask)
+                    .put(ScoringTask.class, BPMNSVGViewFactory::scriptTask)
+                    .put(IntegrationTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
 
     public static final Map<Class<? extends BaseTask>, Glyph> GLYPHS =
@@ -58,6 +62,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(GenericServiceTask.class, BPMNGlyphFactory.TASK_GENERIC_SERVICE)
                     .put(UserTask.class, BPMNGlyphFactory.TASK_USER)
                     .put(ScriptTask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                    .put(ScoringTask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                    .put(IntegrationTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
                     .build();
 
@@ -71,6 +77,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(NoneTask.class, null)
                     .put(UserTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(ScriptTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                    .put(ScoringTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                    .put(IntegrationTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(GenericServiceTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)

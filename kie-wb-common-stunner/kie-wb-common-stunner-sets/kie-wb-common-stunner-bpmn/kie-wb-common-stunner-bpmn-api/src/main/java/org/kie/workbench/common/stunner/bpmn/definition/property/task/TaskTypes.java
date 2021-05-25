@@ -23,6 +23,8 @@ public enum TaskTypes {
     NONE,
     USER,
     SCRIPT,
+    PYTHON,
+    INTEGRATION,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

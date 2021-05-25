@@ -53,4 +53,6 @@ public interface Metadata extends Serializable {
     void setRoot(Path path);
 
     Class<? extends Metadata> getMetadataType();
+
+    String toString();
 }

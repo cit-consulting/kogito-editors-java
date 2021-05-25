@@ -96,6 +96,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.InputSet;
+import org.eclipse.bpmn2.IntegrationTask;
 import org.eclipse.bpmn2.InteractionNode;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -126,6 +127,7 @@ import org.eclipse.bpmn2.Performer;
 import org.eclipse.bpmn2.PotentialOwner;
 import org.eclipse.bpmn2.ProcessType;
 import org.eclipse.bpmn2.Property;
+import org.eclipse.bpmn2.ScoringTask;
 import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.Relationship;
 import org.eclipse.bpmn2.RelationshipDirection;
@@ -432,6 +434,10 @@ public class Bpmn2FactoryImpl extends EFactoryImpl implements Bpmn2Factory {
 			return createRootElement();
 		case Bpmn2Package.SCRIPT_TASK:
 			return createScriptTask();
+		case Bpmn2Package.SCORING_TASK:
+			return createScoringTask();
+		case Bpmn2Package.INTEGRATION_TASK:
+			return createIntegrationTask();
 		case Bpmn2Package.SEND_TASK:
 			return createSendTask();
 		case Bpmn2Package.SEQUENCE_FLOW:
@@ -1774,6 +1780,16 @@ public class Bpmn2FactoryImpl extends EFactoryImpl implements Bpmn2Factory {
 	public ScriptTask createScriptTask() {
 		ScriptTaskImpl scriptTask = new ScriptTaskImpl();
 		return scriptTask;
+	}
+
+	@Override
+	public ScoringTask createScoringTask() {
+		return new ScoringTaskImpl();
+	}
+
+	@Override
+	public IntegrationTask createIntegrationTask() {
+		return new IntegrationTaskImpl();
 	}
 
 	/**

@@ -1050,6 +1050,10 @@ public interface Bpmn2Factory extends EFactory {
 	 */
 	ScriptTask createScriptTask();
 
+	ScoringTask createScoringTask();
+
+	IntegrationTask createIntegrationTask();
+
 	/**
 	 * Returns a new object of class '<em>Send Task</em>'.
 	 * <!-- begin-user-doc -->

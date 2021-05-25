@@ -87,16 +87,13 @@ public abstract class BaseTask implements BPMNViewDefinition {
 
         private static final Map<TaskTypes, Class<?>> MORPH_TARGETS =
                 new Maps.Builder<TaskTypes, Class<?>>()
-                        .put(TaskTypes.NONE,
-                             NoneTask.class)
-                        .put(TaskTypes.USER,
-                             UserTask.class)
-                        .put(TaskTypes.SCRIPT,
-                             ScriptTask.class)
-                        .put(TaskTypes.BUSINESS_RULE,
-                             BusinessRuleTask.class)
-                        .put(TaskTypes.SERVICE_TASK,
-                             GenericServiceTask.class)
+                        .put(TaskTypes.NONE, NoneTask.class)
+                        .put(TaskTypes.USER, UserTask.class)
+                        .put(TaskTypes.SCRIPT, ScriptTask.class)
+                        .put(TaskTypes.PYTHON, ScoringTask.class)
+                        .put(TaskTypes.INTEGRATION, IntegrationTask.class)
+                        .put(TaskTypes.BUSINESS_RULE, BusinessRuleTask.class)
+                        .put(TaskTypes.SERVICE_TASK, GenericServiceTask.class)
                         .build();
 
         @Override

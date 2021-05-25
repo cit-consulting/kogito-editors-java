@@ -99,6 +99,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.InputSet;
+import org.eclipse.bpmn2.IntegrationTask;
 import org.eclipse.bpmn2.InteractionNode;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -136,6 +137,7 @@ import org.eclipse.bpmn2.ResourceParameter;
 import org.eclipse.bpmn2.ResourceParameterBinding;
 import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.bpmn2.RootElement;
+import org.eclipse.bpmn2.ScoringTask;
 import org.eclipse.bpmn2.ScriptTask;
 import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -3740,6 +3742,14 @@ public class Bpmn2Switch<T> {
 	 * @generated
 	 */
 	public T caseScriptTask(ScriptTask object) {
+		return null;
+	}
+
+	public T caseScoringTask(ScoringTask object) {
+		return null;
+	}
+
+	public T caseIntegrationTask(IntegrationTask object) {
 		return null;
 	}
 

@@ -73,6 +73,6 @@ public class ClientRuntimeError {
 
     public String toString() {
         String cause = getCause();
-        return getMessage() + (cause != null ? " (cause: " + cause + ")" : "");
+        return getMessage() + (cause != null ? " (cause: " + cause + "; message:" + getMessage() + ")" : "");
     }
 }

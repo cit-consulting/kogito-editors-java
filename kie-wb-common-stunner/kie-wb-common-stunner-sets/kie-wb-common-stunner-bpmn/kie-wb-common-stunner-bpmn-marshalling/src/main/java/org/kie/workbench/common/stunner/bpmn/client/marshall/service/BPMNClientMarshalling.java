@@ -16,6 +16,7 @@
 
 package org.kie.workbench.common.stunner.bpmn.client.marshall.service;
 
+import elemental2.dom.DomGlobal;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -124,23 +125,29 @@ public class BPMNClientMarshalling {
 
         metadata.setCanvasRootUUID(definitionResolver.getDefinitions().getId());
         metadata.setTitle(definitionResolver.getProcess().getName());
-
         final BaseConverterFactory converterFactory = new org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.ConverterFactory(definitionResolver, typedFactoryManager);
+        DomGlobal.console.info(this.getClass().getName() + " 1");
         // perform actual conversion. Process is the root of the diagram
+        DomGlobal.console.info(this.getClass().getName() + " 2");
         final Result<BpmnNode> result = converterFactory.rootProcessConverter().convertProcess();
+        DomGlobal.console.info(this.getClass().getName() + " 3");
         final BpmnNode diagramRoot = result.value();
+        DomGlobal.console.info(this.getClass().getName() + " 4");
         dataTypeCache.initCache(diagramRoot);
 
         // the root node contains all of the information
         // needed to build the entire graph (including parent/child relationships)
         // thus, we can now walk the graph to issue all the commands
         // to draw it on our canvas
+        DomGlobal.console.info(this.getClass().getName() + " 5");
         final Diagram<Graph<DefinitionSet, Node>, Metadata> diagram =
                 typedFactoryManager.newDiagram(
                         definitionResolver.getDefinitions().getId(),
                         getDefinitionSetClass(),
                         metadata);
+        DomGlobal.console.info(this.getClass().getName() + " 6");
         final Graph<DefinitionSet, Node> graph = diagram.getGraph();
+        DomGlobal.console.info(this.getClass().getName() + " 7");
         final GraphBuilder graphBuilder =
                 new GraphBuilder(
                         graph,
@@ -149,8 +156,8 @@ public class BPMNClientMarshalling {
                         ruleManager,
                         commandFactory,
                         commandManager);
+        DomGlobal.console.info(this.getClass().getName() + " 8");
         graphBuilder.render(diagramRoot);
-
         return graph;
     }
 

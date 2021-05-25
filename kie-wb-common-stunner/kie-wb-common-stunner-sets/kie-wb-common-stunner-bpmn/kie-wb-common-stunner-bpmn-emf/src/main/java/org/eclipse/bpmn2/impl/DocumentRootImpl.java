@@ -96,6 +96,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.InputSet;
+import org.eclipse.bpmn2.IntegrationTask;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
 import org.eclipse.bpmn2.IntermediateThrowEvent;
@@ -131,6 +132,7 @@ import org.eclipse.bpmn2.ResourceParameter;
 import org.eclipse.bpmn2.ResourceParameterBinding;
 import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.bpmn2.RootElement;
+import org.eclipse.bpmn2.ScoringTask;
 import org.eclipse.bpmn2.ScriptTask;
 import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -4004,6 +4006,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 		return (ScriptTask) getMixed().get(Bpmn2Package.Literals.DOCUMENT_ROOT__SCRIPT_TASK, true);
 	}
 
+	@Override
+	public ScoringTask getScoringTask() {
+		return (ScoringTask) getMixed().get(Bpmn2Package.Literals.DOCUMENT_ROOT__SCORING_TASK, true);
+	}
+
+	@Override
+	public IntegrationTask getIntegrationTask() {
+		return (IntegrationTask) getMixed().get(Bpmn2Package.Literals.DOCUMENT_ROOT__INTEGRATION_TASK, true);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4014,6 +4026,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				newScriptTask, msgs);
 	}
 
+	public NotificationChain basicSetScoringTask(ScoringTask newScoringTask, NotificationChain msgs) {
+		return ((FeatureMap.Internal) getMixed()).basicAdd(Bpmn2Package.Literals.DOCUMENT_ROOT__SCORING_TASK,
+				newScoringTask, msgs);
+	}
+
+	public NotificationChain basicSetIntegrationTask(IntegrationTask newIntegrationTask, NotificationChain msgs) {
+		return ((FeatureMap.Internal) getMixed()).basicAdd(Bpmn2Package.Literals.DOCUMENT_ROOT__INTEGRATION_TASK,
+				newIntegrationTask, msgs);
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4022,6 +4044,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	@Override
 	public void setScriptTask(ScriptTask newScriptTask) {
 		((FeatureMap.Internal) getMixed()).set(Bpmn2Package.Literals.DOCUMENT_ROOT__SCRIPT_TASK, newScriptTask);
+	}
+
+	@Override
+	public void setScoringTask(ScoringTask value) {
+		((FeatureMap.Internal) getMixed()).set(Bpmn2Package.Literals.DOCUMENT_ROOT__SCORING_TASK, value);
+	}
+
+	@Override
+	public void setIntegrationTask(IntegrationTask value) {
+		((FeatureMap.Internal) getMixed()).set(Bpmn2Package.Literals.DOCUMENT_ROOT__INTEGRATION_TASK, value);
 	}
 
 	/**
@@ -4855,6 +4887,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			return basicSetScript(null, msgs);
 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
 			return basicSetScriptTask(null, msgs);
+		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
+			return basicSetScoringTask(null, msgs);
+		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
+			return basicSetIntegrationTask(null, msgs);
 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
 			return basicSetSendTask(null, msgs);
 		case Bpmn2Package.DOCUMENT_ROOT__SEQUENCE_FLOW:
@@ -5153,6 +5189,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			return getScript();
 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
 			return getScriptTask();
+		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
+			return getScoringTask();
+		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
+			return getIntegrationTask();
 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
 			return getSendTask();
 		case Bpmn2Package.DOCUMENT_ROOT__SEQUENCE_FLOW:
@@ -5559,6 +5599,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			return;
 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
 			setScriptTask((ScriptTask) newValue);
+			return;
+		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
+			setScoringTask((ScoringTask) newValue);
+			return;
+		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
+			setIntegrationTask((IntegrationTask) newValue);
 			return;
 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
 			setSendTask((SendTask) newValue);
@@ -5986,6 +6032,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
 			setScriptTask((ScriptTask) null);
 			return;
+		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
+			setScoringTask((ScoringTask) null);
+			return;
+		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
+			setIntegrationTask((IntegrationTask) null);
+			return;
 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
 			setSendTask((SendTask) null);
 			return;
@@ -6295,6 +6347,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			return getScript() != null;
 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
 			return getScriptTask() != null;
+		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
+			return getScoringTask() != null;
+		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
+			return getIntegrationTask() != null;
 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
 			return getSendTask() != null;
 		case Bpmn2Package.DOCUMENT_ROOT__SEQUENCE_FLOW:

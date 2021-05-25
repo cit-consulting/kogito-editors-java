@@ -28,8 +28,10 @@ import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.Gateway;
+import org.eclipse.bpmn2.IntegrationTask;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.ScoringTask;
 import org.eclipse.bpmn2.ScriptTask;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
@@ -87,6 +89,14 @@ public class PropertyReaderFactory {
 
     public ScriptTaskPropertyReader of(ScriptTask el) {
         return new ScriptTaskPropertyReader(el, diagram, definitionResolver);
+    }
+
+    public ScoringTaskPropertyReader of(ScoringTask el) {
+        return new ScoringTaskPropertyReader(el, diagram, definitionResolver);
+    }
+
+    public IntegrationTaskPropertyReader of(IntegrationTask el) {
+        return new IntegrationTaskPropertyReader(el, diagram, definitionResolver);
     }
 
     public GenericServiceTaskPropertyReader of(ServiceTask el) {

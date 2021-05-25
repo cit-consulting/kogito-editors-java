@@ -97,6 +97,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.InputSet;
+import org.eclipse.bpmn2.IntegrationTask;
 import org.eclipse.bpmn2.InteractionNode;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -134,6 +135,7 @@ import org.eclipse.bpmn2.ResourceParameter;
 import org.eclipse.bpmn2.ResourceParameterBinding;
 import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.bpmn2.RootElement;
+import org.eclipse.bpmn2.ScoringTask;
 import org.eclipse.bpmn2.ScriptTask;
 import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -818,6 +820,16 @@ public class Bpmn2AdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter caseScriptTask(ScriptTask object) {
 			return createScriptTaskAdapter();
+		}
+
+		@Override
+		public Adapter caseScoringTask(ScoringTask object) {
+			return createScoringTaskAdapter();
+		}
+
+		@Override
+		public Adapter caseIntegrationTask(IntegrationTask object) {
+			return createIntegrationTaskAdapter();
 		}
 
 		@Override
@@ -2620,6 +2632,14 @@ public class Bpmn2AdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createScriptTaskAdapter() {
+		return null;
+	}
+
+	public Adapter createScoringTaskAdapter() {
+		return null;
+	}
+
+	public Adapter createIntegrationTaskAdapter() {
 		return null;
 	}
 

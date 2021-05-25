@@ -33,7 +33,9 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.NodeConverter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.BusinessRuleTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.GenericServiceTaskPropertyReader;
+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.IntegrationTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.PropertyReaderFactory;
+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.ScoringTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.ScriptTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.ServiceTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.TaskPropertyReader;
@@ -42,7 +44,9 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.Con
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
@@ -54,9 +58,11 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCollectionInput;
@@ -70,6 +76,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnEntryAct
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnExitAction;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleFlowGroup;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
@@ -98,6 +105,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         return Match.<Task, BpmnNode>of()
                 .when(e -> e instanceof org.eclipse.bpmn2.BusinessRuleTask, this::businessRuleTask)
                 .when(e -> e instanceof org.eclipse.bpmn2.ScriptTask, this::scriptTask)
+                .when(e -> e instanceof org.eclipse.bpmn2.ScoringTask, this::scoringTask)
+                .when(e -> e instanceof org.eclipse.bpmn2.IntegrationTask, this::integrationTask)
                 .when(e -> e instanceof org.eclipse.bpmn2.UserTask, this::userTask)
                 .when(e -> e instanceof org.eclipse.bpmn2.ServiceTask, this::serviceTaskResolver)
                 .when(e -> org.eclipse.bpmn2.impl.TaskImpl.class.equals(e.getClass()), this::defaultTaskResolver)
@@ -266,6 +275,46 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                 new IsAsync(p.isAsync()),
                 new AdHocAutostart(p.isAdHocAutoStart())
         ));
+
+        node.getContent().setBounds(p.getBounds());
+
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+
+        definition.setSimulationSet(p.getSimulationSet());
+
+        return BpmnNode.of(node, p);
+    }
+
+    private BpmnNode scoringTask(org.eclipse.bpmn2.ScoringTask task) {
+        Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
+
+        ScoringTask definition = node.getContent().getDefinition();
+        ScoringTaskPropertyReader p = propertyReaderFactory.of(task);
+
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScript()));
+
+        node.getContent().setBounds(p.getBounds());
+
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+
+        definition.setSimulationSet(p.getSimulationSet());
+
+        return BpmnNode.of(node, p);
+    }
+
+    private BpmnNode integrationTask(org.eclipse.bpmn2.IntegrationTask task) {
+        Node<View<IntegrationTask>, Edge> node = factoryManager.newNode(task.getId(), IntegrationTask.class);
+
+        IntegrationTask definition = node.getContent().getDefinition();
+        IntegrationTaskPropertyReader p = propertyReaderFactory.of(task);
+
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(new IntegrationTaskExecutionSet(new CashType(p.getCashType()), p.getScript()));
 
         node.getContent().setBounds(p.getBounds());
 

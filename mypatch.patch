@@ -1,1160 +1,1387 @@
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/IntegrationTask.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/IntegrationTask.java
-new file mode 100644
-index 0000000000..e1c378ee8f
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/IntegrationTask.java
-@@ -0,0 +1,110 @@
-+/*
-+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-client-api/src/main/java/org/kie/workbench/common/stunner/core/client/service/ClientRuntimeError.java b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-client-api/src/main/java/org/kie/workbench/common/stunner/core/client/service/ClientRuntimeError.java
+index 8d6582ab25..4e16c277b9 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-client-api/src/main/java/org/kie/workbench/common/stunner/core/client/service/ClientRuntimeError.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-client-api/src/main/java/org/kie/workbench/common/stunner/core/client/service/ClientRuntimeError.java
+@@ -73,6 +73,6 @@ public class ClientRuntimeError {
+ 
+     public String toString() {
+         String cause = getCause();
+-        return getMessage() + (cause != null ? " (cause: " + cause + ")" : "");
++        return getMessage() + (cause != null ? " (cause: " + cause + "; message:" + getMessage() + ")" : "");
+     }
+ }
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-core-api/src/main/java/org/kie/workbench/common/stunner/core/diagram/Metadata.java b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-core-api/src/main/java/org/kie/workbench/common/stunner/core/diagram/Metadata.java
+index 2af1e80fa7..46f536a2bb 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-core-api/src/main/java/org/kie/workbench/common/stunner/core/diagram/Metadata.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-api/kie-wb-common-stunner-core-api/src/main/java/org/kie/workbench/common/stunner/core/diagram/Metadata.java
+@@ -53,4 +53,6 @@ public interface Metadata extends Serializable {
+     void setRoot(Path path);
+ 
+     Class<? extends Metadata> getMetadataType();
 +
-+package org.kie.workbench.common.stunner.bpmn.definition;
++    String toString();
+ }
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/canvas/controls/toolbox/DefaultToolboxControl.java b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/canvas/controls/toolbox/DefaultToolboxControl.java
+index 0f8c351e02..c07b0b6061 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/canvas/controls/toolbox/DefaultToolboxControl.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/canvas/controls/toolbox/DefaultToolboxControl.java
+@@ -35,16 +35,16 @@ import org.kie.workbench.common.stunner.core.client.components.toolbox.actions.M
+ @Default
+ public class DefaultToolboxControl extends AbstractToolboxControl {
+ 
+-    private final ManagedInstance<ActionsToolboxFactory> flowActionsToolboxFactories;
+-    private final ManagedInstance<ActionsToolboxFactory> morphActionsToolboxFactories;
+-    private final ManagedInstance<ActionsToolboxFactory> commonActionsToolboxFactories;
++    private final ManagedInstance<ActionsToolboxFactory> flowActionsToolboxFactories; // Справа
++    // private final ManagedInstance<ActionsToolboxFactory> morphActionsToolboxFactories; // Внизу
++    private final ManagedInstance<ActionsToolboxFactory> commonActionsToolboxFactories; // Delete
+ 
+     @Inject
+     public DefaultToolboxControl(final @Any @FlowActionsToolbox ManagedInstance<ActionsToolboxFactory> flowActionsToolboxFactories,
+                                  final @Any @MorphActionsToolbox ManagedInstance<ActionsToolboxFactory> morphActionsToolboxFactories,
+                                  final @Any @CommonActionsToolbox ManagedInstance<ActionsToolboxFactory> commonActionsToolboxFactories) {
+-        this.flowActionsToolboxFactories = flowActionsToolboxFactories;
+-        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
++         this.flowActionsToolboxFactories = flowActionsToolboxFactories;
++//        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
+         this.commonActionsToolboxFactories = commonActionsToolboxFactories;
+     }
+ 
+@@ -55,15 +55,16 @@ public class DefaultToolboxControl extends AbstractToolboxControl {
+ 
+         super(toolboxControl);
+         this.flowActionsToolboxFactories = flowActionsToolboxFactories;
+-        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
++//        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
+         this.commonActionsToolboxFactories = commonActionsToolboxFactories;
+     }
+ 
+     @Override
+     protected List<ActionsToolboxFactory> getFactories() {
+         return Arrays.asList(flowActionsToolboxFactories.get(),
+-                             morphActionsToolboxFactories.get(),
+-                             commonActionsToolboxFactories.get());
++//                             morphActionsToolboxFactories.get(),
++                             commonActionsToolboxFactories.get()
++        );
+     }
+ 
+     @PreDestroy
+@@ -71,7 +72,7 @@ public class DefaultToolboxControl extends AbstractToolboxControl {
+     public void destroy() {
+         super.destroy();
+         flowActionsToolboxFactories.destroyAll();
+-        morphActionsToolboxFactories.destroyAll();
++//        morphActionsToolboxFactories.destroyAll();
+         commonActionsToolboxFactories.destroyAll();
+     }
+ }
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactory.java b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactory.java
+index 58c146ba43..1824c6b570 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactory.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/main/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactory.java
+@@ -19,9 +19,7 @@ package org.kie.workbench.common.stunner.core.client.components.toolbox.actions;
+ import java.lang.annotation.Annotation;
+ import java.util.Collection;
+ import java.util.Set;
+-import java.util.function.Predicate;
+ import java.util.stream.Collectors;
+-import java.util.stream.Stream;
+ 
+ import javax.annotation.PreDestroy;
+ import javax.enterprise.context.Dependent;
+@@ -62,7 +60,7 @@ public class FlowActionsToolboxFactory
+ 
+     private final DefinitionUtils definitionUtils;
+     private final ToolboxDomainLookups toolboxDomainLookups;
+-    private final DomainProfileManager profileManager;
++    // private final DomainProfileManager profileManager;
+     private final ManagedInstance<CreateConnectorToolboxAction> createConnectorActions;
+     private final ManagedInstance<CreateNodeToolboxAction> createNodeActions;
+     private final ManagedInstance<ActionsToolboxView> views;
+@@ -70,13 +68,13 @@ public class FlowActionsToolboxFactory
+     @Inject
+     public FlowActionsToolboxFactory(final DefinitionUtils definitionUtils,
+                                      final ToolboxDomainLookups toolboxDomainLookups,
+-                                     final DomainProfileManager profileManager,
++                                     // final DomainProfileManager profileManager,
+                                      final @Any ManagedInstance<CreateConnectorToolboxAction> createConnectorActions,
+                                      final @Any @FlowActionsToolbox ManagedInstance<CreateNodeToolboxAction> createNodeActions,
+                                      final @Any @FlowActionsToolbox ManagedInstance<ActionsToolboxView> views) {
+         this.definitionUtils = definitionUtils;
+         this.toolboxDomainLookups = toolboxDomainLookups;
+-        this.profileManager = profileManager;
++        // this.profileManager = profileManager;
+         this.createConnectorActions = createConnectorActions;
+         this.createNodeActions = createNodeActions;
+         this.views = views;
+@@ -99,30 +97,28 @@ public class FlowActionsToolboxFactory
+         // Look for the default connector type and create a button for it.
+         final CommonDomainLookups lookup = toolboxDomainLookups.get(defSetId);
+         final Set<String> targetConnectors = lookup.lookupTargetConnectors(node);
+-        return Stream.concat(targetConnectors.stream()
+-                                     .map(connectorDefId -> newCreateConnectorToolboxAction(qualifier).setEdgeId(connectorDefId)),
+-                             targetConnectors.stream()
+-                                     .flatMap(defaultConnectorId -> {
+-                                         final Predicate<String> definitionsAllowedFilter = profileManager.isDefinitionIdAllowed(metadata);
+-                                         final Set<String> targets = lookup.lookupTargetNodes(diagram.getGraph(),
+-                                                                                              node,
+-                                                                                              defaultConnectorId,
+-                                                                                              definitionsAllowedFilter);
+-                                         final Set<String> morphTargets = lookup.lookupMorphBaseDefinitions(targets);
+-                                         return morphTargets.stream().map(defId -> newCreateNodeToolboxAction(qualifier)
+-                                                 .setEdgeId(defaultConnectorId)
+-                                                 .setNodeId(defId));
+-                                     }))
++        return targetConnectors
++                .stream()
++                .map(connectorDefId -> newCreateConnectorToolboxAction(qualifier).setEdgeId(connectorDefId))
+                 .collect(Collectors.toList());
 +
-+import javax.validation.Valid;
++//        return Stream.concat(targetConnectors.stream().map(connectorDefId -> newCreateConnectorToolboxAction(qualifier).setEdgeId(connectorDefId)),
++//                targetConnectors.stream().flatMap(defaultConnectorId -> {
++//                    final Predicate<String> definitionsAllowedFilter = profileManager.isDefinitionIdAllowed(metadata);
++//                    final Set<String> targets = lookup.lookupTargetNodes(diagram.getGraph(), node, defaultConnectorId, definitionsAllowedFilter);
++//                    final Set<String> morphTargets = lookup.lookupMorphBaseDefinitions(targets);
++//                    return morphTargets.stream().map(defId -> newCreateNodeToolboxAction(qualifier).setEdgeId(defaultConnectorId).setNodeId(defId));
++//                })
++//        ).collect(Collectors.toList());
+     }
+ 
+     private CreateConnectorToolboxAction newCreateConnectorToolboxAction(final Annotation qualifier) {
+         return lookup(createConnectorActions, qualifier);
+     }
+ 
+-    private CreateNodeToolboxAction newCreateNodeToolboxAction(final Annotation qualifier) {
+-        return lookup(createNodeActions, qualifier);
+-    }
++    // private CreateNodeToolboxAction newCreateNodeToolboxAction(final Annotation qualifier) {
++        // return lookup(createNodeActions, qualifier);
++    // }
+ 
+     @PreDestroy
+     public void destroy() {
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/test/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactoryTest.java b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/test/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactoryTest.java
+index 1f8ee250d2..bef3a1b14b 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/test/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactoryTest.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-core/kie-wb-common-stunner-commons/kie-wb-common-stunner-client-common/src/test/java/org/kie/workbench/common/stunner/core/client/components/toolbox/actions/FlowActionsToolboxFactoryTest.java
+@@ -141,7 +141,7 @@ public class FlowActionsToolboxFactoryTest {
+ 
+         this.tested = new FlowActionsToolboxFactory(definitionUtils,
+                                                     toolboxLookups,
+-                                                    profileManager,
++                // profileManager,
+                                                     createConnectorActions,
+                                                     createNodeActions,
+                                                     views);
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/BPMNDefinitionSet.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/BPMNDefinitionSet.java
+index d8c75299f2..f29fafa609 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/BPMNDefinitionSet.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/BPMNDefinitionSet.java
+@@ -38,6 +38,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.EventSubprocess;
+ import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
+ import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.InclusiveGateway;
++import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEvent;
+ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEventThrowing;
+ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateConditionalEvent;
+@@ -57,6 +58,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
+ import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
++import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
+ import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
+@@ -88,6 +90,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
+                 NoneTask.class,
+                 UserTask.class,
+                 ScriptTask.class,
++                ScoringTask.class,
++                IntegrationTask.class,
+                 GenericServiceTask.class,
+                 BusinessRuleTask.class,
+                 StartNoneEvent.class,
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/BaseTask.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/BaseTask.java
+index d342bd50eb..31446b9578 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/BaseTask.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/BaseTask.java
+@@ -87,16 +87,13 @@ public abstract class BaseTask implements BPMNViewDefinition {
+ 
+         private static final Map<TaskTypes, Class<?>> MORPH_TARGETS =
+                 new Maps.Builder<TaskTypes, Class<?>>()
+-                        .put(TaskTypes.NONE,
+-                             NoneTask.class)
+-                        .put(TaskTypes.USER,
+-                             UserTask.class)
+-                        .put(TaskTypes.SCRIPT,
+-                             ScriptTask.class)
+-                        .put(TaskTypes.BUSINESS_RULE,
+-                             BusinessRuleTask.class)
+-                        .put(TaskTypes.SERVICE_TASK,
+-                             GenericServiceTask.class)
++                        .put(TaskTypes.NONE, NoneTask.class)
++                        .put(TaskTypes.USER, UserTask.class)
++                        .put(TaskTypes.SCRIPT, ScriptTask.class)
++                        .put(TaskTypes.PYTHON, ScoringTask.class)
++                        .put(TaskTypes.INTEGRATION, IntegrationTask.class)
++                        .put(TaskTypes.BUSINESS_RULE, BusinessRuleTask.class)
++                        .put(TaskTypes.SERVICE_TASK, GenericServiceTask.class)
+                         .build();
+ 
+         @Override
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskType.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskType.java
+index be3d4d4052..9633cc8772 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskType.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskType.java
+@@ -58,6 +58,7 @@ public class TaskType implements BPMNProperty {
+             .add(TaskTypes.NONE)
+             .add(TaskTypes.USER)
+             .add(TaskTypes.SCRIPT)
++            .add(TaskTypes.PYTHON)
+             .add(TaskTypes.BUSINESS_RULE)
+             .add(TaskTypes.SERVICE_TASK)
+             .build();
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskTypes.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskTypes.java
+index 699f320599..0f3f188c99 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskTypes.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/TaskTypes.java
+@@ -23,6 +23,8 @@ public enum TaskTypes {
+     NONE,
+     USER,
+     SCRIPT,
++    PYTHON,
++    INTEGRATION,
+     BUSINESS_RULE,
+     SERVICE_TASK;
+ }
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/profile/BPMNRuleFlowProfile.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/profile/BPMNRuleFlowProfile.java
+index 9e7204f8dd..657962d6aa 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/profile/BPMNRuleFlowProfile.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/profile/BPMNRuleFlowProfile.java
+@@ -25,9 +25,11 @@ import org.kie.workbench.common.stunner.bpmn.definition.EndNoneEvent;
+ import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
+ import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
+ import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
++import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
+ import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
++import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.StartNoneEvent;
+ import org.kie.workbench.common.stunner.bpmn.qualifiers.BPMN;
+@@ -41,6 +43,8 @@ public class BPMNRuleFlowProfile implements DomainProfile {
+     static final String ID = BPMNRuleFlowProfile.class.getName();
+     private static final BindableDomainProfile domainProfile = BindableDomainProfile.build(NoneTask.class,
+                                                                                            ScriptTask.class,
++                                                                                           ScoringTask.class,
++                                                                                           IntegrationTask.class,
+                                                                                            BusinessRuleTask.class,
+                                                                                            ReusableSubprocess.class,
+                                                                                            StartNoneEvent.class,
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/resources/org/kie/workbench/common/stunner/bpmn/resources/i18n/StunnerBPMNConstants.properties b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/resources/org/kie/workbench/common/stunner/bpmn/resources/i18n/StunnerBPMNConstants.properties
+index c237f9cee1..0033ec436a 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/resources/org/kie/workbench/common/stunner/bpmn/resources/i18n/StunnerBPMNConstants.properties
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/resources/org/kie/workbench/common/stunner/bpmn/resources/i18n/StunnerBPMNConstants.properties
+@@ -108,7 +108,11 @@ org.kie.workbench.common.stunner.bpmn.definition.NoneTask.description=A task is
+ org.kie.workbench.common.stunner.bpmn.definition.UserTask.title=User
+ org.kie.workbench.common.stunner.bpmn.definition.UserTask.description=A task is a unit of work - the job to be performed
+ org.kie.workbench.common.stunner.bpmn.definition.ScriptTask.title=Script
++org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask.title=Integration Script
++org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask.description=Integration
+ org.kie.workbench.common.stunner.bpmn.definition.ScriptTask.description=A task is a unit of work - the job to be performed
++org.kie.workbench.common.stunner.bpmn.definition.ScoringTask.title=Scoring Task
++org.kie.workbench.common.stunner.bpmn.definition.ScoringTask.description=A task is a unit of work - the job to be performed
+ org.kie.workbench.common.stunner.bpmn.definition.IntermediateTimerEvent.title=Intermediate Timer
+ org.kie.workbench.common.stunner.bpmn.definition.IntermediateTimerEvent.description=Process execution is delayed until a certain point in time is reached or a particular duration is over
+ org.kie.workbench.common.stunner.bpmn.definition.IntermediateConditionalEvent.title=Intermediate Conditional
+@@ -385,6 +389,7 @@ org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskE
+ org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet.label=Empty Implementation/Execution
+ org.kie.workbench.common.stunner.bpmn.definition.property.task.ReusableSubprocessTaskExecutionSet.label=Implementation/Execution
+ org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet.label=Implementation/Execution
++org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet.label=Implementation/Execution
+ org.kie.workbench.common.stunner.bpmn.definition.property.task.UserTaskExecutionSet.label=Implementation/Execution
+ org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocSubprocessTaskExecutionSet.label=Implementation/Execution
+ org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocActivationCondition.label=AdHocActivationCondition (drools)
+@@ -526,6 +531,16 @@ org.kie.workbench.common.stunner.bpmn.client.dataproviders.ExecutionOrderProvide
+ org.kie.workbench.common.stunner.bpmn.client.dataproviders.RuleLanguageProvider.DRL=DRL
+ org.kie.workbench.common.stunner.bpmn.client.dataproviders.RuleLanguageProvider.DMN=DMN
+ 
++#######################
++# CacheProvider
++#######################
++org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DEFAULT=DEFAULT
++org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.NONE=NONE
++org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.CACHE_ONLY=CACHE_ONLY
++org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.FORCE_CACHE=FORCE_CACHE
 +
-+import org.jboss.errai.common.client.api.annotations.MapsTo;
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.jboss.errai.databinding.client.api.Bindable;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-+import org.kie.workbench.common.forms.adf.definitions.settings.FieldPolicy;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.background.BackgroundSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.dimensions.RectangleDimensionsSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.font.FontSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
++org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType.label= Cash type
++
+ #######################
+ # TimerSettingsFieldType
+ #######################
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/components/palette/BPMNPaletteDefinitionBuilder.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/components/palette/BPMNPaletteDefinitionBuilder.java
+index fb3b5f35b1..a76312c43c 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/components/palette/BPMNPaletteDefinitionBuilder.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/components/palette/BPMNPaletteDefinitionBuilder.java
+@@ -39,9 +39,27 @@ import org.kie.workbench.common.stunner.bpmn.definition.Association;
+ import org.kie.workbench.common.stunner.bpmn.definition.BPMNCategories;
+ import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
+ import org.kie.workbench.common.stunner.bpmn.definition.BaseSubprocess;
++import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
++import org.kie.workbench.common.stunner.bpmn.definition.DataObject;
++import org.kie.workbench.common.stunner.bpmn.definition.EndCompensationEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.EndErrorEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.EndEscalationEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.EndMessageEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.EndSignalEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.EventGateway;
++import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.Lane;
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
++import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.StartConditionalEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.StartErrorEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.StartEscalationEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.StartMessageEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.StartSignalEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.StartTimerEvent;
++import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
+ import org.kie.workbench.common.stunner.bpmn.qualifiers.BPMN;
+ import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
+ import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskFactory;
+@@ -146,7 +164,10 @@ public class BPMNPaletteDefinitionBuilder
+     public void init() {
+         paletteDefinitionBuilder
+                 .itemFilter(isDefinitionAllowed())
+-                .categoryFilter(category -> !BPMNCategories.CONNECTING_OBJECTS.equals(category))
++                .categoryFilter(category -> BPMNCategories.START_EVENTS.equals(category)
++                        || BPMNCategories.END_EVENTS.equals(category) || BPMNCategories.ACTIVITIES.equals(category)
++                        || BPMNCategories.ARTIFACTS.equals(category) || BPMNCategories.GATEWAYS.equals(category)
++                        || BPMNCategories.CONTAINERS.equals(category))
+                 .categoryDefinitionIdProvider(categoryDefinitionProvider.definitionIdProvider())
+                 .categoryGlyphProvider(categoryDefinitionProvider.glyphProvider())
+                 .categoryMessages(categoryDefinitionProvider.categoryMessageProvider(translationService))
+@@ -193,6 +214,29 @@ public class BPMNPaletteDefinitionBuilder
+                 .or(isType(NoneTask.class))
+                 .or(isType(SequenceFlow.class))
+                 .or(isType(Association.class))
++                // Start Events
++                .or(isType(StartMessageEvent.class))
++                .or(isType(StartSignalEvent.class))
++                .or(isType(StartTimerEvent.class))
++                .or(isType(StartErrorEvent.class))
++                .or(isType(StartConditionalEvent.class))
++                .or(isType(StartEscalationEvent.class))
++                .or(isType(StartCompensationEvent.class))
++                // End Events
++                .or(isType(EndSignalEvent.class))
++                .or(isType(EndMessageEvent.class))
++                .or(isType(EndTerminateEvent.class))
++                .or(isType(EndErrorEvent.class))
++                .or(isType(EndEscalationEvent.class))
++                .or(isType(EndCompensationEvent.class))
++                // Activities
++                .or(isType(BusinessRuleTask.class))
++                .or(isType(UserTask.class))
++                .or(isType(GenericServiceTask.class))
++                // Gateways
++                .or(isType(EventGateway.class))
++                // ARTIFACTS
++                .or(isType(DataObject.class))
+                 .negate();
+     }
+ 
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/def/TaskShapeDef.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/def/TaskShapeDef.java
+index 06faae2a5c..833c42b616 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/def/TaskShapeDef.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/def/TaskShapeDef.java
+@@ -27,7 +27,9 @@ import org.kie.workbench.common.stunner.bpmn.client.shape.view.handler.TaskViewH
+ import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
++import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
++import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
+ import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
+@@ -50,6 +52,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
+                     .put(GenericServiceTask.class, BPMNSVGViewFactory::genericServiceTask)
+                     .put(UserTask.class, BPMNSVGViewFactory::userTask)
+                     .put(ScriptTask.class, BPMNSVGViewFactory::scriptTask)
++                    .put(ScoringTask.class, BPMNSVGViewFactory::scriptTask)
++                    .put(IntegrationTask.class, BPMNSVGViewFactory::scriptTask)
+                     .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
+ 
+     public static final Map<Class<? extends BaseTask>, Glyph> GLYPHS =
+@@ -58,6 +62,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
+                     .put(GenericServiceTask.class, BPMNGlyphFactory.TASK_GENERIC_SERVICE)
+                     .put(UserTask.class, BPMNGlyphFactory.TASK_USER)
+                     .put(ScriptTask.class, BPMNGlyphFactory.TASK_SCRIPT)
++                    .put(ScoringTask.class, BPMNGlyphFactory.TASK_SCRIPT)
++                    .put(IntegrationTask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
+                     .build();
+ 
+@@ -71,6 +77,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
+                     .put(NoneTask.class, null)
+                     .put(UserTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                     .put(ScriptTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
++                    .put(ScoringTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
++                    .put(IntegrationTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                     .put(GenericServiceTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/factory/BPMNShapeFactory.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/factory/BPMNShapeFactory.java
+index e12dec74de..b74825e268 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/factory/BPMNShapeFactory.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/shape/factory/BPMNShapeFactory.java
+@@ -59,6 +59,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.EventSubprocess;
+ import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
+ import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.InclusiveGateway;
++import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEvent;
+ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEventThrowing;
+ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateConditionalEvent;
+@@ -78,6 +79,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
+ import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
++import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
+ import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
+@@ -175,6 +177,8 @@ public class BPMNShapeFactory
+                 .delegate(ScriptTask.class,
+                           new TaskShapeDef(),
+                           () -> svgShapeFactory)
++                .delegate(ScoringTask.class, new TaskShapeDef(), () -> svgShapeFactory)
++                .delegate(IntegrationTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                 .delegate(BusinessRuleTask.class,
+                           new TaskShapeDef(),
+                           () -> svgShapeFactory)
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Factory.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Factory.java
+index 642091eb96..5fdc95ded5 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Factory.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Factory.java
+@@ -1050,6 +1050,10 @@ public interface Bpmn2Factory extends EFactory {
+ 	 */
+ 	ScriptTask createScriptTask();
+ 
++	ScoringTask createScoringTask();
++
++	IntegrationTask createIntegrationTask();
++
+ 	/**
+ 	 * Returns a new object of class '<em>Send Task</em>'.
+ 	 * <!-- begin-user-doc -->
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Package.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Package.java
+index 30f8a7d2da..a2a62e7188 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Package.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/Bpmn2Package.java
+@@ -1338,6 +1338,9 @@ public interface Bpmn2Package extends EPackage {
+ 	 */
+ 	int DOCUMENT_ROOT_FEATURE_COUNT = 139;
+ 
++	int DOCUMENT_ROOT__SCORING_TASK = 140;
++
++	int DOCUMENT_ROOT__INTEGRATION_TASK = 141;
+ 	/**
+ 	 * The meta object id for the '{@link org.eclipse.bpmn2.impl.BaseElementImpl <em>Base Element</em>}' class.
+ 	 * <!-- begin-user-doc -->
+@@ -15645,6 +15648,10 @@ public interface Bpmn2Package extends EPackage {
+ 	 */
+ 	int SCRIPT_TASK = 120;
+ 
++	int SCORING_TASK = 1000;
++
++	int INTEGRATION_TASK = 1001;
++
+ 	/**
+ 	 * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+ 	 * <!-- begin-user-doc -->
+@@ -15879,6 +15886,10 @@ public interface Bpmn2Package extends EPackage {
+ 	 */
+ 	int SCRIPT_TASK__SCRIPT = TASK_FEATURE_COUNT + 0;
+ 
++	int SCORING_TASK__SCRIPT = TASK_FEATURE_COUNT + 0;
++
++	int INTEGRATION_TASK__SCRIPT = TASK_FEATURE_COUNT + 0;
++
+ 	/**
+ 	 * The feature id for the '<em><b>Script Format</b></em>' attribute.
+ 	 * <!-- begin-user-doc -->
+@@ -19870,6 +19881,10 @@ public interface Bpmn2Package extends EPackage {
+ 	 */
+ 	EReference getDocumentRoot_ScriptTask();
+ 
++	EReference getDocumentRoot_ScoringTask();
++
++	EReference getDocumentRoot_IntegrationTask();
++
+ 	/**
+ 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpmn2.DocumentRoot#getSendTask <em>Send Task</em>}'.
+ 	 * <!-- begin-user-doc -->
+@@ -24403,6 +24418,10 @@ public interface Bpmn2Package extends EPackage {
+ 	 */
+ 	EClass getScriptTask();
+ 
++	EClass getScoringTask();
++
++	EClass getIntegrationTask();
++
+ 	/**
+ 	 * Returns the meta object for the attribute '{@link org.eclipse.bpmn2.ScriptTask#getScript <em>Script</em>}'.
+ 	 * <!-- begin-user-doc -->
+@@ -26065,6 +26084,10 @@ public interface Bpmn2Package extends EPackage {
+ 		 */
+ 		EReference DOCUMENT_ROOT__SCRIPT_TASK = eINSTANCE.getDocumentRoot_ScriptTask();
+ 
++		EReference DOCUMENT_ROOT__SCORING_TASK = eINSTANCE.getDocumentRoot_ScoringTask();
++
++		EReference DOCUMENT_ROOT__INTEGRATION_TASK = eINSTANCE.getDocumentRoot_IntegrationTask();
++
+ 		/**
+ 		 * The meta object literal for the '<em><b>Send Task</b></em>' containment reference feature.
+ 		 * <!-- begin-user-doc -->
+@@ -29726,6 +29749,10 @@ public interface Bpmn2Package extends EPackage {
+ 		 */
+ 		EClass SCRIPT_TASK = eINSTANCE.getScriptTask();
+ 
++		EClass SCORING_TASK = eINSTANCE.getScoringTask();
++
++		EClass INTEGRATION_TASK = eINSTANCE.getIntegrationTask();
++
+ 		/**
+ 		 * The meta object literal for the '<em><b>Script</b></em>' attribute feature.
+ 		 * <!-- begin-user-doc -->
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/DocumentRoot.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/DocumentRoot.java
+index 85c2fb3597..9736a31cd2 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/DocumentRoot.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/DocumentRoot.java
+@@ -2886,6 +2886,10 @@ public interface DocumentRoot extends EObject {
+ 	 */
+ 	ScriptTask getScriptTask();
+ 
++	ScoringTask getScoringTask();
++
++	IntegrationTask getIntegrationTask();
++
+ 	/**
+ 	 * Sets the value of the '{@link org.eclipse.bpmn2.DocumentRoot#getScriptTask <em>Script Task</em>}' containment reference.
+ 	 * <!-- begin-user-doc -->
+@@ -2896,6 +2900,10 @@ public interface DocumentRoot extends EObject {
+ 	 */
+ 	void setScriptTask(ScriptTask value);
+ 
++	void setScoringTask(ScoringTask value);
++
++	void setIntegrationTask(IntegrationTask value);
++
+ 	/**
+ 	 * Returns the value of the '<em><b>Send Task</b></em>' containment reference.
+ 	 * <!-- begin-user-doc -->
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2FactoryImpl.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2FactoryImpl.java
+index b247cc2edf..a53112e59d 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2FactoryImpl.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2FactoryImpl.java
+@@ -96,6 +96,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
+ import org.eclipse.bpmn2.InputOutputBinding;
+ import org.eclipse.bpmn2.InputOutputSpecification;
+ import org.eclipse.bpmn2.InputSet;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.InteractionNode;
+ import org.eclipse.bpmn2.Interface;
+ import org.eclipse.bpmn2.IntermediateCatchEvent;
+@@ -126,6 +127,7 @@ import org.eclipse.bpmn2.Performer;
+ import org.eclipse.bpmn2.PotentialOwner;
+ import org.eclipse.bpmn2.ProcessType;
+ import org.eclipse.bpmn2.Property;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ReceiveTask;
+ import org.eclipse.bpmn2.Relationship;
+ import org.eclipse.bpmn2.RelationshipDirection;
+@@ -432,6 +434,10 @@ public class Bpmn2FactoryImpl extends EFactoryImpl implements Bpmn2Factory {
+ 			return createRootElement();
+ 		case Bpmn2Package.SCRIPT_TASK:
+ 			return createScriptTask();
++		case Bpmn2Package.SCORING_TASK:
++			return createScoringTask();
++		case Bpmn2Package.INTEGRATION_TASK:
++			return createIntegrationTask();
+ 		case Bpmn2Package.SEND_TASK:
+ 			return createSendTask();
+ 		case Bpmn2Package.SEQUENCE_FLOW:
+@@ -1776,6 +1782,16 @@ public class Bpmn2FactoryImpl extends EFactoryImpl implements Bpmn2Factory {
+ 		return scriptTask;
+ 	}
+ 
++	@Override
++	public ScoringTask createScoringTask() {
++		return new ScoringTaskImpl();
++	}
++
++	@Override
++	public IntegrationTask createIntegrationTask() {
++		return new IntegrationTaskImpl();
++	}
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2PackageImpl.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2PackageImpl.java
+index 0b621afe19..16b7e8b090 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2PackageImpl.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/Bpmn2PackageImpl.java
+@@ -105,6 +105,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
+ import org.eclipse.bpmn2.InputOutputBinding;
+ import org.eclipse.bpmn2.InputOutputSpecification;
+ import org.eclipse.bpmn2.InputSet;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.InteractionNode;
+ import org.eclipse.bpmn2.Interface;
+ import org.eclipse.bpmn2.IntermediateCatchEvent;
+@@ -146,6 +147,7 @@ import org.eclipse.bpmn2.ResourceParameter;
+ import org.eclipse.bpmn2.ResourceParameterBinding;
+ import org.eclipse.bpmn2.ResourceRole;
+ import org.eclipse.bpmn2.RootElement;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ScriptTask;
+ import org.eclipse.bpmn2.SendTask;
+ import org.eclipse.bpmn2.SequenceFlow;
+@@ -1043,6 +1045,10 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 	 */
+ 	private EClass scriptTaskEClass = null;
+ 
++	private EClass scoringTaskEClass = null;
++
++	private EClass integrationTaskEClass = null;
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+@@ -2414,6 +2420,24 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 				return new ScriptTask[size];
+ 			}
+ 		});
++		Reflect.register(ScoringTask.class, new Reflect.Helper() {
++			public boolean isInstance(Object instance) {
++				return instance instanceof ScoringTask;
++			}
++
++			public Object newArrayInstance(int size) {
++				return new ScoringTask[size];
++			}
++		});
++		Reflect.register(IntegrationTask.class, new Reflect.Helper() {
++			public boolean isInstance(Object instance) {
++				return instance instanceof IntegrationTask;
++			}
++
++			public Object newArrayInstance(int size) {
++				return new IntegrationTask[size];
++			}
++		});
+ 		Reflect.register(SendTask.class, new Reflect.Helper() {
+ 			public boolean isInstance(Object instance) {
+ 				return instance instanceof SendTask;
+@@ -3512,6 +3536,10 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		 */
+ 		protected ScriptTask scriptTask;
+ 
++		protected ScoringTask scoringTask;
++
++		protected IntegrationTask integrationTask;
++
+ 		/**
+ 		 * <!-- begin-user-doc -->
+ 		 * <!-- end-user-doc -->
+@@ -4913,6 +4941,16 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		return (EReference) documentRootEClass.getEStructuralFeatures().get(119);
+ 	}
+ 
++	@Override
++	public EReference getDocumentRoot_ScoringTask() {
++		return (EReference) documentRootEClass.getEStructuralFeatures().get(139);
++	}
++
++	@Override
++	public EReference getDocumentRoot_IntegrationTask() {
++		return (EReference) documentRootEClass.getEStructuralFeatures().get(140);
++	}
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+@@ -9143,6 +9181,16 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		return scriptTaskEClass;
+ 	}
+ 
++	@Override
++	public EClass getScoringTask() {
++		return scoringTaskEClass;
++	}
++
++	@Override
++	public EClass getIntegrationTask() {
++		return integrationTaskEClass;
++	}
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+@@ -9924,6 +9972,8 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		createEReference(documentRootEClass, DOCUMENT_ROOT__RESOURCE_PARAMETER_BINDING);
+ 		createEReference(documentRootEClass, DOCUMENT_ROOT__SCRIPT);
+ 		createEReference(documentRootEClass, DOCUMENT_ROOT__SCRIPT_TASK);
++		createEReference(documentRootEClass, DOCUMENT_ROOT__SCORING_TASK);
++		createEReference(documentRootEClass, DOCUMENT_ROOT__INTEGRATION_TASK);
+ 		createEReference(documentRootEClass, DOCUMENT_ROOT__SEND_TASK);
+ 		createEReference(documentRootEClass, DOCUMENT_ROOT__SEQUENCE_FLOW);
+ 		createEReference(documentRootEClass, DOCUMENT_ROOT__SERVICE_TASK);
+@@ -10478,6 +10528,9 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		createEAttribute(scriptTaskEClass, SCRIPT_TASK__SCRIPT);
+ 		createEAttribute(scriptTaskEClass, SCRIPT_TASK__SCRIPT_FORMAT);
+ 
++		scoringTaskEClass = createEClass(SCORING_TASK);
++		integrationTaskEClass = createEClass(INTEGRATION_TASK);
++
+ 		sendTaskEClass = createEClass(SEND_TASK);
+ 		createEAttribute(sendTaskEClass, SEND_TASK__IMPLEMENTATION);
+ 		createEReference(sendTaskEClass, SEND_TASK__MESSAGE_REF);
+@@ -10716,6 +10769,8 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		resourceRoleEClass.getESuperTypes().add(this.getBaseElement());
+ 		rootElementEClass.getESuperTypes().add(this.getBaseElement());
+ 		scriptTaskEClass.getESuperTypes().add(this.getTask());
++		scoringTaskEClass.getESuperTypes().add(this.getTask());
++		integrationTaskEClass.getESuperTypes().add(this.getTask());
+ 		sendTaskEClass.getESuperTypes().add(this.getTask());
+ 		sequenceFlowEClass.getESuperTypes().add(this.getFlowElement());
+ 		serviceTaskEClass.getESuperTypes().add(this.getTask());
+@@ -11102,6 +11157,12 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		initEReference(getDocumentRoot_ScriptTask(), this.getScriptTask(), null, "scriptTask", null, 0, -2, null,
+ 				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+ 				IS_DERIVED, IS_ORDERED);
++		initEReference(getDocumentRoot_ScoringTask(), this.getScoringTask(), null, "scoringTask", null, 0, -2, null,
++				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
++				IS_DERIVED, IS_ORDERED);
++		initEReference(getDocumentRoot_IntegrationTask(), this.getIntegrationTask(), null, "integrationTask", null, 0, -2, null,
++				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
++				IS_DERIVED, IS_ORDERED);
+ 		initEReference(getDocumentRoot_SendTask(), this.getSendTask(), null, "sendTask", null, 0, -2, null,
+ 				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+ 				IS_DERIVED, IS_ORDERED);
+@@ -12376,6 +12437,10 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 				ScriptTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+ 				!IS_DERIVED, !IS_ORDERED);
+ 
++
++		initEClass(scoringTaskEClass, ScoringTask.class, "ScoringTask", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++		initEClass(integrationTaskEClass, IntegrationTask.class, "IntegrationTask", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++
+ 		initEClass(sendTaskEClass, SendTask.class, "SendTask", !IS_ABSTRACT, !IS_INTERFACE,
+ 				IS_GENERATED_INSTANCE_CLASS);
+ 		initEAttribute(getSendTask_Implementation(), ecorePackage.getEString(), "implementation", null, 1, 1,
+@@ -12955,6 +13020,15 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 				new String[] { "kind", "element", "name", "scriptTask", "namespace",
+ 						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
+ 						"http://www.omg.org/spec/BPMN/20100524/MODEL#flowElement" });
++		addAnnotation(getDocumentRoot_ScoringTask(), source,
++				new String[] { "kind", "element", "name", "scoringTask", "namespace",
++						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
++						"http://www.omg.org/spec/BPMN/20100524/MODEL#flowElement" });
++		addAnnotation(getDocumentRoot_IntegrationTask(), source,
++				new String[] { "kind", "element", "name", "integrationTask", "namespace",
++						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
++						"http://www.omg.org/spec/BPMN/20100524/MODEL#flowElement" });
++
+ 		addAnnotation(getDocumentRoot_SendTask(), source,
+ 				new String[] { "kind", "element", "name", "sendTask", "namespace",
+ 						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
+@@ -13685,6 +13759,8 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
+ 		addAnnotation(rootElementEClass, source,
+ 				new String[] { "name", "tRootElement", "kind", "elementOnly", "abstract", "true" });
+ 		addAnnotation(scriptTaskEClass, source, new String[] { "name", "tScriptTask", "kind", "elementOnly" });
++		addAnnotation(scoringTaskEClass, source, new String[] { "name", "tScoringTask", "kind", "elementOnly" });
++		addAnnotation(integrationTaskEClass, source, new String[] { "name", "tIntegrationTask", "kind", "elementOnly" });
+ 		addAnnotation(getScriptTask_Script(), source, new String[] { "kind", "element", "name", "script", "namespace",
+ 				"http://www.omg.org/spec/BPMN/20100524/MODEL" });
+ 		addAnnotation(getScriptTask_ScriptFormat(), source,
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/DocumentRootImpl.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/DocumentRootImpl.java
+index 5fbb228eba..c6df186082 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/DocumentRootImpl.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/DocumentRootImpl.java
+@@ -96,6 +96,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
+ import org.eclipse.bpmn2.InputOutputBinding;
+ import org.eclipse.bpmn2.InputOutputSpecification;
+ import org.eclipse.bpmn2.InputSet;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.Interface;
+ import org.eclipse.bpmn2.IntermediateCatchEvent;
+ import org.eclipse.bpmn2.IntermediateThrowEvent;
+@@ -131,6 +132,7 @@ import org.eclipse.bpmn2.ResourceParameter;
+ import org.eclipse.bpmn2.ResourceParameterBinding;
+ import org.eclipse.bpmn2.ResourceRole;
+ import org.eclipse.bpmn2.RootElement;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ScriptTask;
+ import org.eclipse.bpmn2.SendTask;
+ import org.eclipse.bpmn2.SequenceFlow;
+@@ -4004,6 +4006,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 		return (ScriptTask) getMixed().get(Bpmn2Package.Literals.DOCUMENT_ROOT__SCRIPT_TASK, true);
+ 	}
+ 
++	@Override
++	public ScoringTask getScoringTask() {
++		return (ScoringTask) getMixed().get(Bpmn2Package.Literals.DOCUMENT_ROOT__SCORING_TASK, true);
++	}
++
++	@Override
++	public IntegrationTask getIntegrationTask() {
++		return (IntegrationTask) getMixed().get(Bpmn2Package.Literals.DOCUMENT_ROOT__INTEGRATION_TASK, true);
++	}
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+@@ -4014,6 +4026,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 				newScriptTask, msgs);
+ 	}
+ 
++	public NotificationChain basicSetScoringTask(ScoringTask newScoringTask, NotificationChain msgs) {
++		return ((FeatureMap.Internal) getMixed()).basicAdd(Bpmn2Package.Literals.DOCUMENT_ROOT__SCORING_TASK,
++				newScoringTask, msgs);
++	}
++
++	public NotificationChain basicSetIntegrationTask(IntegrationTask newIntegrationTask, NotificationChain msgs) {
++		return ((FeatureMap.Internal) getMixed()).basicAdd(Bpmn2Package.Literals.DOCUMENT_ROOT__INTEGRATION_TASK,
++				newIntegrationTask, msgs);
++	}
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+@@ -4024,6 +4046,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 		((FeatureMap.Internal) getMixed()).set(Bpmn2Package.Literals.DOCUMENT_ROOT__SCRIPT_TASK, newScriptTask);
+ 	}
+ 
++	@Override
++	public void setScoringTask(ScoringTask value) {
++		((FeatureMap.Internal) getMixed()).set(Bpmn2Package.Literals.DOCUMENT_ROOT__SCORING_TASK, value);
++	}
++
++	@Override
++	public void setIntegrationTask(IntegrationTask value) {
++		((FeatureMap.Internal) getMixed()).set(Bpmn2Package.Literals.DOCUMENT_ROOT__INTEGRATION_TASK, value);
++	}
++
+ 	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+@@ -4855,6 +4887,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 			return basicSetScript(null, msgs);
+ 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
+ 			return basicSetScriptTask(null, msgs);
++		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
++			return basicSetScoringTask(null, msgs);
++		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
++			return basicSetIntegrationTask(null, msgs);
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
+ 			return basicSetSendTask(null, msgs);
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEQUENCE_FLOW:
+@@ -5153,6 +5189,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 			return getScript();
+ 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
+ 			return getScriptTask();
++		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
++			return getScoringTask();
++		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
++			return getIntegrationTask();
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
+ 			return getSendTask();
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEQUENCE_FLOW:
+@@ -5560,6 +5600,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
+ 			setScriptTask((ScriptTask) newValue);
+ 			return;
++		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
++			setScoringTask((ScoringTask) newValue);
++			return;
++		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
++			setIntegrationTask((IntegrationTask) newValue);
++			return;
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
+ 			setSendTask((SendTask) newValue);
+ 			return;
+@@ -5986,6 +6032,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
+ 			setScriptTask((ScriptTask) null);
+ 			return;
++		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
++			setScoringTask((ScoringTask) null);
++			return;
++		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
++			setIntegrationTask((IntegrationTask) null);
++			return;
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
+ 			setSendTask((SendTask) null);
+ 			return;
+@@ -6295,6 +6347,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+ 			return getScript() != null;
+ 		case Bpmn2Package.DOCUMENT_ROOT__SCRIPT_TASK:
+ 			return getScriptTask() != null;
++		case Bpmn2Package.DOCUMENT_ROOT__SCORING_TASK:
++			return getScoringTask() != null;
++		case Bpmn2Package.DOCUMENT_ROOT__INTEGRATION_TASK:
++			return getIntegrationTask() != null;
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEND_TASK:
+ 			return getSendTask() != null;
+ 		case Bpmn2Package.DOCUMENT_ROOT__SEQUENCE_FLOW:
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2AdapterFactory.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2AdapterFactory.java
+index aee677261a..0d372644d3 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2AdapterFactory.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2AdapterFactory.java
+@@ -97,6 +97,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
+ import org.eclipse.bpmn2.InputOutputBinding;
+ import org.eclipse.bpmn2.InputOutputSpecification;
+ import org.eclipse.bpmn2.InputSet;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.InteractionNode;
+ import org.eclipse.bpmn2.Interface;
+ import org.eclipse.bpmn2.IntermediateCatchEvent;
+@@ -134,6 +135,7 @@ import org.eclipse.bpmn2.ResourceParameter;
+ import org.eclipse.bpmn2.ResourceParameterBinding;
+ import org.eclipse.bpmn2.ResourceRole;
+ import org.eclipse.bpmn2.RootElement;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ScriptTask;
+ import org.eclipse.bpmn2.SendTask;
+ import org.eclipse.bpmn2.SequenceFlow;
+@@ -820,6 +822,16 @@ public class Bpmn2AdapterFactory extends AdapterFactoryImpl {
+ 			return createScriptTaskAdapter();
+ 		}
+ 
++		@Override
++		public Adapter caseScoringTask(ScoringTask object) {
++			return createScoringTaskAdapter();
++		}
++
++		@Override
++		public Adapter caseIntegrationTask(IntegrationTask object) {
++			return createIntegrationTaskAdapter();
++		}
++
+ 		@Override
+ 		public Adapter caseSendTask(SendTask object) {
+ 			return createSendTaskAdapter();
+@@ -2623,6 +2635,14 @@ public class Bpmn2AdapterFactory extends AdapterFactoryImpl {
+ 		return null;
+ 	}
+ 
++	public Adapter createScoringTaskAdapter() {
++		return null;
++	}
++
++	public Adapter createIntegrationTaskAdapter() {
++		return null;
++	}
++
+ 	/**
+ 	 * Creates a new adapter for an object of class '{@link org.eclipse.bpmn2.SendTask <em>Send Task</em>}'.
+ 	 * <!-- begin-user-doc -->
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2Switch.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2Switch.java
+index 01d93a591e..b715e77424 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2Switch.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/util/Bpmn2Switch.java
+@@ -99,6 +99,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
+ import org.eclipse.bpmn2.InputOutputBinding;
+ import org.eclipse.bpmn2.InputOutputSpecification;
+ import org.eclipse.bpmn2.InputSet;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.InteractionNode;
+ import org.eclipse.bpmn2.Interface;
+ import org.eclipse.bpmn2.IntermediateCatchEvent;
+@@ -136,6 +137,7 @@ import org.eclipse.bpmn2.ResourceParameter;
+ import org.eclipse.bpmn2.ResourceParameterBinding;
+ import org.eclipse.bpmn2.ResourceRole;
+ import org.eclipse.bpmn2.RootElement;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ScriptTask;
+ import org.eclipse.bpmn2.SendTask;
+ import org.eclipse.bpmn2.SequenceFlow;
+@@ -3743,6 +3745,14 @@ public class Bpmn2Switch<T> {
+ 		return null;
+ 	}
+ 
++	public T caseScoringTask(ScoringTask object) {
++		return null;
++	}
++
++	public T caseIntegrationTask(IntegrationTask object) {
++		return null;
++	}
++
+ 	/**
+ 	 * Returns the result of interpreting the object as an instance of '<em>Send Task</em>'.
+ 	 * <!-- begin-user-doc -->
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/src/main/webapp/test.html b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/src/main/webapp/test.html
+index 6051de60d6..9b433a6b9d 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/src/main/webapp/test.html
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/src/main/webapp/test.html
+@@ -23,7 +23,12 @@
+     <script>
+         function loadDiagram(diagram) {
+             var path = "somePath";
+-            window.frames.editorFrame.contentWindow.gwtEditorBeans.get("BPMNDiagramEditor").get().setContent(path, diagram);
++            let a = window.frames.editorFrame.contentWindow.gwtEditorBeans.get("BPMNDiagramEditor").get()
++            console.log("path")
++            console.log(path)
++            console.log("a")
++            console.log(a)
++            a.setContent(path, diagram);
+             document.getElementById("download_btn").disabled = false;
+         }
+ 
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/customproperties/CustomElement.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/customproperties/CustomElement.java
+index 7366c2302b..6fc176ee7b 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/customproperties/CustomElement.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/customproperties/CustomElement.java
+@@ -27,6 +27,18 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.custompr
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.StringElement;
+ 
+ public class CustomElement<T> {
++    // My Type
++    public static final MetadataTypeDefinition<String> cashType = new StringElement("cashType", "");
++    public static final MetadataTypeDefinition<String> script = new StringElement("script", "");
++
++    public static final MetadataTypeDefinition<String> str0 = new StringElement("str_0", "");
++    public static final MetadataTypeDefinition<String> str1 = new StringElement("str_1", "");
++    public static final MetadataTypeDefinition<String> str2 = new StringElement("str_2", "") {
++//        @Override
++//        public void setValue(BaseElement element, String value) {
++//            setStringValue(element, String.valueOf(value));
++//        }
++    };
+ 
+     public static final MetadataTypeDefinition<Boolean> async = new BooleanElement("customAsync", false);
+     public static final MetadataTypeDefinition<Boolean> autoStart = new BooleanElement("customAutoStart", false);
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/PropertyWriterFactory.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/PropertyWriterFactory.java
+index ad434c66f0..c32888119f 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/PropertyWriterFactory.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/PropertyWriterFactory.java
+@@ -31,8 +31,10 @@ import org.eclipse.bpmn2.DataObjectReference;
+ import org.eclipse.bpmn2.Definitions;
+ import org.eclipse.bpmn2.FlowElement;
+ import org.eclipse.bpmn2.Gateway;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.Lane;
+ import org.eclipse.bpmn2.Process;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ScriptTask;
+ import org.eclipse.bpmn2.SequenceFlow;
+ import org.eclipse.bpmn2.ServiceTask;
+@@ -120,6 +122,14 @@ public class PropertyWriterFactory {
+         return new ScriptTaskPropertyWriter(e, variableScope, dataObjects);
+     }
+ 
++    public ScoringTaskPropertyWriter of(ScoringTask e) {
++        return new ScoringTaskPropertyWriter(e, variableScope, dataObjects);
++    }
++
++    public IntegrationTaskPropertyWriter of(IntegrationTask e) {
++        return new IntegrationTaskPropertyWriter(e, variableScope, dataObjects);
++    }
++
+     public ServiceTaskPropertyWriter of(Task e) {
+         return new ServiceTaskPropertyWriter(e, variableScope, dataObjects);
+     }
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/tasks/TaskConverter.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/tasks/TaskConverter.java
+index b4e816fbe3..71ab679103 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/tasks/TaskConverter.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/tasks/TaskConverter.java
+@@ -20,8 +20,10 @@ import org.eclipse.bpmn2.Task;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ActivityPropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.BusinessRuleTaskPropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.GenericServiceTaskPropertyWriter;
++import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.IntegrationTaskPropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.PropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.PropertyWriterFactory;
++import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ScoringTaskPropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ScriptTaskPropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ServiceTaskPropertyWriter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.UserTaskPropertyWriter;
+@@ -30,13 +32,17 @@ import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
++import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
++import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 +import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
-+import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
-+import org.kie.workbench.common.stunner.core.definition.annotation.Property;
-+import org.kie.workbench.common.stunner.core.definition.annotation.morph.Morph;
-+import org.kie.workbench.common.stunner.core.rule.annotation.CanDock;
-+import org.kie.workbench.common.stunner.core.util.HashUtil;
-+
-+import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.processing.fields.fieldInitializers.nestedForms.AbstractEmbeddedFormsInitializer.COLLAPSIBLE_CONTAINER;
-+import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.processing.fields.fieldInitializers.nestedForms.AbstractEmbeddedFormsInitializer.FIELD_CONTAINER_PARAM;
-+
-+@Portable
-+@Bindable
-+@Definition
-+@CanDock(roles = {"IntermediateEventOnActivityBoundary"})
-+@Morph(base = BaseTask.class)
-+@FormDefinition(
-+        policy = FieldPolicy.ONLY_MARKED,
-+        startElement = "general",
-+        defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
-+)
-+public class IntegrationTask extends BaseTask {
-+
-+    @Property
-+    @FormField(afterElement = "general")
-+    @Valid
-+    protected IntegrationTaskExecutionSet executionSet;
-+
-+    public IntegrationTask() {
-+        this(
-+                new TaskGeneralSet(new Name("Integration Task"), new Documentation("")),
-+                new IntegrationTaskExecutionSet(),
-+                new BackgroundSet(),
-+                new FontSet(),
-+                new RectangleDimensionsSet(),
-+                new SimulationSet(),
-+                new TaskType(TaskTypes.INTEGRATION)
-+        );
-+    }
-+
-+    public IntegrationTask(
-+            final @MapsTo("general") TaskGeneralSet general,
-+            final @MapsTo("executionSet") IntegrationTaskExecutionSet executionSet,
-+            final @MapsTo("backgroundSet") BackgroundSet backgroundSet,
-+            final @MapsTo("fontSet") FontSet fontSet,
-+            final @MapsTo("dimensionsSet") RectangleDimensionsSet dimensionsSet,
-+            final @MapsTo("simulationSet") SimulationSet simulationSet,
-+            final @MapsTo("taskType") TaskType taskType
-+    ) {
-+        super(general, backgroundSet, fontSet, dimensionsSet, simulationSet, taskType);
-+        this.executionSet = executionSet;
-+    }
-+
-+    public IntegrationTaskExecutionSet getExecutionSet() {
-+        return executionSet;
-+    }
-+
-+    public void setExecutionSet(final IntegrationTaskExecutionSet executionSet) {
-+        this.executionSet = executionSet;
-+    }
-+
-+    @Override
-+    public int hashCode() {
-+        return HashUtil.combineHashCodes(super.hashCode(), executionSet.hashCode());
-+    }
-+
-+    @Override
-+    public boolean equals(Object o) {
-+        if (o instanceof IntegrationTask) {
-+            IntegrationTask other = (IntegrationTask) o;
-+            return super.equals(other) && executionSet.equals(other.executionSet);
-+        }
-+        return false;
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/ScoringTask.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/ScoringTask.java
-new file mode 100644
-index 0000000000..faaafd7b03
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/ScoringTask.java
-@@ -0,0 +1,110 @@
-+/*
-+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.definition;
-+
-+import javax.validation.Valid;
-+
-+import org.jboss.errai.common.client.api.annotations.MapsTo;
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.jboss.errai.databinding.client.api.Bindable;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-+import org.kie.workbench.common.forms.adf.definitions.settings.FieldPolicy;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.background.BackgroundSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.dimensions.RectangleDimensionsSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.font.FontSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
 +import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
-+import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
-+import org.kie.workbench.common.stunner.core.definition.annotation.Property;
-+import org.kie.workbench.common.stunner.core.definition.annotation.morph.Morph;
-+import org.kie.workbench.common.stunner.core.rule.annotation.CanDock;
-+import org.kie.workbench.common.stunner.core.util.HashUtil;
-+
-+import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.processing.fields.fieldInitializers.nestedForms.AbstractEmbeddedFormsInitializer.COLLAPSIBLE_CONTAINER;
-+import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.processing.fields.fieldInitializers.nestedForms.AbstractEmbeddedFormsInitializer.FIELD_CONTAINER_PARAM;
-+
-+@Portable
-+@Bindable
-+@Definition
-+@CanDock(roles = {"IntermediateEventOnActivityBoundary"})
-+@Morph(base = BaseTask.class)
-+@FormDefinition(
-+        policy = FieldPolicy.ONLY_MARKED,
-+        startElement = "general",
-+        defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
-+)
-+public class ScoringTask extends BaseTask {
-+
-+    @Property
-+    @FormField(afterElement = "general")
-+    @Valid
-+    protected ScoringTaskExecutionSet executionSet;
-+
-+    public ScoringTask() {
-+        this(
-+                new TaskGeneralSet(new Name("Scoring Task"), new Documentation("")),
-+                new ScoringTaskExecutionSet(),
-+                new BackgroundSet(),
-+                new FontSet(),
-+                new RectangleDimensionsSet(),
-+                new SimulationSet(),
-+                new TaskType(TaskTypes.PYTHON)
-+        );
-+    }
-+
-+    public ScoringTask(
-+            final @MapsTo("general") TaskGeneralSet general,
-+            final @MapsTo("executionSet") ScoringTaskExecutionSet executionSet,
-+            final @MapsTo("backgroundSet") BackgroundSet backgroundSet,
-+            final @MapsTo("fontSet") FontSet fontSet,
-+            final @MapsTo("dimensionsSet") RectangleDimensionsSet dimensionsSet,
-+            final @MapsTo("simulationSet") SimulationSet simulationSet,
-+            final @MapsTo("taskType") TaskType taskType
-+    ) {
-+        super(general, backgroundSet, fontSet, dimensionsSet, simulationSet, taskType);
-+        this.executionSet = executionSet;
-+    }
-+
-+    public ScoringTaskExecutionSet getExecutionSet() {
-+        return executionSet;
-+    }
-+
-+    public void setExecutionSet(final ScoringTaskExecutionSet executionSet) {
-+        this.executionSet = executionSet;
-+    }
-+
-+    @Override
-+    public int hashCode() {
-+        return HashUtil.combineHashCodes(super.hashCode(), executionSet.hashCode());
-+    }
-+
-+    @Override
-+    public boolean equals(Object o) {
-+        if (o instanceof ScoringTask) {
-+            ScoringTask other = (ScoringTask) o;
-+            return super.equals(other) && executionSet.equals(other.executionSet);
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
+ import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
+@@ -62,6 +68,12 @@ public class TaskConverter {
+         if (def instanceof ScriptTask) {
+             return scriptTask(cast(node));
+         }
++        if (def instanceof ScoringTask) {
++            return scoringTask(cast(node));
 +        }
-+        return false;
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/CashType.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/CashType.java
-new file mode 100644
-index 0000000000..66505df1e2
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/CashType.java
-@@ -0,0 +1,79 @@
-+/*
-+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.definition.property.task;
-+
-+import java.util.Objects;
-+
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.jboss.errai.databinding.client.api.Bindable;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.FieldDefinition;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.FieldValue;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.I18nMode;
-+import org.kie.workbench.common.stunner.bpmn.definition.BPMNProperty;
-+import org.kie.workbench.common.stunner.core.definition.annotation.Property;
-+import org.kie.workbench.common.stunner.core.definition.annotation.property.Value;
-+import org.kie.workbench.common.stunner.core.util.HashUtil;
-+
-+@Portable
-+@Bindable
-+@Property
-+@FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
-+public class CashType implements BPMNProperty {
-+
-+    public final static String DEFAULT =  "DEFAULT";
-+    public final static String NONE = "NONE";
-+    public final static String CACHE_ONLY = "CACHE_ONLY";
-+    public final static String FORCE_CACHE = "FORCE_CACHE";
-+
-+    @Value
-+    @FieldValue
-+    private String value;
-+
-+    public CashType() {
-+        this(DEFAULT);
-+    }
-+
-+    public CashType(final String value) {
-+        if (value == null || value.isEmpty()) {
-+            this.value = DEFAULT;
-+        } else {
-+            this.value = value;
++        if (def instanceof IntegrationTask) {
++            return integrationTask(cast(node));
 +        }
+         if (def instanceof BusinessRuleTask) {
+             return businessRuleTask(cast(node));
+         }
+@@ -247,6 +259,41 @@ public class TaskConverter {
+         return p;
+     }
+ 
++    private PropertyWriter scoringTask(Node<View<ScoringTask>, ?> n) {
++        org.eclipse.bpmn2.ScoringTask task = bpmn2.createScoringTask();
++        task.setId(n.getUUID());
++        ScoringTask definition = n.getContent().getDefinition();
++        ScoringTaskPropertyWriter p = propertyWriterFactory.of(task);
++        TaskGeneralSet general = definition.getGeneral();
++        p.setName(general.getName().getValue());
++        p.setDocumentation(general.getDocumentation().getValue());
++
++        ScoringTaskExecutionSet executionSet = definition.getExecutionSet();
++
++        p.setScript(executionSet.getScript());
++        p.setSimulationSet(definition.getSimulationSet());
++        p.setAbsoluteBounds(n);
++        return p;
 +    }
 +
-+    public String getValue() {
-+        return value;
++    private PropertyWriter integrationTask(Node<View<IntegrationTask>, ?> n) {
++        org.eclipse.bpmn2.IntegrationTask task = bpmn2.createIntegrationTask();
++        task.setId(n.getUUID());
++        IntegrationTask definition = n.getContent().getDefinition();
++        IntegrationTaskPropertyWriter p = propertyWriterFactory.of(task);
++        TaskGeneralSet general = definition.getGeneral();
++        p.setName(general.getName().getValue());
++        p.setDocumentation(general.getDocumentation().getValue());
++
++        IntegrationTaskExecutionSet executionSet = definition.getExecutionSet();
++
++        p.setCashType(executionSet.getCashType().getValue());
++        p.setScript(executionSet.getScript());
++        p.setSimulationSet(definition.getSimulationSet());
++        p.setAbsoluteBounds(n);
++        return p;
 +    }
 +
-+    public void setValue(final String value) {
-+        this.value = value;
+     private PropertyWriter noneTask(Node<View<NoneTask>, ?> n) {
+         Task task = bpmn2.createTask();
+         task.setId(n.getUUID());
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/PropertyReaderFactory.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/PropertyReaderFactory.java
+index 5dda81ef2e..c1e8aa863b 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/PropertyReaderFactory.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/PropertyReaderFactory.java
+@@ -28,8 +28,10 @@ import org.eclipse.bpmn2.DataObjectReference;
+ import org.eclipse.bpmn2.Definitions;
+ import org.eclipse.bpmn2.FlowElement;
+ import org.eclipse.bpmn2.Gateway;
++import org.eclipse.bpmn2.IntegrationTask;
+ import org.eclipse.bpmn2.Lane;
+ import org.eclipse.bpmn2.Process;
++import org.eclipse.bpmn2.ScoringTask;
+ import org.eclipse.bpmn2.ScriptTask;
+ import org.eclipse.bpmn2.SequenceFlow;
+ import org.eclipse.bpmn2.ServiceTask;
+@@ -89,6 +91,14 @@ public class PropertyReaderFactory {
+         return new ScriptTaskPropertyReader(el, diagram, definitionResolver);
+     }
+ 
++    public ScoringTaskPropertyReader of(ScoringTask el) {
++        return new ScoringTaskPropertyReader(el, diagram, definitionResolver);
 +    }
 +
-+    @Override
-+    public int hashCode() {
-+        return HashUtil.combineHashCodes(Objects.hashCode(value));
++    public IntegrationTaskPropertyReader of(IntegrationTask el) {
++        return new IntegrationTaskPropertyReader(el, diagram, definitionResolver);
 +    }
 +
-+    @Override
-+    public boolean equals(Object o) {
-+        if (o instanceof CashType) {
-+            CashType other = (CashType) o;
-+            return Objects.equals(value, other.value);
-+        }
-+        return false;
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/IntegrationTaskExecutionSet.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/IntegrationTaskExecutionSet.java
-new file mode 100644
-index 0000000000..69410f588d
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/IntegrationTaskExecutionSet.java
-@@ -0,0 +1,95 @@
-+/*
-+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.definition.property.task;
-+
-+import java.util.Objects;
-+
-+import javax.validation.Valid;
-+
-+import org.jboss.errai.common.client.api.annotations.MapsTo;
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.jboss.errai.databinding.client.api.Bindable;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
-+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
-+import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
-+import org.kie.workbench.common.stunner.core.definition.annotation.Property;
-+import org.kie.workbench.common.stunner.core.util.HashUtil;
-+
-+@Portable
-+@Bindable
-+@FormDefinition(startElement = "script")
-+public class IntegrationTaskExecutionSet implements BPMNPropertySet {
-+
-+    @Property
-+    @FormField(
-+            type = ListBoxFieldType.class,
-+            settings = {@FieldParam(name = "addEmptyOption", value = "DEFAULT")}
-+    )
-+    @SelectorDataProvider(
-+            type = SelectorDataProvider.ProviderType.CLIENT,
-+            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider")
-+    @Valid
-+    private CashType cashType;
-+
-+    @FormField(readonly = true)
-+    private String script;
-+
-+    public IntegrationTaskExecutionSet() {
-+        this(new CashType(), "foo()");
-+    }
-+
-+    public IntegrationTaskExecutionSet(
-+            final @MapsTo("cashType") CashType cashType,
-+            final @MapsTo("script") String script
-+    ) {
-+        this.cashType = cashType;
-+        this.script = script;
-+    }
-+
-+    public CashType getCashType() {
-+        return cashType;
-+    }
-+
-+    public void setCashType(final CashType cashType) {
-+        this.cashType = cashType;
-+    }
-+
-+    public String getScript() {
-+        return script;
-+    }
-+
-+    public void setScript(String script) {
-+        this.script = script;
-+    }
-+
-+    @Override
-+    public int hashCode() {
-+        return HashUtil.combineHashCodes(Objects.hashCode(cashType), Objects.hashCode(script));
-+    }
-+
-+    @Override
-+    public boolean equals(Object o) {
-+        if (o instanceof IntegrationTaskExecutionSet) {
-+            IntegrationTaskExecutionSet other = (IntegrationTaskExecutionSet) o;
-+            return Objects.equals(cashType, other.cashType) && Objects.equals(script, other.script);
-+        }
-+        return false;
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/ScoringTaskExecutionSet.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/ScoringTaskExecutionSet.java
-new file mode 100644
-index 0000000000..11613b7b4c
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/definition/property/task/ScoringTaskExecutionSet.java
-@@ -0,0 +1,65 @@
-+/*
-+ * Copyright 2017 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+package org.kie.workbench.common.stunner.bpmn.definition.property.task;
-+
-+import java.util.Objects;
-+
-+import org.jboss.errai.common.client.api.annotations.MapsTo;
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.jboss.errai.databinding.client.api.Bindable;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
-+import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-+import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
-+import org.kie.workbench.common.stunner.core.util.HashUtil;
-+
-+@Portable
-+@Bindable
-+@FormDefinition(startElement = "script")
-+public class ScoringTaskExecutionSet implements BPMNPropertySet {
-+
-+    @FormField(readonly = true)
-+    private String script;
-+
-+    public ScoringTaskExecutionSet() {
-+        this("bar()");
-+    }
-+
-+    public ScoringTaskExecutionSet(final @MapsTo("script") String script) {
-+        this.script = script;
-+    }
-+
-+    public String getScript() {
-+        return script;
-+    }
-+
-+    public void setScript(final String script) {
-+        this.script = script;
-+    }
-+
-+    @Override
-+    public int hashCode() {
-+        return HashUtil.combineHashCodes(Objects.hashCode(script));
-+    }
-+
-+    @Override
-+    public boolean equals(Object o) {
-+        if (o instanceof ScoringTaskExecutionSet) {
-+            ScoringTaskExecutionSet other = (ScoringTaskExecutionSet) o;
-+            return Objects.equals(script, other.script);
-+        }
-+        return false;
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeListFieldDefinition.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeListFieldDefinition.java
-new file mode 100644
-index 0000000000..380eaaa855
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeListFieldDefinition.java
-@@ -0,0 +1,56 @@
-+/*
-+ * Copyright 2018 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.forms.model;
-+
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.jboss.errai.databinding.client.api.Bindable;
-+import org.kie.workbench.common.forms.fields.shared.AbstractFieldDefinition;
-+import org.kie.workbench.common.forms.model.FieldDefinition;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTypeListValue;
-+
-+import static org.kie.workbench.common.stunner.bpmn.forms.model.ScriptTypeMode.ACTION_SCRIPT;
-+
-+@Portable
-+@Bindable
-+public class CashTypeListFieldDefinition extends AbstractFieldDefinition {
-+
-+    public static final CashTypeListFieldType FIELD_TYPE = new CashTypeListFieldType();
-+
-+    private ScriptTypeMode mode = ACTION_SCRIPT;
-+
-+    public CashTypeListFieldDefinition() {
-+        super(ScriptTypeListValue.class.getName());
-+    }
-+
-+    @Override
-+    public CashTypeListFieldType getFieldType() {
-+        return FIELD_TYPE;
-+    }
-+
-+    public ScriptTypeMode getMode() {
-+        return mode;
-+    }
-+
-+    public void setMode(ScriptTypeMode mode) {
-+        this.mode = mode;
-+    }
-+
-+    @Override
-+    protected void doCopyFrom(FieldDefinition other) {
-+        //no processing is needed for this field type
-+    }
-+}
-\ No newline at end of file
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeListFieldType.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeListFieldType.java
-new file mode 100644
-index 0000000000..4a08890b71
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeListFieldType.java
-@@ -0,0 +1,31 @@
-+/*
-+ * Copyright 2018 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.forms.model;
-+
-+import org.jboss.errai.common.client.api.annotations.Portable;
-+import org.kie.workbench.common.forms.model.FieldType;
-+
-+@Portable
-+public class CashTypeListFieldType implements FieldType {
-+
-+    public static final String NAME = "CashTypeListFieldType";
-+
-+    @Override
-+    public String getTypeName() {
-+        return NAME;
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeMode.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeMode.java
-new file mode 100644
-index 0000000000..b5c19e4502
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-api/src/main/java/org/kie/workbench/common/stunner/bpmn/forms/model/CashTypeMode.java
-@@ -0,0 +1,21 @@
-+/*
-+ * Copyright 2018 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.forms.model;
-+
-+public enum CashTypeMode {
-+    ALL
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/dataproviders/CacheProvider.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/dataproviders/CacheProvider.java
-new file mode 100644
-index 0000000000..9c44d30807
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-client/src/main/java/org/kie/workbench/common/stunner/bpmn/client/dataproviders/CacheProvider.java
-@@ -0,0 +1,100 @@
-+/*
-+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.client.dataproviders;
-+
-+import java.util.Arrays;
-+import java.util.HashMap;
-+import java.util.Map;
-+import java.util.TreeMap;
-+
-+import javax.annotation.PostConstruct;
-+import javax.enterprise.context.Dependent;
-+import javax.inject.Inject;
-+
-+import org.jboss.errai.ui.client.local.spi.TranslationService;
-+import org.kie.workbench.common.forms.dynamic.model.config.SelectorData;
-+import org.kie.workbench.common.forms.dynamic.model.config.SelectorDataProvider;
-+import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
+     public GenericServiceTaskPropertyReader of(ServiceTask el) {
+         return new GenericServiceTaskPropertyReader(el, diagram, definitionResolver);
+     }
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/tasks/BaseTaskConverter.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/tasks/BaseTaskConverter.java
+index 1e2c67da36..559be9be18 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/tasks/BaseTaskConverter.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/tasks/BaseTaskConverter.java
+@@ -33,7 +33,9 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.NodeConverter;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.BusinessRuleTaskPropertyReader;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.GenericServiceTaskPropertyReader;
++import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.IntegrationTaskPropertyReader;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.PropertyReaderFactory;
++import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.ScoringTaskPropertyReader;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.ScriptTaskPropertyReader;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.ServiceTaskPropertyReader;
+ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.TaskPropertyReader;
+@@ -42,7 +44,9 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.Con
+ import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
++import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
++import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
+@@ -54,9 +58,11 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 +import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
-+import org.kie.workbench.common.stunner.core.util.SafeComparator;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
++import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCollectionInput;
+@@ -70,6 +76,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnEntryAct
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnExitAction;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleFlowGroup;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
++import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
+ import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
+@@ -98,6 +105,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
+         return Match.<Task, BpmnNode>of()
+                 .when(e -> e instanceof org.eclipse.bpmn2.BusinessRuleTask, this::businessRuleTask)
+                 .when(e -> e instanceof org.eclipse.bpmn2.ScriptTask, this::scriptTask)
++                .when(e -> e instanceof org.eclipse.bpmn2.ScoringTask, this::scoringTask)
++                .when(e -> e instanceof org.eclipse.bpmn2.IntegrationTask, this::integrationTask)
+                 .when(e -> e instanceof org.eclipse.bpmn2.UserTask, this::userTask)
+                 .when(e -> e instanceof org.eclipse.bpmn2.ServiceTask, this::serviceTaskResolver)
+                 .when(e -> org.eclipse.bpmn2.impl.TaskImpl.class.equals(e.getClass()), this::defaultTaskResolver)
+@@ -278,6 +287,46 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
+         return BpmnNode.of(node, p);
+     }
+ 
++    private BpmnNode scoringTask(org.eclipse.bpmn2.ScoringTask task) {
++        Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
 +
-+@Dependent
-+public class CacheProvider implements SelectorDataProvider {
++        ScoringTask definition = node.getContent().getDefinition();
++        ScoringTaskPropertyReader p = propertyReaderFactory.of(task);
 +
-+    private enum CACHE_TYPE {
++        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
++        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScript()));
 +
-+        DEFAULT(CashType.DEFAULT, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DEFAULT"),
-+        NONE(CashType.NONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.NONE"),
-+        CACHE_ONLY(CashType.CACHE_ONLY, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.CACHE_ONLY"),
-+        FORCE_CACHE(CashType.FORCE_CACHE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.FORCE_CACHE");
++        node.getContent().setBounds(p.getBounds());
 +
-+        private final String value;
++        definition.setDimensionsSet(p.getRectangleDimensionsSet());
++        definition.setBackgroundSet(p.getBackgroundSet());
++        definition.setFontSet(p.getFontSet());
 +
-+        private final String i18nKey;
++        definition.setSimulationSet(p.getSimulationSet());
 +
-+        CACHE_TYPE(String value, String i18nKey) {
-+            this.value = value;
-+            this.i18nKey = i18nKey;
-+        }
-+
-+        public String value() {
-+            return value;
-+        }
-+
-+        public String i18nKey() {
-+            return i18nKey;
-+        }
++        return BpmnNode.of(node, p);
 +    }
 +
-+    private static Map<Object, Integer> valuePosition;
++    private BpmnNode integrationTask(org.eclipse.bpmn2.IntegrationTask task) {
++        Node<View<IntegrationTask>, Edge> node = factoryManager.newNode(task.getId(), IntegrationTask.class);
 +
-+    private final TranslationService translationService;
++        IntegrationTask definition = node.getContent().getDefinition();
++        IntegrationTaskPropertyReader p = propertyReaderFactory.of(task);
 +
-+    @Inject
-+    public CacheProvider(final TranslationService translationService) {
-+        this.translationService = translationService;
++        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
++        definition.setExecutionSet(new IntegrationTaskExecutionSet(new CashType(p.getCashType()), p.getScript()));
++
++        node.getContent().setBounds(p.getBounds());
++
++        definition.setDimensionsSet(p.getRectangleDimensionsSet());
++        definition.setBackgroundSet(p.getBackgroundSet());
++        definition.setFontSet(p.getFontSet());
++
++        definition.setSimulationSet(p.getSimulationSet());
++
++        return BpmnNode.of(node, p);
 +    }
 +
-+    @PostConstruct
-+    protected void init() {
-+        valuePosition = new HashMap<>();
-+        valuePosition.put(CACHE_TYPE.DEFAULT.value(), 0);
-+        valuePosition.put(CACHE_TYPE.NONE.value(), 1);
-+        valuePosition.put(CACHE_TYPE.CACHE_ONLY.value(), 2);
-+        valuePosition.put(CACHE_TYPE.FORCE_CACHE.value(), 3);
-+    }
-+
-+    private SafeComparator<Object> getComparator() {
-+        return SafeComparator.TO_STRING_REVERSE_COMPARATOR;
-+    }
-+
-+    @Override
-+    public String getProviderName() {
-+        return getClass().getSimpleName();
-+    }
-+
-+    @Override
-+    @SuppressWarnings("unchecked")
-+    public SelectorData getSelectorData(final FormRenderingContext context) {
-+        Map<Object, String> values = new TreeMap<>(SafeComparator.of(this::getComparator));
-+        Arrays.stream(CACHE_TYPE.values())
-+                .forEach(ruleLanguage -> values.put(ruleLanguage.value(),
-+                        translationService.getTranslation(ruleLanguage.i18nKey())));
-+
-+        return new SelectorData(values, CACHE_TYPE.DEFAULT.value());
-+    }
-+}
-\ No newline at end of file
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/IntegrationTask.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/IntegrationTask.java
-new file mode 100644
-index 0000000000..fa4577607f
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/IntegrationTask.java
-@@ -0,0 +1,21 @@
-+/*
-+ * <copyright>
-+ * 
-+ * Copyright (c) 2010 SAP AG.
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ * 
-+ * Contributors:
-+ *    Reiner Hille-Doering (SAP AG) - initial API and implementation and/or initial documentation
-+ * 
-+ * </copyright>
-+ */
-+
-+package org.eclipse.bpmn2;
-+
-+public interface IntegrationTask extends Task {
-+    String getScript();
-+    void setScript(String value);
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/ScoringTask.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/ScoringTask.java
-new file mode 100644
-index 0000000000..bfab761b2d
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/ScoringTask.java
-@@ -0,0 +1,20 @@
-+/**
-+ * <copyright>
-+ * 
-+ * Copyright (c) 2010 SAP AG.
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ * 
-+ * Contributors:
-+ *    Reiner Hille-Doering (SAP AG) - initial API and implementation and/or initial documentation
-+ * 
-+ * </copyright>
-+ */
-+package org.eclipse.bpmn2;
-+
-+public interface ScoringTask extends Task {
-+    void setScript(String value);
-+    String getScript();
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/IntegrationTaskImpl.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/IntegrationTaskImpl.java
-new file mode 100644
-index 0000000000..df07102682
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/IntegrationTaskImpl.java
-@@ -0,0 +1,100 @@
-+/**
-+ * <copyright>
-+ * 
-+ * Copyright (c) 2010 SAP AG.
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ * 
-+ * Contributors:
-+ *    Reiner Hille-Doering (SAP AG) - initial API and implementation and/or initial documentation
-+ * 
-+ * </copyright>
-+ */
-+
-+package org.eclipse.bpmn2.impl;
-+
-+import com.google.gwt.user.client.rpc.GwtTransient;
-+
-+import org.eclipse.bpmn2.Bpmn2Package;
-+import org.eclipse.bpmn2.IntegrationTask;
-+
-+import org.eclipse.emf.common.notify.Notification;
-+
-+import org.eclipse.emf.ecore.EClass;
-+import org.eclipse.emf.ecore.impl.ENotificationImpl;
-+
-+public class IntegrationTaskImpl extends TaskImpl implements IntegrationTask {
-+
-+    protected static final String SCRIPT_DEFAULT = null;
-+
-+    @GwtTransient
-+    protected String script = SCRIPT_DEFAULT;
-+
-+    protected IntegrationTaskImpl() {
-+        super();
-+    }
-+
-+    @Override
-+    public String getScript() {
-+        return script;
-+    }
-+
-+    @Override
-+    public void setScript(String newScript) {
-+        String oldScript = script;
-+        script = newScript;
-+        if (eNotificationRequired())
-+            eNotify(new ENotificationImpl(this, Notification.SET, Bpmn2Package.SCRIPT_TASK__SCRIPT, oldScript, script));
-+    }
-+
-+    @Override
-+    protected EClass eStaticClass() {
-+        return Bpmn2Package.Literals.INTEGRATION_TASK;
-+    }
-+
-+    @Override
-+    public String toString() {
-+        if (eIsProxy()) return super.toString();
-+        return super.toString() + " (script: " + script + " )";
-+    }
-+}
-+
-+/*
-+
-+    protected static final String SCRIPT_EDEFAULT = null;
-+
-+    @GwtTransient
-+    protected String script = SCRIPT_EDEFAULT;
-+
-+    protected static final String SCRIPT_FORMAT_EDEFAULT = null;
-+
-+    protected IntegrationTaskImpl() {
-+        super();
-+    }
-+
-+    @Override
-+    protected EClass eStaticClass() {
-+        return Bpmn2Package.Literals.SCRIPT_TASK;
-+    }
-+
-+    @Override
-+    public String getScript() {
-+        return script;
-+    }
-+
-+    @Override
-+    public void setScript(String newScript) {
-+        String oldScript = script;
-+        script = newScript;
-+        if (eNotificationRequired())
-+            eNotify(new ENotificationImpl(this, Notification.SET, Bpmn2Package.SCRIPT_TASK__SCRIPT, oldScript, script));
-+    }
-+
-+    @Override
-+    public String toString() {
-+        if (eIsProxy()) return super.toString();
-+        return super.toString() + " (script: " + script + " )";
-+    }
-+*/
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/ScoringTaskImpl.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/ScoringTaskImpl.java
-new file mode 100644
-index 0000000000..3942845eed
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-emf/src/main/java/org/eclipse/bpmn2/impl/ScoringTaskImpl.java
-@@ -0,0 +1,84 @@
-+/**
-+ * <copyright>
-+ * 
-+ * Copyright (c) 2010 SAP AG.
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ * 
-+ * Contributors:
-+ *    Reiner Hille-Doering (SAP AG) - initial API and implementation and/or initial documentation
-+ * 
-+ * </copyright>
-+ */
-+
-+package org.eclipse.bpmn2.impl;
-+
-+import com.google.gwt.user.client.rpc.GwtTransient;
-+
-+import org.eclipse.bpmn2.Bpmn2Package;
-+import org.eclipse.bpmn2.ScoringTask;
-+
-+import org.eclipse.emf.common.notify.Notification;
-+
-+import org.eclipse.emf.ecore.EClass;
-+import org.eclipse.emf.ecore.impl.ENotificationImpl;
-+
-+public class ScoringTaskImpl extends TaskImpl implements ScoringTask {
-+
-+
-+    protected static final String SCRIPT_DEFAULT = null;
-+
-+    @GwtTransient
-+    protected String script = SCRIPT_DEFAULT;
-+
-+    protected ScoringTaskImpl() {
-+        super();
-+    }
-+
-+    @Override
-+    protected EClass eStaticClass() {
-+        return Bpmn2Package.Literals.SCORING_TASK;
-+    }
-+
-+    @Override
-+    public String getScript() {
-+        return script;
-+    }
-+
-+    @Override
-+    public void setScript(String newScript) {
-+        String oldScript = script;
-+        script = newScript;
-+        if (eNotificationRequired())
-+            eNotify(new ENotificationImpl(this, Notification.SET, Bpmn2Package.SCRIPT_TASK__SCRIPT, oldScript, script));
-+    }
-+
-+    @Override
-+    public String toString() {
-+        if (eIsProxy()) return super.toString();
-+        return super.toString() + " (script: " + script + " )";
-+    }
-+}
-+
-+/*
-+
-+    protected static final String SCRIPT_EDEFAULT = null;
-+
-+    @GwtTransient
-+    protected String script = SCRIPT_EDEFAULT;
-+
-+    @Override
-+    protected EClass eStaticClass() {
-+        return Bpmn2Package.Literals.SCORING_TASK;
-+    }
-+
-+    @Override
-+    public void setScript(String newScript) {
-+        String oldScript = script;
-+        script = newScript;
-+        if (eNotificationRequired())
-+            eNotify(new ENotificationImpl(this, Notification.SET, Bpmn2Package.SCRIPT_TASK__SCRIPT, oldScript, script));
-+    }
-+*/
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/IntegrationTaskPropertyWriter.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/IntegrationTaskPropertyWriter.java
-new file mode 100644
-index 0000000000..0155441fc0
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/IntegrationTaskPropertyWriter.java
-@@ -0,0 +1,45 @@
-+/*
-+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties;
-+
-+import java.util.Set;
-+
-+import org.eclipse.bpmn2.DataObject;
-+import org.eclipse.bpmn2.IntegrationTask;
-+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.CustomElement;
-+
-+public class IntegrationTaskPropertyWriter extends ActivityPropertyWriter {
-+
-+    private final IntegrationTask integrationTask;
-+
-+    public IntegrationTaskPropertyWriter(IntegrationTask integrationTask, VariableScope variableScope, Set<DataObject> dataObjects) {
-+        super(integrationTask, variableScope, dataObjects);
-+        this.integrationTask = integrationTask;
-+    }
-+
-+    public void setCashType(String value) {
-+        CustomElement.cashType.of(integrationTask).set(value);
-+    }
-+
-+    public void setScript(String script) {
-+        CustomElement.script.of(integrationTask).set(script);
-+
-+//        if (script != null && !script.isEmpty()) {
-+//            integrationTask.setScript(asCData(script));
-+//        }
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/ScoringTaskPropertyWriter.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/ScoringTaskPropertyWriter.java
-new file mode 100644
-index 0000000000..8b56c65093
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/fromstunner/properties/ScoringTaskPropertyWriter.java
-@@ -0,0 +1,41 @@
-+/*
-+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties;
-+
-+import java.util.Set;
-+
-+import org.eclipse.bpmn2.DataObject;
-+import org.eclipse.bpmn2.ScoringTask;
-+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.CustomElement;
-+
-+public class ScoringTaskPropertyWriter extends ActivityPropertyWriter {
-+
-+    private final ScoringTask scoringTask;
-+
-+    public ScoringTaskPropertyWriter(ScoringTask scoringTask, VariableScope variableScope, Set<DataObject> dataObjects) {
-+        super(scoringTask, variableScope, dataObjects);
-+        this.scoringTask = scoringTask;
-+    }
-+
-+    public void setScript(String script) {
-+        CustomElement.script.of(scoringTask).set(script);
-+
-+//        if (script != null && !script.isEmpty()) {
-+//            scoringTask.setScript(asCData(script));
-+//        }
-+    }
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/IntegrationTaskPropertyReader.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/IntegrationTaskPropertyReader.java
-new file mode 100644
-index 0000000000..d93add38bd
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/IntegrationTaskPropertyReader.java
-@@ -0,0 +1,42 @@
-+/*
-+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties;
-+
-+import org.eclipse.bpmn2.IntegrationTask;
-+import org.eclipse.bpmn2.di.BPMNDiagram;
-+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.CustomElement;
-+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.DefinitionResolver;
-+import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
-+
-+public class IntegrationTaskPropertyReader extends TaskPropertyReader {
-+
-+    private final IntegrationTask task;
-+
-+    public IntegrationTaskPropertyReader(IntegrationTask task, BPMNDiagram diagram, DefinitionResolver definitionResolver) {
-+        super(task, diagram, definitionResolver);
-+        this.task = task;
-+    }
-+
-+    public String getCashType() {
-+        return CustomElement.cashType.of(element).get();
-+    }
-+
-+    public String getScript() {
-+        return CustomElement.script.of(element).get();
-+    }
-+
-+}
-diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/ScoringTaskPropertyReader.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/ScoringTaskPropertyReader.java
-new file mode 100644
-index 0000000000..d26be246eb
---- /dev/null
-+++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/converters/tostunner/properties/ScoringTaskPropertyReader.java
-@@ -0,0 +1,36 @@
-+/*
-+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
-+ *
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ *     http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+package org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties;
-+
-+import org.eclipse.bpmn2.ScoringTask;
-+import org.eclipse.bpmn2.di.BPMNDiagram;
-+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.DefinitionResolver;
-+
-+public class ScoringTaskPropertyReader extends TaskPropertyReader {
-+
-+    private final ScoringTask task;
-+
-+    public ScoringTaskPropertyReader(ScoringTask task, BPMNDiagram diagram, DefinitionResolver definitionResolver) {
-+        super(task, diagram, definitionResolver);
-+        this.task = task;
-+    }
-+
-+    public String getScript() {
-+        return task.getScript();
-+    }
-+
-+}
+     private BpmnNode userTask(org.eclipse.bpmn2.UserTask task) {
+         Node<View<U>, Edge> node = createNode(task.getId());
+ 
+diff --git a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/service/BPMNClientMarshalling.java b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/service/BPMNClientMarshalling.java
+index 5a12cf9fea..8d2166ffb0 100644
+--- a/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/service/BPMNClientMarshalling.java
++++ b/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-marshalling/src/main/java/org/kie/workbench/common/stunner/bpmn/client/marshall/service/BPMNClientMarshalling.java
+@@ -16,6 +16,7 @@
+ 
+ package org.kie.workbench.common.stunner.bpmn.client.marshall.service;
+ 
++import elemental2.dom.DomGlobal;
+ import java.util.Collection;
+ import java.util.logging.Level;
+ import java.util.logging.Logger;
+@@ -124,23 +125,29 @@ public class BPMNClientMarshalling {
+ 
+         metadata.setCanvasRootUUID(definitionResolver.getDefinitions().getId());
+         metadata.setTitle(definitionResolver.getProcess().getName());
+-
+         final BaseConverterFactory converterFactory = new org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.ConverterFactory(definitionResolver, typedFactoryManager);
++        DomGlobal.console.info(this.getClass().getName() + " 1");
+         // perform actual conversion. Process is the root of the diagram
++        DomGlobal.console.info(this.getClass().getName() + " 2");
+         final Result<BpmnNode> result = converterFactory.rootProcessConverter().convertProcess();
++        DomGlobal.console.info(this.getClass().getName() + " 3");
+         final BpmnNode diagramRoot = result.value();
++        DomGlobal.console.info(this.getClass().getName() + " 4");
+         dataTypeCache.initCache(diagramRoot);
+ 
+         // the root node contains all of the information
+         // needed to build the entire graph (including parent/child relationships)
+         // thus, we can now walk the graph to issue all the commands
+         // to draw it on our canvas
++        DomGlobal.console.info(this.getClass().getName() + " 5");
+         final Diagram<Graph<DefinitionSet, Node>, Metadata> diagram =
+                 typedFactoryManager.newDiagram(
+                         definitionResolver.getDefinitions().getId(),
+                         getDefinitionSetClass(),
+                         metadata);
++        DomGlobal.console.info(this.getClass().getName() + " 6");
+         final Graph<DefinitionSet, Node> graph = diagram.getGraph();
++        DomGlobal.console.info(this.getClass().getName() + " 7");
+         final GraphBuilder graphBuilder =
+                 new GraphBuilder(
+                         graph,
+@@ -149,8 +156,8 @@ public class BPMNClientMarshalling {
+                         ruleManager,
+                         commandFactory,
+                         commandManager);
++        DomGlobal.console.info(this.getClass().getName() + " 8");
+         graphBuilder.render(diagramRoot);
+-
+         return graph;
+     }
+ 
+diff --git a/uberfire-workbench/uberfire-workbench-client-views-patternfly/src/main/java/org/uberfire/client/views/pfly/monaco/jsinterop/MonacoStandaloneCodeEditor.java b/uberfire-workbench/uberfire-workbench-client-views-patternfly/src/main/java/org/uberfire/client/views/pfly/monaco/jsinterop/MonacoStandaloneCodeEditor.java
+index 901dd92e32..91261efcb1 100644
+--- a/uberfire-workbench/uberfire-workbench-client-views-patternfly/src/main/java/org/uberfire/client/views/pfly/monaco/jsinterop/MonacoStandaloneCodeEditor.java
++++ b/uberfire-workbench/uberfire-workbench-client-views-patternfly/src/main/java/org/uberfire/client/views/pfly/monaco/jsinterop/MonacoStandaloneCodeEditor.java
+@@ -42,6 +42,8 @@ public class MonacoStandaloneCodeEditor {
+ 
+     public native void setValue(final String value);
+ 
++    public native void setCacheValue(final String value);
++
+     public native void onKeyDown(final CallbackFunction callback);
+ 
+     public native void onDidBlurEditorWidget(final CallbackFunction callback);

@@ -105,6 +105,7 @@ import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.InputSet;
+import org.eclipse.bpmn2.IntegrationTask;
 import org.eclipse.bpmn2.InteractionNode;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -146,6 +147,7 @@ import org.eclipse.bpmn2.ResourceParameter;
 import org.eclipse.bpmn2.ResourceParameterBinding;
 import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.bpmn2.RootElement;
+import org.eclipse.bpmn2.ScoringTask;
 import org.eclipse.bpmn2.ScriptTask;
 import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -1042,6 +1044,10 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 	 * @generated
 	 */
 	private EClass scriptTaskEClass = null;
+
+	private EClass scoringTaskEClass = null;
+
+	private EClass integrationTaskEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2414,6 +2420,24 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 				return new ScriptTask[size];
 			}
 		});
+		Reflect.register(ScoringTask.class, new Reflect.Helper() {
+			public boolean isInstance(Object instance) {
+				return instance instanceof ScoringTask;
+			}
+
+			public Object newArrayInstance(int size) {
+				return new ScoringTask[size];
+			}
+		});
+		Reflect.register(IntegrationTask.class, new Reflect.Helper() {
+			public boolean isInstance(Object instance) {
+				return instance instanceof IntegrationTask;
+			}
+
+			public Object newArrayInstance(int size) {
+				return new IntegrationTask[size];
+			}
+		});
 		Reflect.register(SendTask.class, new Reflect.Helper() {
 			public boolean isInstance(Object instance) {
 				return instance instanceof SendTask;
@@ -3511,6 +3535,10 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 		 * @generated
 		 */
 		protected ScriptTask scriptTask;
+
+		protected ScoringTask scoringTask;
+
+		protected IntegrationTask integrationTask;
 
 		/**
 		 * <!-- begin-user-doc -->
@@ -4911,6 +4939,16 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 	@Override
 	public EReference getDocumentRoot_ScriptTask() {
 		return (EReference) documentRootEClass.getEStructuralFeatures().get(119);
+	}
+
+	@Override
+	public EReference getDocumentRoot_ScoringTask() {
+		return (EReference) documentRootEClass.getEStructuralFeatures().get(139);
+	}
+
+	@Override
+	public EReference getDocumentRoot_IntegrationTask() {
+		return (EReference) documentRootEClass.getEStructuralFeatures().get(140);
 	}
 
 	/**
@@ -9143,6 +9181,16 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 		return scriptTaskEClass;
 	}
 
+	@Override
+	public EClass getScoringTask() {
+		return scoringTaskEClass;
+	}
+
+	@Override
+	public EClass getIntegrationTask() {
+		return integrationTaskEClass;
+	}
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9924,6 +9972,8 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 		createEReference(documentRootEClass, DOCUMENT_ROOT__RESOURCE_PARAMETER_BINDING);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__SCRIPT);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__SCRIPT_TASK);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__SCORING_TASK);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__INTEGRATION_TASK);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__SEND_TASK);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__SEQUENCE_FLOW);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__SERVICE_TASK);
@@ -10478,6 +10528,9 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 		createEAttribute(scriptTaskEClass, SCRIPT_TASK__SCRIPT);
 		createEAttribute(scriptTaskEClass, SCRIPT_TASK__SCRIPT_FORMAT);
 
+		scoringTaskEClass = createEClass(SCORING_TASK);
+		integrationTaskEClass = createEClass(INTEGRATION_TASK);
+
 		sendTaskEClass = createEClass(SEND_TASK);
 		createEAttribute(sendTaskEClass, SEND_TASK__IMPLEMENTATION);
 		createEReference(sendTaskEClass, SEND_TASK__MESSAGE_REF);
@@ -10716,6 +10769,8 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 		resourceRoleEClass.getESuperTypes().add(this.getBaseElement());
 		rootElementEClass.getESuperTypes().add(this.getBaseElement());
 		scriptTaskEClass.getESuperTypes().add(this.getTask());
+		scoringTaskEClass.getESuperTypes().add(this.getTask());
+		integrationTaskEClass.getESuperTypes().add(this.getTask());
 		sendTaskEClass.getESuperTypes().add(this.getTask());
 		sequenceFlowEClass.getESuperTypes().add(this.getFlowElement());
 		serviceTaskEClass.getESuperTypes().add(this.getTask());
@@ -11100,6 +11155,12 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
 				IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_ScriptTask(), this.getScriptTask(), null, "scriptTask", null, 0, -2, null,
+				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_ScoringTask(), this.getScoringTask(), null, "scoringTask", null, 0, -2, null,
+				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_IntegrationTask(), this.getIntegrationTask(), null, "integrationTask", null, 0, -2, null,
 				IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
 				IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_SendTask(), this.getSendTask(), null, "sendTask", null, 0, -2, null,
@@ -12376,6 +12437,10 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 				ScriptTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, !IS_ORDERED);
 
+
+		initEClass(scoringTaskEClass, ScoringTask.class, "ScoringTask", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(integrationTaskEClass, IntegrationTask.class, "IntegrationTask", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(sendTaskEClass, SendTask.class, "SendTask", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSendTask_Implementation(), ecorePackage.getEString(), "implementation", null, 1, 1,
@@ -12955,6 +13020,15 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 				new String[] { "kind", "element", "name", "scriptTask", "namespace",
 						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
 						"http://www.omg.org/spec/BPMN/20100524/MODEL#flowElement" });
+		addAnnotation(getDocumentRoot_ScoringTask(), source,
+				new String[] { "kind", "element", "name", "scoringTask", "namespace",
+						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
+						"http://www.omg.org/spec/BPMN/20100524/MODEL#flowElement" });
+		addAnnotation(getDocumentRoot_IntegrationTask(), source,
+				new String[] { "kind", "element", "name", "integrationTask", "namespace",
+						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
+						"http://www.omg.org/spec/BPMN/20100524/MODEL#flowElement" });
+
 		addAnnotation(getDocumentRoot_SendTask(), source,
 				new String[] { "kind", "element", "name", "sendTask", "namespace",
 						"http://www.omg.org/spec/BPMN/20100524/MODEL", "affiliation",
@@ -13685,6 +13759,8 @@ public class Bpmn2PackageImpl extends EPackageImpl implements Bpmn2Package {
 		addAnnotation(rootElementEClass, source,
 				new String[] { "name", "tRootElement", "kind", "elementOnly", "abstract", "true" });
 		addAnnotation(scriptTaskEClass, source, new String[] { "name", "tScriptTask", "kind", "elementOnly" });
+		addAnnotation(scoringTaskEClass, source, new String[] { "name", "tScoringTask", "kind", "elementOnly" });
+		addAnnotation(integrationTaskEClass, source, new String[] { "name", "tIntegrationTask", "kind", "elementOnly" });
 		addAnnotation(getScriptTask_Script(), source, new String[] { "kind", "element", "name", "script", "namespace",
 				"http://www.omg.org/spec/BPMN/20100524/MODEL" });
 		addAnnotation(getScriptTask_ScriptFormat(), source,

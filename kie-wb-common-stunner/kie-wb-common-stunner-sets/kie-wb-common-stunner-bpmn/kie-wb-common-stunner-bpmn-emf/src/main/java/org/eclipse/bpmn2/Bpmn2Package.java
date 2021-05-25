@@ -1338,6 +1338,9 @@ public interface Bpmn2Package extends EPackage {
 	 */
 	int DOCUMENT_ROOT_FEATURE_COUNT = 139;
 
+	int DOCUMENT_ROOT__SCORING_TASK = 140;
+
+	int DOCUMENT_ROOT__INTEGRATION_TASK = 141;
 	/**
 	 * The meta object id for the '{@link org.eclipse.bpmn2.impl.BaseElementImpl <em>Base Element</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -15645,6 +15648,10 @@ public interface Bpmn2Package extends EPackage {
 	 */
 	int SCRIPT_TASK = 120;
 
+	int SCORING_TASK = 1000;
+
+	int INTEGRATION_TASK = 1001;
+
 	/**
 	 * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -15878,6 +15885,10 @@ public interface Bpmn2Package extends EPackage {
 	 * @ordered
 	 */
 	int SCRIPT_TASK__SCRIPT = TASK_FEATURE_COUNT + 0;
+
+	int SCORING_TASK__SCRIPT = TASK_FEATURE_COUNT + 0;
+
+	int INTEGRATION_TASK__SCRIPT = TASK_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Script Format</b></em>' attribute.
@@ -19869,6 +19880,10 @@ public interface Bpmn2Package extends EPackage {
 	 * @generated
 	 */
 	EReference getDocumentRoot_ScriptTask();
+
+	EReference getDocumentRoot_ScoringTask();
+
+	EReference getDocumentRoot_IntegrationTask();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.bpmn2.DocumentRoot#getSendTask <em>Send Task</em>}'.
@@ -24403,6 +24418,10 @@ public interface Bpmn2Package extends EPackage {
 	 */
 	EClass getScriptTask();
 
+	EClass getScoringTask();
+
+	EClass getIntegrationTask();
+
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.bpmn2.ScriptTask#getScript <em>Script</em>}'.
 	 * <!-- begin-user-doc -->
@@ -26064,6 +26083,10 @@ public interface Bpmn2Package extends EPackage {
 		 * @generated
 		 */
 		EReference DOCUMENT_ROOT__SCRIPT_TASK = eINSTANCE.getDocumentRoot_ScriptTask();
+
+		EReference DOCUMENT_ROOT__SCORING_TASK = eINSTANCE.getDocumentRoot_ScoringTask();
+
+		EReference DOCUMENT_ROOT__INTEGRATION_TASK = eINSTANCE.getDocumentRoot_IntegrationTask();
 
 		/**
 		 * The meta object literal for the '<em><b>Send Task</b></em>' containment reference feature.
@@ -29725,6 +29748,10 @@ public interface Bpmn2Package extends EPackage {
 		 * @generated
 		 */
 		EClass SCRIPT_TASK = eINSTANCE.getScriptTask();
+
+		EClass SCORING_TASK = eINSTANCE.getScoringTask();
+
+		EClass INTEGRATION_TASK = eINSTANCE.getIntegrationTask();
 
 		/**
 		 * The meta object literal for the '<em><b>Script</b></em>' attribute feature.

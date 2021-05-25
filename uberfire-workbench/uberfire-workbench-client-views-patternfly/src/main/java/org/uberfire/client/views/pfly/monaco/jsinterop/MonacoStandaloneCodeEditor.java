@@ -42,6 +42,8 @@ public class MonacoStandaloneCodeEditor {
 
     public native void setValue(final String value);
 
+    public native void setCacheValue(final String value);
+
     public native void onKeyDown(final CallbackFunction callback);
 
     public native void onDidBlurEditorWidget(final CallbackFunction callback);

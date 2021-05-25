@@ -2886,6 +2886,10 @@ public interface DocumentRoot extends EObject {
 	 */
 	ScriptTask getScriptTask();
 
+	ScoringTask getScoringTask();
+
+	IntegrationTask getIntegrationTask();
+
 	/**
 	 * Sets the value of the '{@link org.eclipse.bpmn2.DocumentRoot#getScriptTask <em>Script Task</em>}' containment reference.
 	 * <!-- begin-user-doc -->
@@ -2895,6 +2899,10 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	void setScriptTask(ScriptTask value);
+
+	void setScoringTask(ScoringTask value);
+
+	void setIntegrationTask(IntegrationTask value);
 
 	/**
 	 * Returns the value of the '<em><b>Send Task</b></em>' containment reference.

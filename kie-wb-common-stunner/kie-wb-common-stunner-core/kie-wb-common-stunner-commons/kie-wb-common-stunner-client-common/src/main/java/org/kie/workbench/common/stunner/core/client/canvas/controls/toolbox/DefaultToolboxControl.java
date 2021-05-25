@@ -35,16 +35,16 @@ import org.kie.workbench.common.stunner.core.client.components.toolbox.actions.M
 @Default
 public class DefaultToolboxControl extends AbstractToolboxControl {
 
-    private final ManagedInstance<ActionsToolboxFactory> flowActionsToolboxFactories;
-    private final ManagedInstance<ActionsToolboxFactory> morphActionsToolboxFactories;
-    private final ManagedInstance<ActionsToolboxFactory> commonActionsToolboxFactories;
+    private final ManagedInstance<ActionsToolboxFactory> flowActionsToolboxFactories; // Справа
+    // private final ManagedInstance<ActionsToolboxFactory> morphActionsToolboxFactories; // Внизу
+    private final ManagedInstance<ActionsToolboxFactory> commonActionsToolboxFactories; // Delete
 
     @Inject
     public DefaultToolboxControl(final @Any @FlowActionsToolbox ManagedInstance<ActionsToolboxFactory> flowActionsToolboxFactories,
                                  final @Any @MorphActionsToolbox ManagedInstance<ActionsToolboxFactory> morphActionsToolboxFactories,
                                  final @Any @CommonActionsToolbox ManagedInstance<ActionsToolboxFactory> commonActionsToolboxFactories) {
-        this.flowActionsToolboxFactories = flowActionsToolboxFactories;
-        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
+         this.flowActionsToolboxFactories = flowActionsToolboxFactories;
+//        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
         this.commonActionsToolboxFactories = commonActionsToolboxFactories;
     }
 
@@ -55,15 +55,16 @@ public class DefaultToolboxControl extends AbstractToolboxControl {
 
         super(toolboxControl);
         this.flowActionsToolboxFactories = flowActionsToolboxFactories;
-        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
+//        this.morphActionsToolboxFactories = morphActionsToolboxFactories;
         this.commonActionsToolboxFactories = commonActionsToolboxFactories;
     }
 
     @Override
     protected List<ActionsToolboxFactory> getFactories() {
         return Arrays.asList(flowActionsToolboxFactories.get(),
-                             morphActionsToolboxFactories.get(),
-                             commonActionsToolboxFactories.get());
+//                             morphActionsToolboxFactories.get(),
+                             commonActionsToolboxFactories.get()
+        );
     }
 
     @PreDestroy
@@ -71,7 +72,7 @@ public class DefaultToolboxControl extends AbstractToolboxControl {
     public void destroy() {
         super.destroy();
         flowActionsToolboxFactories.destroyAll();
-        morphActionsToolboxFactories.destroyAll();
+//        morphActionsToolboxFactories.destroyAll();
         commonActionsToolboxFactories.destroyAll();
     }
 }

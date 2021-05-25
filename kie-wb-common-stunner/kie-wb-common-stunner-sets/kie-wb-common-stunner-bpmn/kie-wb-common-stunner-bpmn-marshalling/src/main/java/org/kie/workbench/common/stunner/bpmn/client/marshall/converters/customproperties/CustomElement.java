@@ -27,6 +27,18 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.custompr
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.StringElement;
 
 public class CustomElement<T> {
+    // My Type
+    public static final MetadataTypeDefinition<String> cashType = new StringElement("cashType", "");
+    public static final MetadataTypeDefinition<String> script = new StringElement("script", "");
+
+    public static final MetadataTypeDefinition<String> str0 = new StringElement("str_0", "");
+    public static final MetadataTypeDefinition<String> str1 = new StringElement("str_1", "");
+    public static final MetadataTypeDefinition<String> str2 = new StringElement("str_2", "") {
+//        @Override
+//        public void setValue(BaseElement element, String value) {
+//            setStringValue(element, String.valueOf(value));
+//        }
+    };
 
     public static final MetadataTypeDefinition<Boolean> async = new BooleanElement("customAsync", false);
     public static final MetadataTypeDefinition<Boolean> autoStart = new BooleanElement("customAutoStart", false);
