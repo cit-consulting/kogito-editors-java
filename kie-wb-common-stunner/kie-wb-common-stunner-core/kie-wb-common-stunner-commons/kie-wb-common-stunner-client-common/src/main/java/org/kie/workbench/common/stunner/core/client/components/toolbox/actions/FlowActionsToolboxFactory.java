@@ -62,7 +62,7 @@ public class FlowActionsToolboxFactory
 
     private final DefinitionUtils definitionUtils;
     private final ToolboxDomainLookups toolboxDomainLookups;
-    private final DomainProfileManager profileManager;
+//    private final DomainProfileManager profileManager;
     private final ManagedInstance<CreateConnectorToolboxAction> createConnectorActions;
     private final ManagedInstance<CreateNodeToolboxAction> createNodeActions;
     private final ManagedInstance<ActionsToolboxView> views;
@@ -70,13 +70,13 @@ public class FlowActionsToolboxFactory
     @Inject
     public FlowActionsToolboxFactory(final DefinitionUtils definitionUtils,
                                      final ToolboxDomainLookups toolboxDomainLookups,
-                                     final DomainProfileManager profileManager,
+//                                     final DomainProfileManager profileManager,
                                      final @Any ManagedInstance<CreateConnectorToolboxAction> createConnectorActions,
                                      final @Any @FlowActionsToolbox ManagedInstance<CreateNodeToolboxAction> createNodeActions,
                                      final @Any @FlowActionsToolbox ManagedInstance<ActionsToolboxView> views) {
         this.definitionUtils = definitionUtils;
         this.toolboxDomainLookups = toolboxDomainLookups;
-        this.profileManager = profileManager;
+//        this.profileManager = profileManager;
         this.createConnectorActions = createConnectorActions;
         this.createNodeActions = createNodeActions;
         this.views = views;
@@ -99,30 +99,28 @@ public class FlowActionsToolboxFactory
         // Look for the default connector type and create a button for it.
         final CommonDomainLookups lookup = toolboxDomainLookups.get(defSetId);
         final Set<String> targetConnectors = lookup.lookupTargetConnectors(node);
-        return Stream.concat(targetConnectors.stream()
-                                     .map(connectorDefId -> newCreateConnectorToolboxAction(qualifier).setEdgeId(connectorDefId)),
-                             targetConnectors.stream()
-                                     .flatMap(defaultConnectorId -> {
-                                         final Predicate<String> definitionsAllowedFilter = profileManager.isDefinitionIdAllowed(metadata);
-                                         final Set<String> targets = lookup.lookupTargetNodes(diagram.getGraph(),
-                                                                                              node,
-                                                                                              defaultConnectorId,
-                                                                                              definitionsAllowedFilter);
-                                         final Set<String> morphTargets = lookup.lookupMorphBaseDefinitions(targets);
-                                         return morphTargets.stream().map(defId -> newCreateNodeToolboxAction(qualifier)
-                                                 .setEdgeId(defaultConnectorId)
-                                                 .setNodeId(defId));
-                                     }))
+        return targetConnectors
+                .stream()
+                .map(connectorDefId -> newCreateConnectorToolboxAction(qualifier).setEdgeId(connectorDefId))
                 .collect(Collectors.toList());
+
+//        return Stream.concat(targetConnectors.stream().map(connectorDefId -> newCreateConnectorToolboxAction(qualifier).setEdgeId(connectorDefId)),
+//                targetConnectors.stream().flatMap(defaultConnectorId -> {
+//                    final Predicate<String> definitionsAllowedFilter = profileManager.isDefinitionIdAllowed(metadata);
+//                    final Set<String> targets = lookup.lookupTargetNodes(diagram.getGraph(), node, defaultConnectorId, definitionsAllowedFilter);
+//                    final Set<String> morphTargets = lookup.lookupMorphBaseDefinitions(targets);
+//                    return morphTargets.stream().map(defId -> newCreateNodeToolboxAction(qualifier).setEdgeId(defaultConnectorId).setNodeId(defId));
+//                })
+//        ).collect(Collectors.toList());
     }
 
     private CreateConnectorToolboxAction newCreateConnectorToolboxAction(final Annotation qualifier) {
         return lookup(createConnectorActions, qualifier);
     }
 
-    private CreateNodeToolboxAction newCreateNodeToolboxAction(final Annotation qualifier) {
-        return lookup(createNodeActions, qualifier);
-    }
+//    private CreateNodeToolboxAction newCreateNodeToolboxAction(final Annotation qualifier) {
+//        return lookup(createNodeActions, qualifier);
+//    }
 
     @PreDestroy
     public void destroy() {

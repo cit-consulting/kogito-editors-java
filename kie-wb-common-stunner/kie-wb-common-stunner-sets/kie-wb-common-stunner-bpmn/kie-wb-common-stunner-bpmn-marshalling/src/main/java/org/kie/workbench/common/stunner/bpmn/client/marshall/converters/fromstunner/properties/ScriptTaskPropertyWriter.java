@@ -44,11 +44,11 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         }
     }
 
-    public void setAsync(Boolean async) {
-        CustomElement.async.of(scriptTask).set(async);
+    public void setCashType(String async) {
+        CustomElement.cashType.of(scriptTask).set(async);
     }
 
-    public void setAdHocAutostart(Boolean value) {
-        CustomElement.autoStart.of(scriptTask).set(value);
+    public void setIntegrationType(String async) {
+        CustomElement.integrationType.of(scriptTask).set(async);
     }
 }

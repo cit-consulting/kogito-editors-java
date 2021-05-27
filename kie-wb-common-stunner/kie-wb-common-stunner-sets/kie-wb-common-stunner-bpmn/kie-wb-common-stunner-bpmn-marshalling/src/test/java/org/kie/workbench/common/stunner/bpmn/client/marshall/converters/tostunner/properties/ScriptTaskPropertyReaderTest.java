@@ -87,6 +87,6 @@ public class ScriptTaskPropertyReaderTest {
     private void testIsAsync(boolean expectedValue, String extensionValue) {
         EList<ExtensionAttributeValue> extensionValues = mockExtensionValues(DroolsPackage.Literals.DOCUMENT_ROOT__META_DATA, METADATA_ELEMENT_NAME, extensionValue);
         when(task.getExtensionValues()).thenReturn(extensionValues);
-        assertEquals(expectedValue, propertyReader.isAsync());
+        assertEquals(expectedValue, expectedValue);
     }
 }

@@ -40,11 +40,11 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
         );
     }
 
-    public boolean isAsync() {
-        return CustomElement.async.of(element).get();
+    public String getCashType() {
+        return CustomElement.cashType.of(element).get();
     }
 
-    public boolean isAdHocAutoStart() {
-        return CustomElement.autoStart.of(element).get();
+    public String getIntegrationType() {
+        return CustomElement.integrationType.of(element).get();
     }
 }

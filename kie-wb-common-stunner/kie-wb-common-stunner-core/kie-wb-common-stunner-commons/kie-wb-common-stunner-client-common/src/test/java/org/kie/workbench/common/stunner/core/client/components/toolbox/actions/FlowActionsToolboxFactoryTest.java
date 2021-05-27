@@ -141,7 +141,7 @@ public class FlowActionsToolboxFactoryTest {
 
         this.tested = new FlowActionsToolboxFactory(definitionUtils,
                                                     toolboxLookups,
-                                                    profileManager,
+//                                                    profileManager,
                                                     createConnectorActions,
                                                     createNodeActions,
                                                     views);

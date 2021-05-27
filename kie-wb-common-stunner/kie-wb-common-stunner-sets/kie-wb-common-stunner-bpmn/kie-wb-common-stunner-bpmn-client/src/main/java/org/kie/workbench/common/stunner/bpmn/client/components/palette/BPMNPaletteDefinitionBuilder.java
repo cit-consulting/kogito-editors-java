@@ -39,9 +39,27 @@ import org.kie.workbench.common.stunner.bpmn.definition.Association;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNCategories;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+import org.kie.workbench.common.stunner.bpmn.definition.DataObject;
+import org.kie.workbench.common.stunner.bpmn.definition.EndCompensationEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.EndErrorEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.EndEscalationEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.EndMessageEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.EndSignalEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.EventGateway;
+import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.Lane;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
+import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.StartConditionalEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.StartErrorEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.StartEscalationEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.StartMessageEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.StartSignalEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.StartTimerEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.qualifiers.BPMN;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskFactory;
@@ -146,7 +164,10 @@ public class BPMNPaletteDefinitionBuilder
     public void init() {
         paletteDefinitionBuilder
                 .itemFilter(isDefinitionAllowed())
-                .categoryFilter(category -> !BPMNCategories.CONNECTING_OBJECTS.equals(category))
+                .categoryFilter(category -> BPMNCategories.START_EVENTS.equals(category)
+                        || BPMNCategories.END_EVENTS.equals(category) || BPMNCategories.ACTIVITIES.equals(category)
+                        || BPMNCategories.ARTIFACTS.equals(category) || BPMNCategories.GATEWAYS.equals(category)
+                        || BPMNCategories.CONTAINERS.equals(category))
                 .categoryDefinitionIdProvider(categoryDefinitionProvider.definitionIdProvider())
                 .categoryGlyphProvider(categoryDefinitionProvider.glyphProvider())
                 .categoryMessages(categoryDefinitionProvider.categoryMessageProvider(translationService))
@@ -193,6 +214,29 @@ public class BPMNPaletteDefinitionBuilder
                 .or(isType(NoneTask.class))
                 .or(isType(SequenceFlow.class))
                 .or(isType(Association.class))
+                // Start Events
+                .or(isType(StartMessageEvent.class))
+                .or(isType(StartSignalEvent.class))
+                .or(isType(StartTimerEvent.class))
+                .or(isType(StartErrorEvent.class))
+                .or(isType(StartConditionalEvent.class))
+                .or(isType(StartEscalationEvent.class))
+                .or(isType(StartCompensationEvent.class))
+                // End Events
+                .or(isType(EndSignalEvent.class))
+                .or(isType(EndMessageEvent.class))
+                .or(isType(EndTerminateEvent.class))
+                .or(isType(EndErrorEvent.class))
+                .or(isType(EndEscalationEvent.class))
+                .or(isType(EndCompensationEvent.class))
+                // Activities
+                .or(isType(BusinessRuleTask.class))
+                .or(isType(UserTask.class))
+                .or(isType(GenericServiceTask.class))
+                // Gateways
+                .or(isType(EventGateway.class))
+                // ARTIFACTS
+                .or(isType(DataObject.class))
                 .negate();
     }
 

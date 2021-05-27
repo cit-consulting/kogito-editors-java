@@ -54,9 +54,11 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCollectionInput;
@@ -263,8 +265,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
 
         definition.setExecutionSet(new ScriptTaskExecutionSet(
                 new Script(p.getScript()),
-                new IsAsync(p.isAsync()),
-                new AdHocAutostart(p.isAdHocAutoStart())
+                new CashType(p.getCashType()),
+                new IntegrationType(p.getIntegrationType())
         ));
 
         node.getContent().setBounds(p.getBounds());
