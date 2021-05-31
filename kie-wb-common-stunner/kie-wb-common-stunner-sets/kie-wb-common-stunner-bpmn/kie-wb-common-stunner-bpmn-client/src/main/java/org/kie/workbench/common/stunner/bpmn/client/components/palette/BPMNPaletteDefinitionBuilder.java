@@ -248,7 +248,7 @@ public class BPMNPaletteDefinitionBuilder
                 paletteDefinitionBuilder.getCategoryMessageProvider();
         final Function<String, Glyph> categoryGlyphProvider = paletteDefinitionBuilder.getCategoryGlyphProvider();
         final Collection<WorkItemDefinition> workItemDefinitions = workItemDefinitionRegistry.get().items();
-        if (!workItemDefinitions.isEmpty()) {
+        if (workItemDefinitions.isEmpty()) {
             final String customTasksTitle = categoryMessageProvider.getTitle(BPMNCategories.CUSTOM_TASKS);
             final String customTasksDesc = categoryMessageProvider.getDescription(BPMNCategories.CUSTOM_TASKS);
             final DefaultPaletteCategory workItemsCategory = new CategoryBuilder()
