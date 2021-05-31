@@ -19,9 +19,7 @@ package org.kie.workbench.common.stunner.core.client.components.toolbox.actions;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Dependent;
@@ -37,7 +35,6 @@ import org.kie.workbench.common.stunner.core.graph.Element;
 import org.kie.workbench.common.stunner.core.graph.Node;
 import org.kie.workbench.common.stunner.core.graph.content.definition.Definition;
 import org.kie.workbench.common.stunner.core.lookup.domain.CommonDomainLookups;
-import org.kie.workbench.common.stunner.core.profile.DomainProfileManager;
 import org.kie.workbench.common.stunner.core.util.DefinitionUtils;
 
 import static org.kie.workbench.common.stunner.core.client.session.impl.InstanceUtils.lookup;

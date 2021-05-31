@@ -25,9 +25,11 @@ import org.kie.workbench.common.stunner.bpmn.definition.EndNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.StartNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.qualifiers.BPMN;
@@ -41,6 +43,8 @@ public class BPMNRuleFlowProfile implements DomainProfile {
     static final String ID = BPMNRuleFlowProfile.class.getName();
     private static final BindableDomainProfile domainProfile = BindableDomainProfile.build(NoneTask.class,
                                                                                            ScriptTask.class,
+            ScoringTask.class,
+                                                                                           IntegrationTask.class,
                                                                                            BusinessRuleTask.class,
                                                                                            ReusableSubprocess.class,
                                                                                            StartNoneEvent.class,

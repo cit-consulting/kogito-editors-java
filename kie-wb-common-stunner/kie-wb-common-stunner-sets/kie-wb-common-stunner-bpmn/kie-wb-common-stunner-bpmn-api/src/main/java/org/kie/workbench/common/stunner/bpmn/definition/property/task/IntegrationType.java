@@ -37,6 +37,9 @@ public class IntegrationType implements BPMNProperty {
     public final static String AMAZON = "AMAZON";
     public final static String DATA_BASE = "DATA_BASE";
 
+    public final static String SCORING = "SCORING";
+    public final static String INTEGRATION = "INTEGRATION";
+
     @Value
     @FieldValue
     private String value;

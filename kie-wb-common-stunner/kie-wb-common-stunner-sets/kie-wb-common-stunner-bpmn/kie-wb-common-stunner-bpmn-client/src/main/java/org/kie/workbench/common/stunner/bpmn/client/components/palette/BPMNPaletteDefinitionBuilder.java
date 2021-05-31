@@ -51,6 +51,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.EventGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.Lane;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
 import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartConditionalEvent;
@@ -233,6 +234,7 @@ public class BPMNPaletteDefinitionBuilder
                 .or(isType(BusinessRuleTask.class))
                 .or(isType(UserTask.class))
                 .or(isType(GenericServiceTask.class))
+                .or(isType(ScriptTask.class))
                 // Gateways
                 .or(isType(EventGateway.class))
                 // ARTIFACTS

@@ -58,6 +58,8 @@ public class TaskType implements BPMNProperty {
             .add(TaskTypes.NONE)
             .add(TaskTypes.USER)
             .add(TaskTypes.SCRIPT)
+            .add(TaskTypes.SCORING)
+            .add(TaskTypes.INTEGRATION)
             .add(TaskTypes.BUSINESS_RULE)
             .add(TaskTypes.SERVICE_TASK)
             .build();

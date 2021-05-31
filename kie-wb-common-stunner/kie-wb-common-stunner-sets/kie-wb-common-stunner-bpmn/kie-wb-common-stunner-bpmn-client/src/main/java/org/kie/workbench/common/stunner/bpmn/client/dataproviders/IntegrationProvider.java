@@ -36,7 +36,10 @@ public class IntegrationProvider implements SelectorDataProvider {
     private enum INTEGRATION_TYPE {
         AMAZON(IntegrationType.AMAZON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.AMAZON"),
         DATA_BASE(IntegrationType.DATA_BASE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DATA_BASE"),
-        PYTHON(IntegrationType.PYTHON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.PYTHON");
+        PYTHON(IntegrationType.PYTHON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.PYTHON"),
+
+        SCORING(IntegrationType.SCORING, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SCORING"),
+        INTEGRATION(IntegrationType.INTEGRATION, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.INTEGRATION");
 
         private final String value;
 
@@ -71,6 +74,8 @@ public class IntegrationProvider implements SelectorDataProvider {
         valuePosition.put(INTEGRATION_TYPE.AMAZON.value(), 0);
         valuePosition.put(INTEGRATION_TYPE.DATA_BASE.value(), 1);
         valuePosition.put(INTEGRATION_TYPE.PYTHON.value(), 2);
+
+        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 3);
     }
 
     private SafeComparator<Object> getComparator() {

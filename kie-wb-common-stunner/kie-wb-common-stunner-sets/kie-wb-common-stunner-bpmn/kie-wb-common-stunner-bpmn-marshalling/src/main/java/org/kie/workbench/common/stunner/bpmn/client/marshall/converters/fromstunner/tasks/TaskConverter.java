@@ -30,13 +30,17 @@ import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
@@ -61,6 +65,12 @@ public class TaskConverter {
         }
         if (def instanceof ScriptTask) {
             return scriptTask(cast(node));
+        }
+        if (def instanceof IntegrationTask) {
+            return integrationTask(cast(node));
+        }
+        if (def instanceof ScoringTask) {
+            return scoringTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -238,11 +248,44 @@ public class TaskConverter {
         ScriptTaskExecutionSet executionSet = definition.getExecutionSet();
 
         p.setScript(executionSet.getScript().getValue());
-        p.setCashType(executionSet.getCashType().getValue());
-        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        // p.setCashType(executionSet.getCashType().getValue());
+        // p.setIntegrationType(executionSet.getIntegrationType().getValue());
 
         p.setSimulationSet(definition.getSimulationSet());
 
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter integrationTask(Node<View<IntegrationTask>, ?> n) {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        IntegrationTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        IntegrationTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCashType(executionSet.getCashType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter scoringTask(Node<View<ScoringTask>, ?> n) {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        ScoringTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        ScoringTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;
     }

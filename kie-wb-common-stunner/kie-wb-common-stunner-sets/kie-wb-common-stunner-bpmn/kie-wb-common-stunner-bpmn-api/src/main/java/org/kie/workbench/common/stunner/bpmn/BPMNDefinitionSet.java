@@ -38,6 +38,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.EventSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.InclusiveGateway;
+import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEventThrowing;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateConditionalEvent;
@@ -57,6 +58,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
 import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
@@ -88,6 +90,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 NoneTask.class,
                 UserTask.class,
                 ScriptTask.class,
+                ScoringTask.class,
+                IntegrationTask.class,
                 GenericServiceTask.class,
                 BusinessRuleTask.class,
                 StartNoneEvent.class,
