@@ -32,7 +32,7 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 @Bindable
 @Property
 @FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
-public class CashType implements BPMNProperty {
+public class CacheType implements BPMNProperty {
 
     public final static String DEFAULT =  "DEFAULT";
     public final static String NONE = "NONE";
@@ -43,11 +43,11 @@ public class CashType implements BPMNProperty {
     @FieldValue
     private String value;
 
-    public CashType() {
+    public CacheType() {
         this(DEFAULT);
     }
 
-    public CashType(final String value) {
+    public CacheType(final String value) {
         if (value == null || value.isEmpty()) {
             this.value = DEFAULT;
         } else {
@@ -70,8 +70,8 @@ public class CashType implements BPMNProperty {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof CashType) {
-            CashType other = (CashType) o;
+        if (o instanceof CacheType) {
+            CacheType other = (CacheType) o;
             return Objects.equals(value, other.value);
         }
         return false;

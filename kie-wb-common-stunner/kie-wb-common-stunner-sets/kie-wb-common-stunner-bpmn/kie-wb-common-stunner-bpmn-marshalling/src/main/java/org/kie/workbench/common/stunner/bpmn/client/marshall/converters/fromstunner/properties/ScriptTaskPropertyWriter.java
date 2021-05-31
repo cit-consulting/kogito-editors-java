@@ -44,8 +44,8 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         }
     }
 
-    public void setCashType(String async) {
-        CustomElement.cashType.of(scriptTask).set(async);
+    public void setCacheType(String async) {
+        CustomElement.cacheType.of(scriptTask).set(async);
     }
 
     public void setIntegrationType(String async) {

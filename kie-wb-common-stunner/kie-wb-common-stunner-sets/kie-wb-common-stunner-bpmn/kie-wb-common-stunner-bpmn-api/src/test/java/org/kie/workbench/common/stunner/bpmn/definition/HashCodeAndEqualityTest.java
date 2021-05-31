@@ -83,14 +83,12 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocOrder
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocSubprocessTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CalledElement;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Content;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CreatedBy;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Description;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Independent;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCollectionInput;

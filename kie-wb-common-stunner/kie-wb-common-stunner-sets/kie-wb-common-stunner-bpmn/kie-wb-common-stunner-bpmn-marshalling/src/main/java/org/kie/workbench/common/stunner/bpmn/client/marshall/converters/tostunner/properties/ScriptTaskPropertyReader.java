@@ -40,8 +40,8 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
         );
     }
 
-    public String getCashType() {
-        return CustomElement.cashType.of(element).get();
+    public String getCacheType() {
+        return CustomElement.cacheType.of(element).get();
     }
 
     public String getIntegrationType() {

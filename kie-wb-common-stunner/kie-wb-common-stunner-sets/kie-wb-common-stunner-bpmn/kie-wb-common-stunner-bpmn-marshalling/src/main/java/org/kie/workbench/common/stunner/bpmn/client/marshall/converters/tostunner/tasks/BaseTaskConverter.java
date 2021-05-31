@@ -39,14 +39,12 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.TaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.UserTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
-import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
-import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
@@ -57,7 +55,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
@@ -77,7 +75,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnExitActi
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleFlowGroup;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
@@ -263,7 +260,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             Node<View<IntegrationTask>, Edge> node = factoryManager.newNode(task.getId(), IntegrationTask.class);
             IntegrationTask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new IntegrationTaskExecutionSet(new CashType(p.getCashType())));
+            definition.setExecutionSet(new IntegrationTaskExecutionSet(new CacheType(p.getCacheType())));
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());

@@ -29,7 +29,7 @@ import org.jboss.errai.ui.client.local.spi.TranslationService;
 import org.kie.workbench.common.forms.dynamic.model.config.SelectorData;
 import org.kie.workbench.common.forms.dynamic.model.config.SelectorDataProvider;
 import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.CashType;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
 import org.kie.workbench.common.stunner.core.util.SafeComparator;
 
 @Dependent
@@ -37,10 +37,10 @@ public class CacheProvider implements SelectorDataProvider {
 
     private enum CACHE_TYPE {
 
-        DEFAULT(CashType.DEFAULT, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DEFAULT"),
-        NONE(CashType.NONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.NONE"),
-        CACHE_ONLY(CashType.CACHE_ONLY, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.CACHE_ONLY"),
-        FORCE_CACHE(CashType.FORCE_CACHE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.FORCE_CACHE");
+        DEFAULT(CacheType.DEFAULT, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DEFAULT"),
+        NONE(CacheType.NONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.NONE"),
+        CACHE_ONLY(CacheType.CACHE_ONLY, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.CACHE_ONLY"),
+        FORCE_CACHE(CacheType.FORCE_CACHE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.FORCE_CACHE");
 
         private final String value;
 

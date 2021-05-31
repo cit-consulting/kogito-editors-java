@@ -267,7 +267,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         IntegrationTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCashType(executionSet.getCashType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);

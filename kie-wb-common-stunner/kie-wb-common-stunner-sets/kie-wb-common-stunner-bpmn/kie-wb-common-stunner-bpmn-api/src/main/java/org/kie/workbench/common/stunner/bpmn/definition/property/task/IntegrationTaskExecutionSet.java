@@ -34,7 +34,7 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "cashType")
+@FormDefinition(startElement = "cacheType")
 public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
 
     @Property
@@ -46,26 +46,26 @@ public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
             type = SelectorDataProvider.ProviderType.CLIENT,
             className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider")
     @Valid
-    private CashType cashType;
+    private CacheType cacheType;
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.INTEGRATION);
 
     private final Script script = new Script(new ScriptTypeValue("java", "foo()"));
 
     public IntegrationTaskExecutionSet() {
-        this(new CashType());
+        this(new CacheType());
     }
 
-    public IntegrationTaskExecutionSet(final @MapsTo("cashType") CashType cashType) {
-        this.cashType = cashType;
+    public IntegrationTaskExecutionSet(final @MapsTo("cacheType") CacheType cacheType) {
+        this.cacheType = cacheType;
     }
 
-    public CashType getCashType() {
-        return cashType;
+    public CacheType getCacheType() {
+        return cacheType;
     }
 
-    public void setCashType(final CashType cashType) {
-        this.cashType = cashType;
+    public void setCacheType(final CacheType cacheType) {
+        this.cacheType = cacheType;
     }
 
     public IntegrationType getIntegrationType() {
@@ -79,7 +79,7 @@ public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
-                Objects.hashCode(cashType),
+                Objects.hashCode(cacheType),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType)
         );
@@ -89,7 +89,7 @@ public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
     public boolean equals(Object o) {
         if (o instanceof IntegrationTaskExecutionSet) {
             IntegrationTaskExecutionSet other = (IntegrationTaskExecutionSet) o;
-            return Objects.equals(cashType, other.cashType) &&
+            return Objects.equals(cacheType, other.cacheType) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType);
         }

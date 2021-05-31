@@ -27,7 +27,7 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.custompr
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.StringElement;
 
 public class CustomElement<T> {
-    public static final MetadataTypeDefinition<String> cashType = new StringElement("cashType", "");
+    public static final MetadataTypeDefinition<String> cacheType = new StringElement("cacheType", "");
     public static final MetadataTypeDefinition<String> integrationType = new StringElement("integrationType", "");
 
     public static final MetadataTypeDefinition<Boolean> async = new BooleanElement("customAsync", false);
