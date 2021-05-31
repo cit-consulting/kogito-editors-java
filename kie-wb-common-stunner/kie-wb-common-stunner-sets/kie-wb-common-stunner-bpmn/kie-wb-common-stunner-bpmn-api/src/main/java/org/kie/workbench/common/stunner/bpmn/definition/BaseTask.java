@@ -93,6 +93,8 @@ public abstract class BaseTask implements BPMNViewDefinition {
                              UserTask.class)
                         .put(TaskTypes.SCRIPT,
                              ScriptTask.class)
+                        .put(TaskTypes.INTEGRATION, IntegrationTask.class)
+                        .put(TaskTypes.SCORING, ScoringTask.class)
                         .put(TaskTypes.BUSINESS_RULE,
                              BusinessRuleTask.class)
                         .put(TaskTypes.SERVICE_TASK,
