@@ -32,7 +32,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documen
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
 import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
@@ -54,28 +54,28 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class IntegrationTask extends BaseTask {
+public class AmazonTask extends BaseTask {
 
     @Property
     @FormField(afterElement = "general")
     @Valid
-    protected IntegrationTaskExecutionSet executionSet;
+    protected AmazonTaskExecutionSet executionSet;
 
-    public IntegrationTask() {
+    public AmazonTask() {
         this(
-                new TaskGeneralSet(new Name("Integration Task"), new Documentation("")),
-                new IntegrationTaskExecutionSet(),
+                new TaskGeneralSet(new Name("Amazon Rekognition"), new Documentation("")),
+                new AmazonTaskExecutionSet(),
                 new BackgroundSet(),
                 new FontSet(),
                 new RectangleDimensionsSet(),
                 new SimulationSet(),
-                new TaskType(TaskTypes.INTEGRATION)
+                new TaskType(TaskTypes.AMAZON)
         );
     }
 
-    public IntegrationTask(
+    public AmazonTask(
             final @MapsTo("general") TaskGeneralSet general,
-            final @MapsTo("executionSet") IntegrationTaskExecutionSet executionSet,
+            final @MapsTo("executionSet") AmazonTaskExecutionSet executionSet,
             final @MapsTo("backgroundSet") BackgroundSet backgroundSet,
             final @MapsTo("fontSet") FontSet fontSet,
             final @MapsTo("dimensionsSet") RectangleDimensionsSet dimensionsSet,
@@ -86,11 +86,11 @@ public class IntegrationTask extends BaseTask {
         this.executionSet = executionSet;
     }
 
-    public IntegrationTaskExecutionSet getExecutionSet() {
+    public AmazonTaskExecutionSet getExecutionSet() {
         return executionSet;
     }
 
-    public void setExecutionSet(final IntegrationTaskExecutionSet executionSet) {
+    public void setExecutionSet(final AmazonTaskExecutionSet executionSet) {
         this.executionSet = executionSet;
     }
 
@@ -101,8 +101,8 @@ public class IntegrationTask extends BaseTask {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof IntegrationTask) {
-            IntegrationTask other = (IntegrationTask) o;
+        if (o instanceof AmazonTask) {
+            AmazonTask other = (AmazonTask) o;
             return super.equals(other) && executionSet.equals(other.executionSet);
         }
         return false;

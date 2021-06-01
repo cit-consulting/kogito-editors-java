@@ -39,12 +39,14 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.TaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.UserTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
-import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
+import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
@@ -56,10 +58,11 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutos
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
@@ -75,6 +78,8 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnExitActi
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleFlowGroup;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
@@ -256,11 +261,11 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
     private BpmnNode scriptTask(org.eclipse.bpmn2.ScriptTask task) {
         ScriptTaskPropertyReader p = propertyReaderFactory.of(task);
         IntegrationType type = new IntegrationType(p.getIntegrationType());
-        if (IntegrationType.INTEGRATION.equals(type.getValue())) {
-            Node<View<IntegrationTask>, Edge> node = factoryManager.newNode(task.getId(), IntegrationTask.class);
-            IntegrationTask definition = node.getContent().getDefinition();
+        if (IntegrationType.AMAZON.equals(type.getValue())) {
+            Node<View<AmazonTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonTask.class);
+            AmazonTask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new IntegrationTaskExecutionSet(new CacheType(p.getCacheType())));
+            definition.setExecutionSet(new AmazonTaskExecutionSet(new CacheType(p.getCacheType())));
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());
@@ -278,27 +283,36 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setFontSet(p.getFontSet());
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
+        } else if (IntegrationType.DATA_BASE_REQUEST.equals(type.getValue())) {
+            Node<View<DBRequestTask>, Edge> node = factoryManager.newNode(task.getId(), DBRequestTask.class);
+            DBRequestTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(new DBRequestTaskExecutionSet(new CacheType(p.getCacheType())));
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
         } else {
-            throw new RuntimeException("unknown type");
+            Node<View<ScriptTask>, Edge> node = factoryManager.newNode(task.getId(), ScriptTask.class);
+            ScriptTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(
+                    new Name(p.getName() + "(invalid task)"),
+                    new Documentation(p.getDocumentation())
+            ));
+            definition.setExecutionSet(new ScriptTaskExecutionSet(
+                    new Script(p.getScript()),
+                    new IsAsync(),
+                    new AdHocAutostart()
+            ));
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
         }
-
-//        Node<View<ScriptTask>, Edge> node = factoryManager.newNode(task.getId(), ScriptTask.class);
-//        ScriptTask definition = node.getContent().getDefinition();
-//        definition.setGeneral(new TaskGeneralSet(
-//                new Name(p.getName()),
-//                new Documentation(p.getDocumentation())
-//        ));
-//        definition.setExecutionSet(new ScriptTaskExecutionSet(
-//                new Script(p.getScript()),
-//                new CashType(p.getCashType()),
-//                new IntegrationType(p.getIntegrationType())
-//        ));
-//        node.getContent().setBounds(p.getBounds());
-//        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-//        definition.setBackgroundSet(p.getBackgroundSet());
-//        definition.setFontSet(p.getFontSet());
-//        definition.setSimulationSet(p.getSimulationSet());
-//        return BpmnNode.of(node, p);
     }
 
     private BpmnNode userTask(org.eclipse.bpmn2.UserTask task) {

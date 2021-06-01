@@ -21,11 +21,12 @@ import java.util.function.Predicate;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.EndNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
-import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
@@ -44,7 +45,8 @@ public class BPMNRuleFlowProfile implements DomainProfile {
     private static final BindableDomainProfile domainProfile = BindableDomainProfile.build(NoneTask.class,
                                                                                            ScriptTask.class,
             ScoringTask.class,
-                                                                                           IntegrationTask.class,
+            DBRequestTask.class,
+                                                                                           AmazonTask.class,
                                                                                            BusinessRuleTask.class,
                                                                                            ReusableSubprocess.class,
                                                                                            StartNoneEvent.class,

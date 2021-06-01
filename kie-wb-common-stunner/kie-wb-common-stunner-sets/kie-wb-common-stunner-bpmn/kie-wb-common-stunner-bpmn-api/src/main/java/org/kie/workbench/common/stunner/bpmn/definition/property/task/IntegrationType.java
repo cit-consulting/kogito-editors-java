@@ -33,24 +33,24 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 @FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
 public class IntegrationType implements BPMNProperty {
 
-    public final static String PYTHON = "PYTHON";
-    public final static String AMAZON = "AMAZON";
-    public final static String DATA_BASE = "DATA_BASE";
+    // public final static String PYTHON = "PYTHON";
+    // public final static String INTEGRATION = "INTEGRATION";
 
+    public final static String AMAZON = "AMAZON";
+    public final static String DATA_BASE_REQUEST = "DATA_BASE_REQUEST";
     public final static String SCORING = "SCORING";
-    public final static String INTEGRATION = "INTEGRATION";
 
     @Value
     @FieldValue
     private String value;
 
     public IntegrationType() {
-        this(PYTHON);
+        this(SCORING);
     }
 
     public IntegrationType(final String value) {
         if (value == null || value.isEmpty()) {
-            this.value = PYTHON;
+            this.value = SCORING;
         } else {
             this.value = value;
         }

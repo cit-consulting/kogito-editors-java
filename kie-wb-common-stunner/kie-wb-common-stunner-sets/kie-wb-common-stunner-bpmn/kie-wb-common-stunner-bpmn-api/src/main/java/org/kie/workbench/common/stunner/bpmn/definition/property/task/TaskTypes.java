@@ -24,7 +24,8 @@ public enum TaskTypes {
     USER,
     SCRIPT,
     SCORING,
-    INTEGRATION,
+    AMAZON,
+    DATA_BASE_REQUEST,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

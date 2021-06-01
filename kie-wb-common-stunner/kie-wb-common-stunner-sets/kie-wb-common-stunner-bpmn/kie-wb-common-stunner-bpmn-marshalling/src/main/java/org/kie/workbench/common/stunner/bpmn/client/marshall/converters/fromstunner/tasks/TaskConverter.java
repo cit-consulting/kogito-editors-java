@@ -26,19 +26,21 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstun
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ServiceTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.UserTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
+import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
-import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
@@ -66,11 +68,14 @@ public class TaskConverter {
         if (def instanceof ScriptTask) {
             return scriptTask(cast(node));
         }
-        if (def instanceof IntegrationTask) {
-            return integrationTask(cast(node));
+        if (def instanceof AmazonTask) {
+            return amazonTask(cast(node));
         }
         if (def instanceof ScoringTask) {
             return scoringTask(cast(node));
+        }
+        if(def instanceof DBRequestTask) {
+            return dbrequestTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -257,15 +262,32 @@ public class TaskConverter {
         return p;
     }
 
-    private PropertyWriter integrationTask(Node<View<IntegrationTask>, ?> n) {
+    private PropertyWriter amazonTask(Node<View<AmazonTask>, ?> n) {
         org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
         task.setId(n.getUUID());
-        IntegrationTask definition = n.getContent().getDefinition();
+        AmazonTask definition = n.getContent().getDefinition();
         ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
         TaskGeneralSet general = definition.getGeneral();
         p.setName(general.getName().getValue());
         p.setDocumentation(general.getDocumentation().getValue());
-        IntegrationTaskExecutionSet executionSet = definition.getExecutionSet();
+        AmazonTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter dbrequestTask(Node<View<DBRequestTask>, ?> n) {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        DBRequestTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        DBRequestTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());

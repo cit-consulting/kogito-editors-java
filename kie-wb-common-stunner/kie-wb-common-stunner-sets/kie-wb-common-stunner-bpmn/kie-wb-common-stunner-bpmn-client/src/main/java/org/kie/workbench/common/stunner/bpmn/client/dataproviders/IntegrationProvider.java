@@ -35,11 +35,11 @@ public class IntegrationProvider implements SelectorDataProvider {
 
     private enum INTEGRATION_TYPE {
         AMAZON(IntegrationType.AMAZON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.AMAZON"),
-        DATA_BASE(IntegrationType.DATA_BASE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DATA_BASE"),
-        PYTHON(IntegrationType.PYTHON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.PYTHON"),
+        DATA_BASE_REQUEST(IntegrationType.DATA_BASE_REQUEST, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DATA_BASE_REQUEST"),
+        SCORING(IntegrationType.SCORING, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SCORING");
 
-        SCORING(IntegrationType.SCORING, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SCORING"),
-        INTEGRATION(IntegrationType.INTEGRATION, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.INTEGRATION");
+        // PYTHON(IntegrationType.PYTHON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.PYTHON"),
+        // INTEGRATION(IntegrationType.INTEGRATION, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.INTEGRATION");
 
         private final String value;
 
@@ -72,10 +72,8 @@ public class IntegrationProvider implements SelectorDataProvider {
     protected void init() {
         valuePosition = new HashMap<>();
         valuePosition.put(INTEGRATION_TYPE.AMAZON.value(), 0);
-        valuePosition.put(INTEGRATION_TYPE.DATA_BASE.value(), 1);
-        valuePosition.put(INTEGRATION_TYPE.PYTHON.value(), 2);
-
-        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 3);
+        valuePosition.put(INTEGRATION_TYPE.DATA_BASE_REQUEST.value(), 1);
+        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 2);
     }
 
     private SafeComparator<Object> getComparator() {
@@ -95,6 +93,6 @@ public class IntegrationProvider implements SelectorDataProvider {
                 .forEach(ruleLanguage -> values.put(ruleLanguage.value(),
                         translationService.getTranslation(ruleLanguage.i18nKey())));
 
-        return new SelectorData(values, INTEGRATION_TYPE.PYTHON.value());
+        return new SelectorData(values, INTEGRATION_TYPE.SCORING.value());
     }
 }

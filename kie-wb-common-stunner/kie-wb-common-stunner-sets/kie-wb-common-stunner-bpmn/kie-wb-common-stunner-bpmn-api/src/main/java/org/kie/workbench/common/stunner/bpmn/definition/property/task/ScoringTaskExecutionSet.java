@@ -35,7 +35,12 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
     @Property
     @FormField(settings = {@FieldParam(name = "mode", value = "ACTION_SCRIPT")}, afterElement = "cashType")
     @Valid
-    private final Script script = new Script(new ScriptTypeValue("java", "bar()"));
+    private final Script script = new Script(
+            new ScriptTypeValue(
+                    "java",
+                    "com.digitalfinance.riskengine.bpmn.integration.python.ScoringClientAdapter.call(kcontext);"
+            )
+    );
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SCORING);
 

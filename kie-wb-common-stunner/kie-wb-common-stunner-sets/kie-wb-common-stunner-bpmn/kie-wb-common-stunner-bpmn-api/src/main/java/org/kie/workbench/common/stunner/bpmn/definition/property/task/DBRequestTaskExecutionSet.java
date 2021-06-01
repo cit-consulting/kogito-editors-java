@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kie.workbench.common.stunner.bpmn.definition.property.task;
 
 import java.util.Objects;
-
 import javax.validation.Valid;
-
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
@@ -34,8 +31,8 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "cacheType")
-public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
+@FormDefinition(startElement = "script")
+public class DBRequestTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
@@ -48,15 +45,20 @@ public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
     @Valid
     private CacheType cacheType;
 
-    private final IntegrationType integrationType = new IntegrationType(IntegrationType.INTEGRATION);
+    private final Script script = new Script(
+            new ScriptTypeValue(
+                    "java",
+                    "com.digitalfinance.riskengine.bpmn.integration.db.DBClientAdapter.call(kcontext);"
+            )
+    );
 
-    private final Script script = new Script(new ScriptTypeValue("java", "foo()"));
+    private final IntegrationType integrationType = new IntegrationType(IntegrationType.DATA_BASE_REQUEST);
 
-    public IntegrationTaskExecutionSet() {
+    public DBRequestTaskExecutionSet() {
         this(new CacheType());
     }
 
-    public IntegrationTaskExecutionSet(final @MapsTo("cacheType") CacheType cacheType) {
+    public DBRequestTaskExecutionSet(final @MapsTo("cacheType") CacheType cacheType) {
         this.cacheType = cacheType;
     }
 
@@ -87,8 +89,8 @@ public class IntegrationTaskExecutionSet  implements BPMNPropertySet {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof IntegrationTaskExecutionSet) {
-            IntegrationTaskExecutionSet other = (IntegrationTaskExecutionSet) o;
+        if (o instanceof DBRequestTaskExecutionSet) {
+            DBRequestTaskExecutionSet other = (DBRequestTaskExecutionSet) o;
             return Objects.equals(cacheType, other.cacheType) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType);

@@ -20,9 +20,9 @@ import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
 
 import org.kie.workbench.common.stunner.bpmn.client.resources.BPMNImageResources;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNCategories;
 import org.kie.workbench.common.stunner.bpmn.definition.EndNoneEvent;
-import org.kie.workbench.common.stunner.bpmn.definition.IntegrationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateTimerEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.Lane;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
@@ -56,7 +56,7 @@ public class BPMNCategoryDefinitionProvider extends DefaultPaletteDefinitionProv
                              .useGlyph(SvgDataUriGlyph.Builder.build(BPMNImageResources.INSTANCE.categoryEndEvents().getSafeUri())))
                 .put(BPMNCategories.ACTIVITIES,
                      category -> category
-                             .bindToDefinition(IntegrationTask.class)
+                             .bindToDefinition(AmazonTask.class)
                              .useGlyph(SvgDataUriGlyph.Builder.build(BPMNImageResources.INSTANCE.categoryActivity().getSafeUri())))
                 .put(BPMNCategories.SUB_PROCESSES,
                      category -> category
