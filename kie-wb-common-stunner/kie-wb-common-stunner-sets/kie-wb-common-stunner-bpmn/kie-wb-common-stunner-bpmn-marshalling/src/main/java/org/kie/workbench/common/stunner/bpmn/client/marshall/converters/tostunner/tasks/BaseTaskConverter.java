@@ -59,6 +59,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTa
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
@@ -287,7 +288,12 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             Node<View<DBRequestTask>, Edge> node = factoryManager.newNode(task.getId(), DBRequestTask.class);
             DBRequestTask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new DBRequestTaskExecutionSet(new CacheType(p.getCacheType())));
+            definition.setExecutionSet(
+                    new DBRequestTaskExecutionSet(
+                            new CacheType(p.getCacheType()),
+                            new DBRequestType(p.getDbRequestType())
+                    )
+            );
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());

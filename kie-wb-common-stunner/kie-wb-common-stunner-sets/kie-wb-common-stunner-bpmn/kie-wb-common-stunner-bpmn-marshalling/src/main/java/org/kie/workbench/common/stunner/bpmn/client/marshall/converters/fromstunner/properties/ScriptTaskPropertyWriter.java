@@ -48,6 +48,10 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         CustomElement.cacheType.of(scriptTask).set(async);
     }
 
+    public void setDbRequestType(String dbRequestType) {
+        CustomElement.dbRequestType.of(scriptTask).set(dbRequestType);
+    }
+
     public void setIntegrationType(String async) {
         CustomElement.integrationType.of(scriptTask).set(async);
     }

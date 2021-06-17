@@ -31,17 +31,31 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "script")
+@FormDefinition(startElement = "dbRequestType")
 public class DBRequestTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
             type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = "DEFAULT")}
+            settings = {@FieldParam(name = "addEmptyOption", value = DBRequestType.WEB)}
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider")
+            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.DBRequestTypeProvider"
+    )
+    @Valid
+    private DBRequestType dbRequestType;
+
+    @Property
+    @FormField(
+            afterElement = "dbRequestType",
+            type = ListBoxFieldType.class,
+            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)} //"DEFAULT")}
+    )
+    @SelectorDataProvider(
+            type = SelectorDataProvider.ProviderType.CLIENT,
+            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider"
+    )
     @Valid
     private CacheType cacheType;
 
@@ -55,11 +69,15 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.DATA_BASE_REQUEST);
 
     public DBRequestTaskExecutionSet() {
-        this(new CacheType());
+        this(new CacheType(), new DBRequestType());
     }
 
-    public DBRequestTaskExecutionSet(final @MapsTo("cacheType") CacheType cacheType) {
+    public DBRequestTaskExecutionSet(
+            final @MapsTo("cacheType") CacheType cacheType,
+            final @MapsTo("dbRequestType") DBRequestType dbRequestType
+    ) {
         this.cacheType = cacheType;
+        this.dbRequestType = dbRequestType;
     }
 
     public CacheType getCacheType() {
@@ -68,6 +86,14 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
 
     public void setCacheType(final CacheType cacheType) {
         this.cacheType = cacheType;
+    }
+
+    public DBRequestType getDbRequestType() {
+        return dbRequestType;
+    }
+
+    public void setDbRequestType(DBRequestType dbRequestType) {
+        this.dbRequestType = dbRequestType;
     }
 
     public IntegrationType getIntegrationType() {
@@ -82,6 +108,7 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheType),
+                Objects.hashCode(dbRequestType),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType)
         );
@@ -92,6 +119,7 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof DBRequestTaskExecutionSet) {
             DBRequestTaskExecutionSet other = (DBRequestTaskExecutionSet) o;
             return Objects.equals(cacheType, other.cacheType) &&
+                    Objects.equals(dbRequestType, other.dbRequestType) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType);
         }

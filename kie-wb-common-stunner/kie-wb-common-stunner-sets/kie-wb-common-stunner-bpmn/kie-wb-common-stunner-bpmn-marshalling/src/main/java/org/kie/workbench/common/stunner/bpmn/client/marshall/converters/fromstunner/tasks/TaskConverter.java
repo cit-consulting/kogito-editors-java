@@ -290,6 +290,7 @@ public class TaskConverter {
         DBRequestTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
+        p.setDbRequestType(executionSet.getDbRequestType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
