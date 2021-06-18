@@ -34,8 +34,8 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 @FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
 public class DBRequestType implements BPMNProperty {
 
-    public final static String WEB =  "mssql-db-crm-integration";
-    public final static String SRM = "application-data-db-web-integration";
+    public final static String WEB = "application-data-db-web-integration";
+    public final static String SRM = "mssql-db-crm-integration";
     public final static String AMAZON = "similar-applications-db-web-integration";
 
     @Value
