@@ -18,6 +18,7 @@ package org.kie.workbench.common.stunner.bpmn.definition.property.task;
 import java.util.Objects;
 
 import javax.validation.Valid;
+import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
@@ -29,11 +30,11 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "script")
+@FormDefinition(startElement = "scoringIdentity")
 public class ScoringTaskExecutionSet implements BPMNPropertySet {
 
     @Property
-    @FormField(settings = {@FieldParam(name = "mode", value = "ACTION_SCRIPT")}, afterElement = "cashType")
+    @FormField(settings = {@FieldParam(name = "mode", value = "ACTION_SCRIPT")}, afterElement = "scoringIdentity")
     @Valid
     private final Script script = new Script(
             new ScriptTypeValue(
@@ -42,10 +43,30 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
             )
     );
 
+    @Property
+    @FormField(
+            labelKey = "org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet.scoringIdentity.label",
+            afterElement = "general"
+    )
+    @Valid
+    private String scoringIdentity;
+
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SCORING);
 
     public ScoringTaskExecutionSet() {
+        this("");
+    }
 
+    public ScoringTaskExecutionSet(final @MapsTo("scoringIdentity") String scoringIdentity) {
+        this.scoringIdentity = scoringIdentity;
+    }
+
+    public void setScoringIdentity(String scoringIdentity) {
+        this.scoringIdentity = scoringIdentity;
+    }
+
+    public String getScoringIdentity() {
+        return scoringIdentity;
     }
 
     public IntegrationType getIntegrationType() {
@@ -58,14 +79,20 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
 
     @Override
     public int hashCode() {
-        return HashUtil.combineHashCodes(Objects.hashCode(script), Objects.hashCode(integrationType));
+        return HashUtil.combineHashCodes(
+                Objects.hashCode(script),
+                Objects.hashCode(integrationType),
+                Objects.hashCode(scoringIdentity)
+        );
     }
 
     @Override
     public boolean equals(Object o) {
         if (o instanceof ScoringTaskExecutionSet) {
             ScoringTaskExecutionSet other = (ScoringTaskExecutionSet) o;
-            return Objects.equals(script, other.script) && Objects.equals(integrationType, other.integrationType);
+            return Objects.equals(script, other.script) &&
+                    Objects.equals(integrationType, other.integrationType) &&
+                    Objects.equals(scoringIdentity, other.scoringIdentity);
         }
         return false;
     }

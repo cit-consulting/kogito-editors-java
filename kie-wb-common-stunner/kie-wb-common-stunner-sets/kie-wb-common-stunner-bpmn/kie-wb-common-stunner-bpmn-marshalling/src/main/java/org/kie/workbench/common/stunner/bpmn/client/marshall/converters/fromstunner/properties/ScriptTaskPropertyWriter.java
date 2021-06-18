@@ -44,6 +44,10 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         }
     }
 
+    public void setScoringIdentity(String scoringIdentity) {
+        CustomElement.scoringIdentity.of(scriptTask).set(scoringIdentity);
+    }
+
     public void setCacheType(String async) {
         CustomElement.cacheType.of(scriptTask).set(async);
     }

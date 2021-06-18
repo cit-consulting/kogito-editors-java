@@ -308,6 +308,7 @@ public class TaskConverter {
         ScoringTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setScript(executionSet.getScript().getValue());
+        p.setScoringIdentity(executionSet.getScoringIdentity());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;

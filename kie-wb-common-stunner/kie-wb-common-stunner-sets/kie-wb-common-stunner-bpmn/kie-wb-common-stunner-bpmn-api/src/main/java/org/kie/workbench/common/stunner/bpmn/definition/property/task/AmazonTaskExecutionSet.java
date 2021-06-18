@@ -40,7 +40,7 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
     @Property
     @FormField(
             type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = "DEFAULT")}
+            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)}
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,

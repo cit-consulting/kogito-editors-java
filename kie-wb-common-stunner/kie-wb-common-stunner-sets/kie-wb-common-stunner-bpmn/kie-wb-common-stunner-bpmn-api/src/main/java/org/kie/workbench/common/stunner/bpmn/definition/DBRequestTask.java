@@ -63,7 +63,7 @@ public class DBRequestTask extends BaseTask {
 
     public DBRequestTask() {
         this(
-                new TaskGeneralSet(new Name("DB Request"), new Documentation("")),
+                new TaskGeneralSet(new Name("Database Request Name"), new Documentation("")),
                 new DBRequestTaskExecutionSet(),
                 new BackgroundSet(),
                 new FontSet(),

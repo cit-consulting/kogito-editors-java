@@ -50,7 +50,7 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     @FormField(
             afterElement = "dbRequestType",
             type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)} //"DEFAULT")}
+            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)}
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,

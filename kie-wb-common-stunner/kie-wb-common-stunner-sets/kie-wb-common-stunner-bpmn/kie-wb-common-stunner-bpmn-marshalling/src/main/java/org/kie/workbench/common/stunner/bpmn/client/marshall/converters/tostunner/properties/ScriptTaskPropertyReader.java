@@ -40,6 +40,10 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
         );
     }
 
+    public String getScoringIdentity() {
+        return CustomElement.scoringIdentity.of(element).get();
+    }
+
     public String getCacheType() {
         return CustomElement.cacheType.of(element).get();
     }
