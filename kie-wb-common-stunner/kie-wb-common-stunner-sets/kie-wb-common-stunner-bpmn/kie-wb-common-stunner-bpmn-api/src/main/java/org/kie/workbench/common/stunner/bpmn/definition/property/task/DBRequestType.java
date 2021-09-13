@@ -36,6 +36,7 @@ public class DBRequestType implements BPMNProperty {
 
     public final static String WEB = "web-app-data-request";
     public final static String SRM = "crm-app-data-request";
+    public final static String SRM_REPEAT = "crm-repeats-data-request";
     public final static String AMAZON = "similar-apps";
 
     @Value

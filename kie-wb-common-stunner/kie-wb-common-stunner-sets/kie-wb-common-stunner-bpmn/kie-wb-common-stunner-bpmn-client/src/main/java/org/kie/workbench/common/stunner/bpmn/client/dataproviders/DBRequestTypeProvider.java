@@ -38,6 +38,7 @@ public class DBRequestTypeProvider implements SelectorDataProvider {
     private enum DATA_BASE {
         WEB(DBRequestType.WEB, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.DBRequestTypeProvider.WEB"),
         SRM(DBRequestType.SRM, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.DBRequestTypeProvider.SRM"),
+        SRM_REPEAT(DBRequestType.SRM_REPEAT, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.DBRequestTypeProvider.SRM_REPEAT"),
         AMAZON(DBRequestType.AMAZON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.DBRequestTypeProvider.AMAZON");
 
         private final String value;
@@ -72,7 +73,8 @@ public class DBRequestTypeProvider implements SelectorDataProvider {
         valuePosition = new HashMap<>();
         valuePosition.put(DATA_BASE.WEB.value(), 0);
         valuePosition.put(DATA_BASE.SRM.value(), 1);
-        valuePosition.put(DATA_BASE.AMAZON.value(), 2);
+        valuePosition.put(DATA_BASE.SRM_REPEAT.value(), 2);
+        valuePosition.put(DATA_BASE.AMAZON.value(), 3);
     }
 
     private SafeComparator<Object> getComparator() {
