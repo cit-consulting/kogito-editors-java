@@ -36,10 +36,10 @@ public class IntegrationProvider implements SelectorDataProvider {
     private enum INTEGRATION_TYPE {
         AMAZON(IntegrationType.AMAZON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.AMAZON"),
         DATA_BASE_REQUEST(IntegrationType.DATA_BASE_REQUEST, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DATA_BASE_REQUEST"),
-        SCORING(IntegrationType.SCORING, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SCORING");
-
-        // PYTHON(IntegrationType.PYTHON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.PYTHON"),
-        // INTEGRATION(IntegrationType.INTEGRATION, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.INTEGRATION");
+        SCORING(IntegrationType.SCORING, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SCORING"),
+        DRAGON_PAY(IntegrationType.DRAGON_PAY, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DRAGON_PAY"),
+        SEON(IntegrationType.SEON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SEON"),
+        ADVANCE_AI(IntegrationType.ADVANCE_AI, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.ADVANCE_AI");
 
         private final String value;
 
@@ -71,9 +71,12 @@ public class IntegrationProvider implements SelectorDataProvider {
     @PostConstruct
     protected void init() {
         valuePosition = new HashMap<>();
-        valuePosition.put(INTEGRATION_TYPE.AMAZON.value(), 0);
-        valuePosition.put(INTEGRATION_TYPE.DATA_BASE_REQUEST.value(), 1);
-        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 2);
+        valuePosition.put(INTEGRATION_TYPE.ADVANCE_AI.value(), 0);
+        valuePosition.put(INTEGRATION_TYPE.AMAZON.value(), 1);
+        valuePosition.put(INTEGRATION_TYPE.DATA_BASE_REQUEST.value(), 2);
+        valuePosition.put(INTEGRATION_TYPE.DRAGON_PAY.value(), 3);
+        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 4);
+        valuePosition.put(INTEGRATION_TYPE.SEON.value(), 5);
     }
 
     private SafeComparator<Object> getComparator() {

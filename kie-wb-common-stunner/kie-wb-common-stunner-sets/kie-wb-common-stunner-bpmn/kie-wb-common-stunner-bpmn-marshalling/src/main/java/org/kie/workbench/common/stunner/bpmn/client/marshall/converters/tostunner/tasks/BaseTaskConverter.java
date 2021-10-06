@@ -39,14 +39,17 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.TaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.UserTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
+import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
+import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
@@ -55,6 +58,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGen
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskInfo;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
@@ -62,6 +66,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestT
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
@@ -81,6 +86,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLangua
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
@@ -294,6 +300,39 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                             new DBRequestType(p.getDbRequestType())
                     )
             );
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if(IntegrationType.DRAGON_PAY.equals(type.getValue())) {
+            Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(task.getId(), DragonPayTask.class);
+            DragonPayTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(new DragonPayTaskExecutionSet(new CacheType(p.getCacheType())));
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if(IntegrationType.SEON.equals(type.getValue())) {
+            Node<View<SeonTask>, Edge> node = factoryManager.newNode(task.getId(), SeonTask.class);
+            SeonTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(new SeonTaskExecutionSet(new CacheType(p.getCacheType())));
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if(IntegrationType.ADVANCE_AI.equals(type.getValue())) {
+            Node<View<AdvanceAITask>, Edge> node = factoryManager.newNode(task.getId(), AdvanceAITask.class);
+            AdvanceAITask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(new AdvanceAITaskExecutionSet(new CacheType(p.getCacheType())));
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());

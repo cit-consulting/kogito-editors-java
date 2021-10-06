@@ -32,13 +32,12 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 @Property
 @FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
 public class IntegrationType implements BPMNProperty {
-
-    // public final static String PYTHON = "PYTHON";
-    // public final static String INTEGRATION = "INTEGRATION";
-
     public final static String AMAZON = "AMAZON";
     public final static String DATA_BASE_REQUEST = "DATA_BASE_REQUEST";
     public final static String SCORING = "SCORING";
+    public final static String DRAGON_PAY = "DRAGON_PAY";
+    public final static String SEON = "SEON";
+    public final static String ADVANCE_AI = "ADVANCE_AI";
 
     @Value
     @FieldValue

@@ -40,6 +40,7 @@ import org.kie.workbench.common.stunner.bpmn.client.shape.def.TextAnnotationShap
 import org.kie.workbench.common.stunner.bpmn.client.shape.def.ThrowingIntermediateEventShapeDef;
 import org.kie.workbench.common.stunner.bpmn.client.shape.view.handler.BPMNShapeViewHandlers;
 import org.kie.workbench.common.stunner.bpmn.definition.AdHocSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDefinition;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
@@ -48,6 +49,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DataObject;
 import org.kie.workbench.common.stunner.bpmn.definition.DirectionalAssociation;
+import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.EmbeddedSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.EndCompensationEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EndErrorEvent;
@@ -82,6 +84,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
 import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartConditionalEvent;
@@ -181,6 +184,9 @@ public class BPMNShapeFactory
                 .delegate(AmazonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(ScoringTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(DBRequestTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(DragonPayTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(SeonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(AdvanceAITask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

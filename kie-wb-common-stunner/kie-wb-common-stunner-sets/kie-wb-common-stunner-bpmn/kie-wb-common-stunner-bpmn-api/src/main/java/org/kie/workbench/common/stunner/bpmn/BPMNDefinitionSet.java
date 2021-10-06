@@ -21,12 +21,14 @@ import javax.enterprise.context.ApplicationScoped;
 import org.jboss.errai.common.client.api.annotations.NonPortable;
 import org.jboss.errai.databinding.client.api.Bindable;
 import org.kie.workbench.common.stunner.bpmn.definition.AdHocSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DataObject;
 import org.kie.workbench.common.stunner.bpmn.definition.DirectionalAssociation;
+import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.EmbeddedSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.EndCompensationEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EndErrorEvent;
@@ -61,6 +63,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SequenceFlow;
 import org.kie.workbench.common.stunner.bpmn.definition.StartCompensationEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartConditionalEvent;
@@ -86,14 +89,20 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
         graphFactory = BPMNGraphFactory.class,
         qualifier = BPMN.class,
         definitions = {
+                // part 1
+                ScoringTask.class,
+                AmazonTask.class,
+                DBRequestTask.class,
+                // part 2
+                DragonPayTask.class,
+                SeonTask.class,
+                AdvanceAITask.class,
+                // other
                 BPMNDiagramImpl.class,
                 Lane.class,
                 NoneTask.class,
                 UserTask.class,
                 ScriptTask.class,
-                ScoringTask.class,
-                AmazonTask.class,
-                DBRequestTask.class,
                 GenericServiceTask.class,
                 BusinessRuleTask.class,
                 StartNoneEvent.class,

@@ -26,6 +26,9 @@ public enum TaskTypes {
     SCORING,
     AMAZON,
     DATA_BASE_REQUEST,
+    DRAGON_PAY,
+    SEON,
+    ADVANCE_AI,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

@@ -26,24 +26,30 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstun
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ServiceTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.UserTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
+import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
+import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
+import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.graph.Node;
@@ -76,6 +82,15 @@ public class TaskConverter {
         }
         if(def instanceof DBRequestTask) {
             return dbrequestTask(cast(node));
+        }
+        if(def instanceof DragonPayTask) {
+            return dragonPayTask(cast(node));
+        }
+        if(def instanceof SeonTask) {
+            return seonTask(cast(node));
+        }
+        if(def instanceof AdvanceAITask) {
+            return advanceAITask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -291,6 +306,57 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setDbRequestType(executionSet.getDbRequestType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter dragonPayTask(Node<View<DragonPayTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        DragonPayTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        DragonPayTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter seonTask(Node<View<SeonTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        SeonTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        SeonTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter advanceAITask(Node<View<AdvanceAITask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        AdvanceAITask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        AdvanceAITaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
