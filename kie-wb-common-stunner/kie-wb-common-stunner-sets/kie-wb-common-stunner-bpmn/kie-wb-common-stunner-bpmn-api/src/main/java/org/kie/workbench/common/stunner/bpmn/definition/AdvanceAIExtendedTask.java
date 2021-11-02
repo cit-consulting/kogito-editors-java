@@ -31,8 +31,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documen
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIExtendedTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
 import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
@@ -54,17 +53,17 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class AdvanceAITask extends BaseTask {
+public class AdvanceAIExtendedTask extends BaseTask {
 
     @Property
     @FormField(afterElement = "general")
     @Valid
-    protected AdvanceAITaskExecutionSet executionSet;
+    protected AdvanceAIExtendedTaskExecutionSet executionSet;
 
-    public AdvanceAITask() {
+    public AdvanceAIExtendedTask() {
         this(
-                new TaskGeneralSet(new Name("AdvanceAI Integration (doc)"), new Documentation("")),
-                new AdvanceAITaskExecutionSet(),
+                new TaskGeneralSet(new Name("AdvanceAI Integration (doc, phone)"), new Documentation("")),
+                new AdvanceAIExtendedTaskExecutionSet(),
                 new BackgroundSet(),
                 new FontSet(),
                 new RectangleDimensionsSet(),
@@ -73,9 +72,9 @@ public class AdvanceAITask extends BaseTask {
         );
     }
 
-    public AdvanceAITask(
+    public AdvanceAIExtendedTask(
             final @MapsTo("general") TaskGeneralSet general,
-            final @MapsTo("executionSet") AdvanceAITaskExecutionSet executionSet,
+            final @MapsTo("executionSet") AdvanceAIExtendedTaskExecutionSet executionSet,
             final @MapsTo("backgroundSet") BackgroundSet backgroundSet,
             final @MapsTo("fontSet") FontSet fontSet,
             final @MapsTo("dimensionsSet") RectangleDimensionsSet dimensionsSet,
@@ -86,11 +85,11 @@ public class AdvanceAITask extends BaseTask {
         this.executionSet = executionSet;
     }
 
-    public AdvanceAITaskExecutionSet getExecutionSet() {
+    public AdvanceAIExtendedTaskExecutionSet getExecutionSet() {
         return executionSet;
     }
 
-    public void setExecutionSet(final AdvanceAITaskExecutionSet executionSet) {
+    public void setExecutionSet(final AdvanceAIExtendedTaskExecutionSet executionSet) {
         this.executionSet = executionSet;
     }
 
@@ -101,8 +100,8 @@ public class AdvanceAITask extends BaseTask {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof AdvanceAITask) {
-            AdvanceAITask other = (AdvanceAITask) o;
+        if (o instanceof AdvanceAIExtendedTask) {
+            AdvanceAIExtendedTask other = (AdvanceAIExtendedTask) o;
             return super.equals(other) && executionSet.equals(other.executionSet);
         }
         return false;

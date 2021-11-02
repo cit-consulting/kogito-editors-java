@@ -21,6 +21,7 @@ import javax.enterprise.context.ApplicationScoped;
 import org.jboss.errai.common.client.api.annotations.NonPortable;
 import org.jboss.errai.databinding.client.api.Bindable;
 import org.kie.workbench.common.stunner.bpmn.definition.AdHocSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAIExtendedTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
@@ -97,6 +98,7 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 DragonPayTask.class,
                 SeonTask.class,
                 AdvanceAITask.class,
+                AdvanceAIExtendedTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

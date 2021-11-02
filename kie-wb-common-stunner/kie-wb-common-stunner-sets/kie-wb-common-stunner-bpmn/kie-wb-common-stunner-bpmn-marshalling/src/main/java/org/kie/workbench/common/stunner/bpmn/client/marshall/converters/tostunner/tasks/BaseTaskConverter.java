@@ -39,6 +39,7 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.TaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.UserTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
+import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAIExtendedTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
@@ -58,6 +59,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGen
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskInfo;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIExtendedTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
@@ -333,6 +335,17 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             AdvanceAITask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
             definition.setExecutionSet(new AdvanceAITaskExecutionSet(new CacheType(p.getCacheType())));
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if (IntegrationType.ADVANCE_AI_EXTENDED.equals(type.getValue())) {
+            Node<View<AdvanceAIExtendedTask>, Edge> node = factoryManager.newNode(task.getId(), AdvanceAIExtendedTask.class);
+            AdvanceAIExtendedTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(new AdvanceAIExtendedTaskExecutionSet(new CacheType(p.getCacheType())));
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());

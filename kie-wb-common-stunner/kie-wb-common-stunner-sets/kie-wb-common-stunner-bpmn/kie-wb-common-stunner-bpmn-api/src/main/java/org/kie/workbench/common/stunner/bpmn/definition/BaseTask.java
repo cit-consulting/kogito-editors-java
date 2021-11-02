@@ -99,6 +99,7 @@ public abstract class BaseTask implements BPMNViewDefinition {
                         .put(TaskTypes.DRAGON_PAY, DragonPayTask.class)
                         .put(TaskTypes.SEON, SeonTask.class)
                         .put(TaskTypes.ADVANCE_AI, AdvanceAITask.class)
+                        .put(TaskTypes.ADVANCE_AI_EXTENDED, AdvanceAIExtendedTask.class)
                         .put(TaskTypes.BUSINESS_RULE,
                              BusinessRuleTask.class)
                         .put(TaskTypes.SERVICE_TASK,
