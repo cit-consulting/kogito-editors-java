@@ -55,4 +55,12 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
     public String getIntegrationType() {
         return CustomElement.integrationType.of(element).get();
     }
+
+    public String getAdvanceAIType() {
+        return CustomElement.advanceAIType.of(element).get();
+    }
+
+    public String setAdvanceAIType() {
+        return CustomElement.advanceAIType.of(element).get();
+    }
 }

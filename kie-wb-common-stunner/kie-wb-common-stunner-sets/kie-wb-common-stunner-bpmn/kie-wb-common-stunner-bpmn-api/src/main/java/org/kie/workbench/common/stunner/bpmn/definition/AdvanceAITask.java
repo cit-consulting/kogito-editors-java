@@ -32,7 +32,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
 import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
@@ -63,7 +62,7 @@ public class AdvanceAITask extends BaseTask {
 
     public AdvanceAITask() {
         this(
-                new TaskGeneralSet(new Name("AdvanceAI Integration (doc)"), new Documentation("")),
+                new TaskGeneralSet(new Name("AdvanceAI Integration"), new Documentation("")),
                 new AdvanceAITaskExecutionSet(),
                 new BackgroundSet(),
                 new FontSet(),

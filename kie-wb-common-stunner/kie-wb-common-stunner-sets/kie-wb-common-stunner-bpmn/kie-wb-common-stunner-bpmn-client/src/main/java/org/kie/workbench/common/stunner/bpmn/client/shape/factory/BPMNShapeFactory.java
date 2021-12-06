@@ -40,7 +40,6 @@ import org.kie.workbench.common.stunner.bpmn.client.shape.def.TextAnnotationShap
 import org.kie.workbench.common.stunner.bpmn.client.shape.def.ThrowingIntermediateEventShapeDef;
 import org.kie.workbench.common.stunner.bpmn.client.shape.view.handler.BPMNShapeViewHandlers;
 import org.kie.workbench.common.stunner.bpmn.definition.AdHocSubprocess;
-import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAIExtendedTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDefinition;
@@ -188,7 +187,6 @@ public class BPMNShapeFactory
                 .delegate(DragonPayTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(SeonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AdvanceAITask.class, new TaskShapeDef(), () -> svgShapeFactory)
-                .delegate(AdvanceAIExtendedTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

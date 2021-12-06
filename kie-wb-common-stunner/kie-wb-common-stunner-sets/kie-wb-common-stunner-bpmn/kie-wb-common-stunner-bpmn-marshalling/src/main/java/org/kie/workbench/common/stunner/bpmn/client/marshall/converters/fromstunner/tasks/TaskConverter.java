@@ -26,7 +26,6 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstun
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.ServiceTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.UserTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
-import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAIExtendedTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
@@ -41,7 +40,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIExtendedTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
@@ -93,9 +91,6 @@ public class TaskConverter {
         }
         if(def instanceof AdvanceAITask) {
             return advanceAITask(cast(node));
-        }
-        if(def instanceof AdvanceAIExtendedTask) {
-            return advanceAIExtendedTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -361,23 +356,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         AdvanceAITaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
-        p.setScript(executionSet.getScript().getValue());
-        p.setSimulationSet(definition.getSimulationSet());
-        p.setAbsoluteBounds(n);
-        return p;
-    }
-
-    private PropertyWriter advanceAIExtendedTask(Node<View<AdvanceAIExtendedTask>, ?> n)  {
-        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
-        task.setId(n.getUUID());
-        AdvanceAIExtendedTask definition = n.getContent().getDefinition();
-        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
-        TaskGeneralSet general = definition.getGeneral();
-        p.setName(general.getName().getValue());
-        p.setDocumentation(general.getDocumentation().getValue());
-        AdvanceAIExtendedTaskExecutionSet executionSet = definition.getExecutionSet();
-        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setAdvanceAIType(executionSet.getAdvanceAIType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
