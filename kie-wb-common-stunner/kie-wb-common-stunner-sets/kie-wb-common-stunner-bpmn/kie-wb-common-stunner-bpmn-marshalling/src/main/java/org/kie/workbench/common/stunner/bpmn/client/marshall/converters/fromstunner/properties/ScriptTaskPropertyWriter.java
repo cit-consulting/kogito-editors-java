@@ -63,4 +63,8 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
     public void setAdvanceAIType(String advanceAIType) {
         CustomElement.advanceAIType.of(scriptTask).set(advanceAIType);
     }
+
+    public void setTrustingSocialType(String trustingSocialType) {
+        CustomElement.trustingSocialType.of(scriptTask).set(trustingSocialType);
+    }
 }

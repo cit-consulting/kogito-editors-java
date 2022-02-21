@@ -38,6 +38,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
+import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
@@ -50,6 +51,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLangua
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.graph.Node;
@@ -91,6 +93,9 @@ public class TaskConverter {
         }
         if(def instanceof AdvanceAITask) {
             return advanceAITask(cast(node));
+        }
+        if(def instanceof TrustingSocialTask) {
+            return trustingSocialTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -357,6 +362,23 @@ public class TaskConverter {
         AdvanceAITaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setAdvanceAIType(executionSet.getAdvanceAIType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter trustingSocialTask(Node<View<TrustingSocialTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        TrustingSocialTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        TrustingSocialTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());

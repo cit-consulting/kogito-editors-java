@@ -50,6 +50,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
+import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
@@ -89,6 +90,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.graph.Edge;
@@ -339,6 +341,17 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                             new AdvanceAIType(p.getAdvanceAIType())
                     )
             );
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if(IntegrationType.TRUSTING_SOCIAL.equals(type.getValue())) {
+            Node<View<TrustingSocialTask>, Edge> node = factoryManager.newNode(task.getId(), TrustingSocialTask.class);
+            TrustingSocialTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(new TrustingSocialTaskExecutionSet(new CacheType(p.getCacheType())));
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());

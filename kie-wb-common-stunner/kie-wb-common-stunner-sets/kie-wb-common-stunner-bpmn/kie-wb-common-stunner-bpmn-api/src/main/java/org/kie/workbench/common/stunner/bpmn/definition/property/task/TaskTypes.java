@@ -29,6 +29,7 @@ public enum TaskTypes {
     DRAGON_PAY,
     SEON,
     ADVANCE_AI,
+    TRUSTING_SOCIAL,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

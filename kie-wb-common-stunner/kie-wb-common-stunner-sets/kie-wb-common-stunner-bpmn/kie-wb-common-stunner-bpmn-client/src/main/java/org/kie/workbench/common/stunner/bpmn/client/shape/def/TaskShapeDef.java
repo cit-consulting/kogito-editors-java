@@ -35,6 +35,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
+import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.core.client.shape.view.HasTitle.HorizontalAlignment;
@@ -62,6 +63,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(DragonPayTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(SeonTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(AdvanceAITask.class, BPMNSVGViewFactory::scriptTask)
+                    .put(TrustingSocialTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
 
     public static final Map<Class<? extends BaseTask>, Glyph> GLYPHS =
@@ -75,6 +77,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(DragonPayTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(SeonTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(AdvanceAITask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                    .put(TrustingSocialTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(ScoringTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
                     .build();
@@ -95,6 +98,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(DragonPayTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(SeonTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(AdvanceAITask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                    .put(TrustingSocialTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(GenericServiceTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)

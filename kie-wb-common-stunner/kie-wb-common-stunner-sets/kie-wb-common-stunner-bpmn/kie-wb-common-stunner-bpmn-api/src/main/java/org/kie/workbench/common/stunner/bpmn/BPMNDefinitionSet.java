@@ -74,6 +74,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.StartNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartSignalEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartTimerEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.TextAnnotation;
+import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.factory.BPMNGraphFactory;
 import org.kie.workbench.common.stunner.bpmn.qualifiers.BPMN;
@@ -97,6 +98,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 DragonPayTask.class,
                 SeonTask.class,
                 AdvanceAITask.class,
+                // part 3
+                TrustingSocialTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

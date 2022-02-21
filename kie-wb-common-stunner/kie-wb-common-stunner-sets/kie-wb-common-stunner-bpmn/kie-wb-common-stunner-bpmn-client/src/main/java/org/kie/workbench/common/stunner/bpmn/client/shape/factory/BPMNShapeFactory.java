@@ -95,6 +95,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.StartNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartSignalEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartTimerEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.TextAnnotation;
+import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.WorkItemDefinitionRegistry;
@@ -187,6 +188,7 @@ public class BPMNShapeFactory
                 .delegate(DragonPayTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(SeonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AdvanceAITask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(TrustingSocialTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

@@ -39,6 +39,7 @@ public class IntegrationType implements BPMNProperty {
     public final static String SEON = "SEON";
     public final static String ADVANCE_AI = "ADVANCE_AI";
     public final static String ADVANCE_AI_EXTENDED = "ADVANCE_AI_EXTENDED";
+    public final static String TRUSTING_SOCIAL  = "TRUSTING_SOCIAL";
 
     @Value
     @FieldValue
