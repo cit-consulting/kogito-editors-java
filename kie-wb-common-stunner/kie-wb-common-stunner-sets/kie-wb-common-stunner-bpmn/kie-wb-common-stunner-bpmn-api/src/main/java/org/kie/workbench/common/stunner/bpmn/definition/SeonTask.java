@@ -68,7 +68,7 @@ public class SeonTask extends BaseTask {
                 new FontSet(),
                 new RectangleDimensionsSet(),
                 new SimulationSet(),
-                new TaskType(TaskTypes.AMAZON)
+                new TaskType(TaskTypes.SEON)
         );
     }
 

@@ -30,6 +30,7 @@ public enum TaskTypes {
     SEON,
     ADVANCE_AI,
     TRUSTING_SOCIAL,
+    SQL_ADAPTER,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

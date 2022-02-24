@@ -34,6 +34,9 @@ public class CustomElement<T> {
     public static final MetadataTypeDefinition<String> dbRequestType = new StringElement("dbRequestType", "");
     public static final MetadataTypeDefinition<String> integrationType = new StringElement("integrationType", "");
 
+    // SQL Adapter
+    public static final MetadataTypeDefinition<String> integrationName = new StringElement("integrationName", "");
+
     public static final MetadataTypeDefinition<Boolean> async = new BooleanElement("customAsync", false);
     public static final MetadataTypeDefinition<Boolean> autoStart = new BooleanElement("customAutoStart", false);
     public static final MetadataTypeDefinition<Boolean> autoConnectionSource = new BooleanElement("isAutoConnection.source", false);

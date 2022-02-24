@@ -61,6 +61,11 @@ public class TaskType implements BPMNProperty {
             .add(TaskTypes.SCORING)
             .add(TaskTypes.AMAZON)
             .add(TaskTypes.DATA_BASE_REQUEST)
+            .add(TaskTypes.DRAGON_PAY)
+            .add(TaskTypes.SEON)
+            .add(TaskTypes.ADVANCE_AI)
+            .add(TaskTypes.TRUSTING_SOCIAL)
+            .add(TaskTypes.SQL_ADAPTER)
             .add(TaskTypes.BUSINESS_RULE)
             .add(TaskTypes.SERVICE_TASK)
             .build();

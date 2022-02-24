@@ -61,6 +61,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
@@ -100,6 +101,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 AdvanceAITask.class,
                 // part 3
                 TrustingSocialTask.class,
+                // part 4
+                SQLAdapterTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

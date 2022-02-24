@@ -47,6 +47,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
@@ -85,6 +86,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnEntryAct
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnExitAction;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleFlowGroup;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
@@ -309,7 +311,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setFontSet(p.getFontSet());
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
-        } else if(IntegrationType.DRAGON_PAY.equals(type.getValue())) {
+        } else if (IntegrationType.DRAGON_PAY.equals(type.getValue())) {
             Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(task.getId(), DragonPayTask.class);
             DragonPayTask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
@@ -320,7 +322,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setFontSet(p.getFontSet());
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
-        } else if(IntegrationType.SEON.equals(type.getValue())) {
+        } else if (IntegrationType.SEON.equals(type.getValue())) {
             Node<View<SeonTask>, Edge> node = factoryManager.newNode(task.getId(), SeonTask.class);
             SeonTask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
@@ -331,7 +333,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setFontSet(p.getFontSet());
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
-        } else if(IntegrationType.ADVANCE_AI.equals(type.getValue())) {
+        } else if (IntegrationType.ADVANCE_AI.equals(type.getValue())) {
             Node<View<AdvanceAITask>, Edge> node = factoryManager.newNode(task.getId(), AdvanceAITask.class);
             AdvanceAITask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
@@ -347,11 +349,27 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setFontSet(p.getFontSet());
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
-        } else if(IntegrationType.TRUSTING_SOCIAL.equals(type.getValue())) {
+        } else if (IntegrationType.TRUSTING_SOCIAL.equals(type.getValue())) {
             Node<View<TrustingSocialTask>, Edge> node = factoryManager.newNode(task.getId(), TrustingSocialTask.class);
             TrustingSocialTask definition = node.getContent().getDefinition();
             definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
             definition.setExecutionSet(new TrustingSocialTaskExecutionSet(new CacheType(p.getCacheType())));
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if (IntegrationType.SQL_ADAPTER.equals(type.getValue())) {
+            Node<View<SQLAdapterTask>, Edge> node = factoryManager.newNode(task.getId(), SQLAdapterTask.class);
+            SQLAdapterTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(
+                    new SQLAdapterTaskExecutionSet(
+                            new CacheType(p.getCacheType()),
+                            p.getSQLAdapterIntegrationName()
+                    )
+            );
             node.getContent().setBounds(p.getBounds());
             definition.setDimensionsSet(p.getRectangleDimensionsSet());
             definition.setBackgroundSet(p.getBackgroundSet());

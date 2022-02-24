@@ -31,9 +31,10 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documen
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.definition.annotation.morph.Morph;
@@ -53,28 +54,28 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class TrustingSocialTask extends BaseTask {
+public class SQLAdapterTask extends BaseTask {
 
     @Property
     @FormField(afterElement = "general")
     @Valid
-    protected TrustingSocialTaskExecutionSet executionSet;
+    protected SQLAdapterTaskExecutionSet executionSet;
 
-    public TrustingSocialTask() {
+    public SQLAdapterTask() {
         this(
-                new TaskGeneralSet(new Name("Trusting Social Integration"), new Documentation("")),
-                new TrustingSocialTaskExecutionSet(),
+                new TaskGeneralSet(new Name("SQL Integration"), new Documentation("")),
+                new SQLAdapterTaskExecutionSet(),
                 new BackgroundSet(),
                 new FontSet(),
                 new RectangleDimensionsSet(),
                 new SimulationSet(),
-                new TaskType(TaskTypes.TRUSTING_SOCIAL)
+                new TaskType(TaskTypes.SQL_ADAPTER)
         );
     }
 
-    public TrustingSocialTask(
+    public SQLAdapterTask(
             final @MapsTo("general") TaskGeneralSet general,
-            final @MapsTo("executionSet") TrustingSocialTaskExecutionSet executionSet,
+            final @MapsTo("executionSet") SQLAdapterTaskExecutionSet executionSet,
             final @MapsTo("backgroundSet") BackgroundSet backgroundSet,
             final @MapsTo("fontSet") FontSet fontSet,
             final @MapsTo("dimensionsSet") RectangleDimensionsSet dimensionsSet,
@@ -85,11 +86,11 @@ public class TrustingSocialTask extends BaseTask {
         this.executionSet = executionSet;
     }
 
-    public TrustingSocialTaskExecutionSet getExecutionSet() {
+    public SQLAdapterTaskExecutionSet getExecutionSet() {
         return executionSet;
     }
 
-    public void setExecutionSet(final TrustingSocialTaskExecutionSet executionSet) {
+    public void setExecutionSet(final SQLAdapterTaskExecutionSet executionSet) {
         this.executionSet = executionSet;
     }
 
@@ -100,8 +101,8 @@ public class TrustingSocialTask extends BaseTask {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof TrustingSocialTask) {
-            TrustingSocialTask other = (TrustingSocialTask) o;
+        if (o instanceof SQLAdapterTask) {
+            SQLAdapterTask other = (SQLAdapterTask) o;
             return super.equals(other) && executionSet.equals(other.executionSet);
         }
         return false;

@@ -35,6 +35,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
@@ -48,6 +49,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRu
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
@@ -96,6 +98,9 @@ public class TaskConverter {
         }
         if(def instanceof TrustingSocialTask) {
             return trustingSocialTask(cast(node));
+        }
+        if(def instanceof SQLAdapterTask) {
+            return sqlAdapterTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -381,6 +386,24 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter sqlAdapterTask(Node<View<SQLAdapterTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        SQLAdapterTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        SQLAdapterTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setSQLAdapterIntegrationName(executionSet.getIntegrationName());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;

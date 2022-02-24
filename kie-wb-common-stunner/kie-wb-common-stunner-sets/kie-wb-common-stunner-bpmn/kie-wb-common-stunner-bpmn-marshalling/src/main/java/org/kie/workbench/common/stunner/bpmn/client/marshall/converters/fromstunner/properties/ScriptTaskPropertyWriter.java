@@ -67,4 +67,8 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
     public void setTrustingSocialType(String trustingSocialType) {
         CustomElement.trustingSocialType.of(scriptTask).set(trustingSocialType);
     }
+
+    public void setSQLAdapterIntegrationName(String integrationName) {
+        CustomElement.integrationName.of(scriptTask).set(integrationName);
+    }
 }

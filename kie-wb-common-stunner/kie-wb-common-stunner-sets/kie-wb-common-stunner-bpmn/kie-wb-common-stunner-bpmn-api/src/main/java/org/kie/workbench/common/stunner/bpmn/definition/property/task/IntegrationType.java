@@ -40,6 +40,7 @@ public class IntegrationType implements BPMNProperty {
     public final static String ADVANCE_AI = "ADVANCE_AI";
     public final static String ADVANCE_AI_EXTENDED = "ADVANCE_AI_EXTENDED";
     public final static String TRUSTING_SOCIAL  = "TRUSTING_SOCIAL";
+    public final static String SQL_ADAPTER  = "SQL_ADAPTER";
 
     @Value
     @FieldValue

@@ -68,7 +68,7 @@ public class AdvanceAITask extends BaseTask {
                 new FontSet(),
                 new RectangleDimensionsSet(),
                 new SimulationSet(),
-                new TaskType(TaskTypes.AMAZON)
+                new TaskType(TaskTypes.ADVANCE_AI)
         );
     }
 

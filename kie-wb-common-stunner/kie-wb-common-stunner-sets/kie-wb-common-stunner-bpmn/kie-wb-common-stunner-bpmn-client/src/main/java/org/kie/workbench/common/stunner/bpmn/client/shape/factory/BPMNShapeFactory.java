@@ -82,6 +82,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
@@ -189,6 +190,7 @@ public class BPMNShapeFactory
                 .delegate(SeonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AdvanceAITask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(TrustingSocialTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(SQLAdapterTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)
