@@ -40,6 +40,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EventGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.EventSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
+import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.InclusiveGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEvent;
@@ -103,6 +104,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 TrustingSocialTask.class,
                 // part 4
                 SQLAdapterTask.class,
+                // part 5
+                FinScoreTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

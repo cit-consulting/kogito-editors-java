@@ -45,6 +45,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
+import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
@@ -72,6 +73,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelNa
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
@@ -368,6 +370,22 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                     new SQLAdapterTaskExecutionSet(
                             new CacheType(p.getCacheType()),
                             p.getSQLAdapterIntegrationName()
+                    )
+            );
+            node.getContent().setBounds(p.getBounds());
+            definition.setDimensionsSet(p.getRectangleDimensionsSet());
+            definition.setBackgroundSet(p.getBackgroundSet());
+            definition.setFontSet(p.getFontSet());
+            definition.setSimulationSet(p.getSimulationSet());
+            return BpmnNode.of(node, p);
+        } else if (IntegrationType.FIN_SCORE.equals(type.getValue())) {
+            Node<View<FinScoreTask>, Edge> node = factoryManager.newNode(task.getId(), FinScoreTask.class);
+            FinScoreTask definition = node.getContent().getDefinition();
+            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+            definition.setExecutionSet(
+                    new FinScoreTaskExecutionSet(
+                            new CacheType(p.getCacheType()),
+                            new AdvanceAIType(p.getAdvanceAIType())
                     )
             );
             node.getContent().setBounds(p.getBounds());

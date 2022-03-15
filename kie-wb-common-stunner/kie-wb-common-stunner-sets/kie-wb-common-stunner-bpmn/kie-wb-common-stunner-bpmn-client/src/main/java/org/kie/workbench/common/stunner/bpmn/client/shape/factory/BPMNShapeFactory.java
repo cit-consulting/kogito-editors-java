@@ -61,6 +61,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EventGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.EventSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.ExclusiveGateway;
+import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.InclusiveGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEvent;
@@ -190,6 +191,7 @@ public class BPMNShapeFactory
                 .delegate(SeonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AdvanceAITask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(TrustingSocialTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(FinScoreTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(SQLAdapterTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),

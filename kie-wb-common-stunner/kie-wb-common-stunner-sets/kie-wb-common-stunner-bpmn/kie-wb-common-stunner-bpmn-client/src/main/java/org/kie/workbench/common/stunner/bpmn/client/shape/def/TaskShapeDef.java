@@ -30,6 +30,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
+import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
@@ -65,6 +66,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(SeonTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(AdvanceAITask.class, BPMNSVGViewFactory::scriptTask)
                     .put(TrustingSocialTask.class, BPMNSVGViewFactory::scriptTask)
+                    .put(FinScoreTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(SQLAdapterTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
 
@@ -80,6 +82,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(SeonTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(AdvanceAITask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(TrustingSocialTask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                    .put(FinScoreTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(SQLAdapterTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(ScoringTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
@@ -102,6 +105,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(SeonTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(AdvanceAITask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(TrustingSocialTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                    .put(FinScoreTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(SQLAdapterTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)

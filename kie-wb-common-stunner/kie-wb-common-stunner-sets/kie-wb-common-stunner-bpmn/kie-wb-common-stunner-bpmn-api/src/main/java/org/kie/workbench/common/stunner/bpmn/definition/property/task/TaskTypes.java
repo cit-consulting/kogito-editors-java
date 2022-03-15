@@ -31,6 +31,7 @@ public enum TaskTypes {
     ADVANCE_AI,
     TRUSTING_SOCIAL,
     SQL_ADAPTER,
+    FIN_SCORE,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

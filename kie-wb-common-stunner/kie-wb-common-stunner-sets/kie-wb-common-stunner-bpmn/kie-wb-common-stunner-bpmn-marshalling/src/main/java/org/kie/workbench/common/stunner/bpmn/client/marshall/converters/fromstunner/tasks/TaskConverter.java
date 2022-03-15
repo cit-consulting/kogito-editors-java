@@ -33,6 +33,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
+import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
@@ -48,6 +49,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTa
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
@@ -98,6 +100,9 @@ public class TaskConverter {
         }
         if(def instanceof TrustingSocialTask) {
             return trustingSocialTask(cast(node));
+        }
+        if(def instanceof FinScoreTask) {
+            return finScoreTask(cast(node));
         }
         if(def instanceof SQLAdapterTask) {
             return sqlAdapterTask(cast(node));
@@ -404,6 +409,24 @@ public class TaskConverter {
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSQLAdapterIntegrationName(executionSet.getIntegrationName());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter finScoreTask(Node<View<FinScoreTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        FinScoreTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        FinScoreTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setAdvanceAIType(executionSet.getAdvanceAIType().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;
