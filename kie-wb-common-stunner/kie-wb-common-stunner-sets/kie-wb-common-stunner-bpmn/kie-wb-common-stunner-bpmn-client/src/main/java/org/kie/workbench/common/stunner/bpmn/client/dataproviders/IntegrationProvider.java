@@ -42,7 +42,8 @@ public class IntegrationProvider implements SelectorDataProvider {
         ADVANCE_AI(IntegrationType.ADVANCE_AI, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.ADVANCE_AI"),
         ADVANCE_AI_EXTENDED(IntegrationType.ADVANCE_AI_EXTENDED, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.ADVANCE_AI_EXTENDED"),
         TRUSTING_SOCIAL(IntegrationType.TRUSTING_SOCIAL, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.TRUSTING_SOCIAL"),
-        SQL_ADAPTER(IntegrationType.SQL_ADAPTER, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SQL_ADAPTER");
+        SQL_ADAPTER(IntegrationType.SQL_ADAPTER, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SQL_ADAPTER"),
+        FIN_SCORE(IntegrationType.FIN_SCORE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.FIN_SCORE");
 
         private final String value;
 
@@ -83,6 +84,7 @@ public class IntegrationProvider implements SelectorDataProvider {
         valuePosition.put(INTEGRATION_TYPE.SEON.value(), 6);
         valuePosition.put(INTEGRATION_TYPE.SQL_ADAPTER.value(), 7);
         valuePosition.put(INTEGRATION_TYPE.TRUSTING_SOCIAL.value(), 8);
+        valuePosition.put(INTEGRATION_TYPE.FIN_SCORE.value(), 9);
     }
 
     private SafeComparator<Object> getComparator() {
