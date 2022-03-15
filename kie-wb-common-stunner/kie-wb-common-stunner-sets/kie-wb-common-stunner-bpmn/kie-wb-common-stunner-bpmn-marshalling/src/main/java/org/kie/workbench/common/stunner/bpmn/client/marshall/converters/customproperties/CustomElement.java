@@ -29,6 +29,7 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.custompr
 public class CustomElement<T> {
     public static final MetadataTypeDefinition<String> cacheType = new StringElement("cacheType", "");
     public static final MetadataTypeDefinition<String> advanceAIType = new StringElement("advanceAIType", "");
+    public static final MetadataTypeDefinition<String> integrationMode = new StringElement("integrationMode", "");
     public static final MetadataTypeDefinition<String> trustingSocialType = new StringElement("trustingSocialType", "");
     public static final MetadataTypeDefinition<String> scoringIdentity = new StringElement("scoringIdentity", "");
     public static final MetadataTypeDefinition<String> dbRequestType = new StringElement("dbRequestType", "");

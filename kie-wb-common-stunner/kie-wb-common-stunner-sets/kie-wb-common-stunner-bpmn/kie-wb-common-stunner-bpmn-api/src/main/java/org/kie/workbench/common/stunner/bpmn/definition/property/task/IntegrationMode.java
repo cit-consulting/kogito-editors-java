@@ -31,7 +31,7 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 @Bindable
 @Property
 @FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
-public class AdvanceAIType implements BPMNProperty {
+public class IntegrationMode implements BPMNProperty {
 
     public final static String FULL =  "full";
     public final static String DOC = "doc";
@@ -41,11 +41,11 @@ public class AdvanceAIType implements BPMNProperty {
     @FieldValue
     private String value;
 
-    public AdvanceAIType() {
+    public IntegrationMode() {
         this(FULL);
     }
 
-    public AdvanceAIType(final String value) {
+    public IntegrationMode(final String value) {
         if (value == null || value.isEmpty()) {
             this.value = FULL;
         } else {
@@ -68,8 +68,8 @@ public class AdvanceAIType implements BPMNProperty {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof AdvanceAIType) {
-            AdvanceAIType other = (AdvanceAIType) o;
+        if (o instanceof IntegrationMode) {
+            IntegrationMode other = (IntegrationMode) o;
             return Objects.equals(value, other.value);
         }
         return false;

@@ -27,17 +27,16 @@ import org.jboss.errai.ui.client.local.spi.TranslationService;
 import org.kie.workbench.common.forms.dynamic.model.config.SelectorData;
 import org.kie.workbench.common.forms.dynamic.model.config.SelectorDataProvider;
 import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIType;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationMode;
 import org.kie.workbench.common.stunner.core.util.SafeComparator;
 
 @Dependent
-public class AdvanceAITypeProvider implements SelectorDataProvider {
+public class IntegrationModeProvider implements SelectorDataProvider {
 
     private enum ADVANCE_AI_TYPE {
-        FULL(AdvanceAIType.FULL, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.AdvanceAITypeProvider.FULL"),
-        DOC(AdvanceAIType.DOC, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.AdvanceAITypeProvider.DOC"),
-        DOC_PHONE(AdvanceAIType.DOC_PHONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.AdvanceAITypeProvider.DOC_PHONE");
+        FULL(IntegrationMode.FULL, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.FULL"),
+        DOC(IntegrationMode.DOC, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.DOC"),
+        DOC_PHONE(IntegrationMode.DOC_PHONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.DOC_PHONE");
 
         private final String value;
 
@@ -62,7 +61,7 @@ public class AdvanceAITypeProvider implements SelectorDataProvider {
     private final TranslationService translationService;
 
     @Inject
-    public AdvanceAITypeProvider(final TranslationService translationService) {
+    public IntegrationModeProvider(final TranslationService translationService) {
         this.translationService = translationService;
     }
 

@@ -56,8 +56,14 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
         return CustomElement.integrationType.of(element).get();
     }
 
-    public String getAdvanceAIType() {
-        return CustomElement.advanceAIType.of(element).get();
+    public String getIntegrationMode() {
+        String advanceAIType = CustomElement.advanceAIType.of(element).get();
+        String integrationMode = CustomElement.integrationMode.of(element).get();
+        if (integrationMode != null) {
+            return integrationMode;
+        } else {
+            return advanceAIType;
+        }
     }
 
     public String getSQLAdapterIntegrationName() {

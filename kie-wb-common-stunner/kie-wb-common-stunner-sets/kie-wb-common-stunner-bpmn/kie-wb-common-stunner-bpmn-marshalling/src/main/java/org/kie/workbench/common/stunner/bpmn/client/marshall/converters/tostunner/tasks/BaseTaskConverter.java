@@ -62,7 +62,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskInfo;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIType;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationMode;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
@@ -342,7 +342,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setExecutionSet(
                     new AdvanceAITaskExecutionSet(
                             new CacheType(p.getCacheType()),
-                            new AdvanceAIType(p.getAdvanceAIType())
+                            new IntegrationMode(p.getIntegrationMode())
                     )
             );
             node.getContent().setBounds(p.getBounds());
@@ -385,7 +385,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setExecutionSet(
                     new FinScoreTaskExecutionSet(
                             new CacheType(p.getCacheType()),
-                            new AdvanceAIType(p.getAdvanceAIType())
+                            new IntegrationMode(p.getIntegrationMode())
                     )
             );
             node.getContent().setBounds(p.getBounds());

@@ -60,8 +60,8 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         CustomElement.integrationType.of(scriptTask).set(async);
     }
 
-    public void setAdvanceAIType(String advanceAIType) {
-        CustomElement.advanceAIType.of(scriptTask).set(advanceAIType);
+    public void setIntegrationMode(String value) {
+        CustomElement.integrationMode.of(scriptTask).set(value);
     }
 
     public void setTrustingSocialType(String trustingSocialType) {

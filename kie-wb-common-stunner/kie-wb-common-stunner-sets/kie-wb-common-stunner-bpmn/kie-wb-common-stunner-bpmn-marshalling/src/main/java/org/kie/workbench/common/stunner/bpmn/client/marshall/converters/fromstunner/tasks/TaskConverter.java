@@ -371,7 +371,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         AdvanceAITaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setAdvanceAIType(executionSet.getAdvanceAIType().getValue());
+        p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
@@ -426,7 +426,7 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheType(executionSet.getCacheType().getValue());
         p.setScript(executionSet.getScript().getValue());
-        p.setAdvanceAIType(executionSet.getAdvanceAIType().getValue());
+        p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;

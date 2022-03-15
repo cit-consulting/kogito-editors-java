@@ -49,14 +49,14 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     @Property
     @FormField(
             type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = AdvanceAIType.FULL)}
+            settings = {@FieldParam(name = "addEmptyOption", value = IntegrationMode.FULL)}
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.AdvanceAITypeProvider"
+            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider"
     )
     @Valid
-    private AdvanceAIType advanceAIType;
+    private IntegrationMode integrationMode;
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.ADVANCE_AI);
 
@@ -68,15 +68,15 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     );
 
     public AdvanceAITaskExecutionSet() {
-        this(new CacheType(), new AdvanceAIType());
+        this(new CacheType(), new IntegrationMode());
     }
 
     public AdvanceAITaskExecutionSet(
             final @MapsTo("cacheType") CacheType cacheType,
-            final @MapsTo("advanceAIType") AdvanceAIType advanceAIType
+            final @MapsTo("integrationMode") IntegrationMode integrationMode
     ) {
         this.cacheType = cacheType;
-        this.advanceAIType = advanceAIType;
+        this.integrationMode = integrationMode;
     }
 
     public CacheType getCacheType() {
@@ -87,8 +87,8 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
         this.cacheType = cacheType;
     }
 
-    public void setAdvanceAIType(AdvanceAIType advanceAIType) {
-        this.advanceAIType = advanceAIType;
+    public void setIntegrationMode(IntegrationMode integrationMode) {
+        this.integrationMode = integrationMode;
     }
 
     public IntegrationType getIntegrationType() {
@@ -99,7 +99,7 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
         return script;
     }
 
-    public AdvanceAIType getAdvanceAIType() { return advanceAIType; }
+    public IntegrationMode getIntegrationMode() { return integrationMode; }
 
     @Override
     public int hashCode() {
@@ -107,7 +107,7 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
                 Objects.hashCode(cacheType),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
-                Objects.hashCode(advanceAIType)
+                Objects.hashCode(integrationMode)
         );
     }
 
@@ -118,7 +118,7 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheType, other.cacheType) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
-                    Objects.equals(advanceAIType, other.advanceAIType);
+                    Objects.equals(integrationMode, other.integrationMode);
         }
         return false;
     }
