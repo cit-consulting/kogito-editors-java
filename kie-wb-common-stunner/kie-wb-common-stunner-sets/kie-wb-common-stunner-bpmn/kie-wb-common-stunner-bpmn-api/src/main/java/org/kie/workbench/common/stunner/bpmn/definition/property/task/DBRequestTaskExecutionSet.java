@@ -24,6 +24,7 @@ import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
 import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
@@ -31,13 +32,22 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "dbRequestType")
+@FormDefinition(startElement = "cacheValue")
 public class DBRequestTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
+            type = DecimalBoxFieldType.class,
+            labelKey = "cacheName.label"
+    )
+    @Valid
+    private Double cacheValue;
+
+    @Property
+    @FormField(
             type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = DBRequestType.WEB)}
+            settings = {@FieldParam(name = "addEmptyOption", value = DBRequestType.WEB)},
+            afterElement = "cacheValue"
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,
@@ -45,19 +55,6 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     )
     @Valid
     private DBRequestType dbRequestType;
-
-    @Property
-    @FormField(
-            afterElement = "dbRequestType",
-            type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)}
-    )
-    @SelectorDataProvider(
-            type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider"
-    )
-    @Valid
-    private CacheType cacheType;
 
     private final Script script = new Script(
             new ScriptTypeValue(
@@ -69,23 +66,23 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.DATA_BASE_REQUEST);
 
     public DBRequestTaskExecutionSet() {
-        this(new CacheType(), new DBRequestType());
+        this(0.0, new DBRequestType());
     }
 
     public DBRequestTaskExecutionSet(
-            final @MapsTo("cacheType") CacheType cacheType,
+            final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("dbRequestType") DBRequestType dbRequestType
     ) {
-        this.cacheType = cacheType;
         this.dbRequestType = dbRequestType;
+        this.cacheValue = cacheValue;
     }
 
-    public CacheType getCacheType() {
-        return cacheType;
+    public Double getCacheValue() {
+        return cacheValue;
     }
 
-    public void setCacheType(final CacheType cacheType) {
-        this.cacheType = cacheType;
+    public void setCacheValue(Double cacheValue) {
+        this.cacheValue = cacheValue;
     }
 
     public DBRequestType getDbRequestType() {
@@ -107,7 +104,7 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
-                Objects.hashCode(cacheType),
+                Objects.hashCode(cacheValue),
                 Objects.hashCode(dbRequestType),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType)
@@ -118,7 +115,7 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     public boolean equals(Object o) {
         if (o instanceof DBRequestTaskExecutionSet) {
             DBRequestTaskExecutionSet other = (DBRequestTaskExecutionSet) o;
-            return Objects.equals(cacheType, other.cacheType) &&
+            return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(dbRequestType, other.dbRequestType) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType);

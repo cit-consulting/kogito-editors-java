@@ -21,35 +21,30 @@ import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
-import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
-import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "cacheType")
+@FormDefinition(startElement = "cacheValue")
 public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
-            type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)}
+            type = DecimalBoxFieldType.class,
+            labelKey = "cacheName.label"
     )
-    @SelectorDataProvider(
-            type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider")
     @Valid
-    private CacheType cacheType;
+    private Double cacheValue;
 
     @Property
     @FormField(
             labelKey = "org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet.integrationName.label",
-            afterElement = "cacheType"
+            afterElement = "cacheValue"
     )
     @Valid
     private String integrationName;
@@ -64,14 +59,14 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     );
 
     public SQLAdapterTaskExecutionSet() {
-        this(new CacheType(), "");
+        this(0.0, "");
     }
 
     public SQLAdapterTaskExecutionSet(
-            final @MapsTo("cacheType") CacheType cacheType,
+            final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationName") String integrationName
-    ) {
-        this.cacheType = cacheType;
+            ) {
+        this.cacheValue = cacheValue;
         this.integrationName = integrationName;
     }
 
@@ -83,16 +78,16 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
         this.integrationName = integrationName;
     }
 
-    public CacheType getCacheType() {
-        return cacheType;
-    }
-
-    public void setCacheType(final CacheType cacheType) {
-        this.cacheType = cacheType;
-    }
-
     public IntegrationType getIntegrationType() {
         return integrationType;
+    }
+
+    public void setCacheValue(Double cacheValue) {
+        this.cacheValue = cacheValue;
+    }
+
+    public Double getCacheValue() {
+        return cacheValue;
     }
 
     public Script getScript() {
@@ -102,7 +97,7 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
-                Objects.hashCode(cacheType),
+                Objects.hashCode(cacheValue),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationName)
@@ -113,7 +108,7 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     public boolean equals(Object o) {
         if (o instanceof SQLAdapterTaskExecutionSet) {
             SQLAdapterTaskExecutionSet other = (SQLAdapterTaskExecutionSet) o;
-            return Objects.equals(cacheType, other.cacheType) &&
+            return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationName, other.integrationName);

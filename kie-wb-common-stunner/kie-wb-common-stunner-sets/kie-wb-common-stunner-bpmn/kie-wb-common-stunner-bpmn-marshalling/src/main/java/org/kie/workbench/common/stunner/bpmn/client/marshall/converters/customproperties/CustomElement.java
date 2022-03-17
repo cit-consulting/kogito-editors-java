@@ -20,6 +20,7 @@ import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.FlowElement;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.BooleanElement;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.DefaultImportsElement;
+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.DoubleElement;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.ElementDefinition;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.GlobalVariablesElement;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.elements.MetaDataAttributesElement;
@@ -28,9 +29,9 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.custompr
 
 public class CustomElement<T> {
     public static final MetadataTypeDefinition<String> cacheType = new StringElement("cacheType", "");
+    public static final MetadataTypeDefinition<Double> cacheValue = new DoubleElement("cacheValue", 0.0);
     public static final MetadataTypeDefinition<String> advanceAIType = new StringElement("advanceAIType", "");
     public static final MetadataTypeDefinition<String> integrationMode = new StringElement("integrationMode", "");
-    public static final MetadataTypeDefinition<String> trustingSocialType = new StringElement("trustingSocialType", "");
     public static final MetadataTypeDefinition<String> scoringIdentity = new StringElement("scoringIdentity", "");
     public static final MetadataTypeDefinition<String> dbRequestType = new StringElement("dbRequestType", "");
     public static final MetadataTypeDefinition<String> integrationType = new StringElement("integrationType", "");
@@ -93,7 +94,9 @@ public class CustomElement<T> {
     }
 
     public void set(T value) {
-        if (value != null && !value.equals(elementDefinition.getDefaultValue())) {
+        if (value != null && value.getClass() == Double.class) {
+            elementDefinition.setValue(element, value);
+        } else if (value != null && !value.equals(elementDefinition.getDefaultValue())) {
             elementDefinition.setValue(element, value);
         }
     }

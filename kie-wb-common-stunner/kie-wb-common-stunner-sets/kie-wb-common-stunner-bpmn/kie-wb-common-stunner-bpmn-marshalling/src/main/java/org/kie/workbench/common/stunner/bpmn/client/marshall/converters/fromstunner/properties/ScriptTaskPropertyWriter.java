@@ -52,6 +52,10 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         CustomElement.cacheType.of(scriptTask).set(async);
     }
 
+    public void setCacheValue(Double value) {
+        CustomElement.cacheValue.of(scriptTask).set(value);
+    }
+
     public void setDbRequestType(String dbRequestType) {
         CustomElement.dbRequestType.of(scriptTask).set(dbRequestType);
     }
@@ -62,10 +66,6 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
 
     public void setIntegrationMode(String value) {
         CustomElement.integrationMode.of(scriptTask).set(value);
-    }
-
-    public void setTrustingSocialType(String trustingSocialType) {
-        CustomElement.trustingSocialType.of(scriptTask).set(trustingSocialType);
     }
 
     public void setSQLAdapterIntegrationName(String integrationName) {

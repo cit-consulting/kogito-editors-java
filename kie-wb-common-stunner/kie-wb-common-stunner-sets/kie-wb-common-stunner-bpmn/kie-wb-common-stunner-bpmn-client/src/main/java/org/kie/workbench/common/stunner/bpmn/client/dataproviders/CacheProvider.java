@@ -16,24 +16,24 @@
 
 package org.kie.workbench.common.stunner.bpmn.client.dataproviders;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+//import java.util.Arrays;
+//import java.util.HashMap;
+//import java.util.Map;
+//import java.util.TreeMap;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+//import javax.annotation.PostConstruct;
+//import javax.enterprise.context.Dependent;
+//import javax.inject.Inject;
 
-import org.jboss.errai.ui.client.local.spi.TranslationService;
-import org.kie.workbench.common.forms.dynamic.model.config.SelectorData;
-import org.kie.workbench.common.forms.dynamic.model.config.SelectorDataProvider;
-import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
+//import org.jboss.errai.ui.client.local.spi.TranslationService;
+//import org.kie.workbench.common.forms.dynamic.model.config.SelectorData;
+//import org.kie.workbench.common.forms.dynamic.model.config.SelectorDataProvider;
+//import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
-import org.kie.workbench.common.stunner.core.util.SafeComparator;
+//import org.kie.workbench.common.stunner.core.util.SafeComparator;
 
-@Dependent
-public class CacheProvider implements SelectorDataProvider {
+//@Dependent
+public class CacheProvider /*implements SelectorDataProvider*/ {
 
     private enum CACHE_TYPE {
 
@@ -60,41 +60,41 @@ public class CacheProvider implements SelectorDataProvider {
         }
     }
 
-    private static Map<Object, Integer> valuePosition;
+//    private static Map<Object, Integer> valuePosition;
 
-    private final TranslationService translationService;
+//    private final TranslationService translationService;
 
-    @Inject
-    public CacheProvider(final TranslationService translationService) {
-        this.translationService = translationService;
-    }
+//    @Inject
+//    public CacheProvider(final TranslationService translationService) {
+//        this.translationService = translationService;
+//    }
 
-    @PostConstruct
-    protected void init() {
-        valuePosition = new HashMap<>();
-        valuePosition.put(CACHE_TYPE.DEFAULT.value(), 0);
-        valuePosition.put(CACHE_TYPE.NONE.value(), 1);
-        valuePosition.put(CACHE_TYPE.CACHE_ONLY.value(), 2);
-        valuePosition.put(CACHE_TYPE.FORCE_CACHE.value(), 3);
-    }
+//    @PostConstruct
+//    protected void init() {
+//        valuePosition = new HashMap<>();
+//        valuePosition.put(CACHE_TYPE.DEFAULT.value(), 0);
+//        valuePosition.put(CACHE_TYPE.NONE.value(), 1);
+//        valuePosition.put(CACHE_TYPE.CACHE_ONLY.value(), 2);
+//        valuePosition.put(CACHE_TYPE.FORCE_CACHE.value(), 3);
+//    }
 
-    private SafeComparator<Object> getComparator() {
-        return SafeComparator.TO_STRING_REVERSE_COMPARATOR;
-    }
+//    private SafeComparator<Object> getComparator() {
+//        return SafeComparator.TO_STRING_REVERSE_COMPARATOR;
+//    }
 
-    @Override
-    public String getProviderName() {
-        return getClass().getSimpleName();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public SelectorData getSelectorData(final FormRenderingContext context) {
-        Map<Object, String> values = new TreeMap<>(SafeComparator.of(this::getComparator));
-        Arrays.stream(CACHE_TYPE.values())
-                .forEach(ruleLanguage -> values.put(ruleLanguage.value(),
-                        translationService.getTranslation(ruleLanguage.i18nKey())));
-
-        return new SelectorData(values, CACHE_TYPE.DEFAULT.value());
-    }
+//    @Override
+//    public String getProviderName() {
+//        return getClass().getSimpleName();
+//    }
+//
+//    @Override
+//    @SuppressWarnings("unchecked")
+//    public SelectorData getSelectorData(final FormRenderingContext context) {
+//        Map<Object, String> values = new TreeMap<>(SafeComparator.of(this::getComparator));
+//        Arrays.stream(CACHE_TYPE.values())
+//                .forEach(ruleLanguage -> values.put(ruleLanguage.value(),
+//                        translationService.getTranslation(ruleLanguage.i18nKey())));
+//
+//        return new SelectorData(values, CACHE_TYPE.DEFAULT.value());
+//    }
 }

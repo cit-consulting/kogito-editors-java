@@ -276,123 +276,31 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         ScriptTaskPropertyReader p = propertyReaderFactory.of(task);
         IntegrationType type = new IntegrationType(p.getIntegrationType());
         if (IntegrationType.AMAZON.equals(type.getValue())) {
-            Node<View<AmazonTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonTask.class);
-            AmazonTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new AmazonTaskExecutionSet(new CacheType(p.getCacheType())));
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<AmazonTask>, Edge> node = scriptAmazonTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.SCORING.equals(type.getValue())) {
-            Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
-            ScoringTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity()));
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<ScoringTask>, Edge> node = scriptScoringTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.DATA_BASE_REQUEST.equals(type.getValue())) {
-            Node<View<DBRequestTask>, Edge> node = factoryManager.newNode(task.getId(), DBRequestTask.class);
-            DBRequestTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(
-                    new DBRequestTaskExecutionSet(
-                            new CacheType(p.getCacheType()),
-                            new DBRequestType(p.getDbRequestType())
-                    )
-            );
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<DBRequestTask>, Edge> node = scriptDataBaseTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.DRAGON_PAY.equals(type.getValue())) {
-            Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(task.getId(), DragonPayTask.class);
-            DragonPayTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new DragonPayTaskExecutionSet(new CacheType(p.getCacheType())));
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<DragonPayTask>, Edge> node = scriptDragonPayTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.SEON.equals(type.getValue())) {
-            Node<View<SeonTask>, Edge> node = factoryManager.newNode(task.getId(), SeonTask.class);
-            SeonTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new SeonTaskExecutionSet(new CacheType(p.getCacheType())));
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<SeonTask>, Edge> node = scriptSeonTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.ADVANCE_AI.equals(type.getValue())) {
-            Node<View<AdvanceAITask>, Edge> node = factoryManager.newNode(task.getId(), AdvanceAITask.class);
-            AdvanceAITask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(
-                    new AdvanceAITaskExecutionSet(
-                            new CacheType(p.getCacheType()),
-                            new IntegrationMode(p.getIntegrationMode())
-                    )
-            );
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<AdvanceAITask>, Edge> node = scriptAdvanceTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.TRUSTING_SOCIAL.equals(type.getValue())) {
-            Node<View<TrustingSocialTask>, Edge> node = factoryManager.newNode(task.getId(), TrustingSocialTask.class);
-            TrustingSocialTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(new TrustingSocialTaskExecutionSet(new CacheType(p.getCacheType())));
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<TrustingSocialTask>, Edge> node = scriptTrustingTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.SQL_ADAPTER.equals(type.getValue())) {
-            Node<View<SQLAdapterTask>, Edge> node = factoryManager.newNode(task.getId(), SQLAdapterTask.class);
-            SQLAdapterTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(
-                    new SQLAdapterTaskExecutionSet(
-                            new CacheType(p.getCacheType()),
-                            p.getSQLAdapterIntegrationName()
-                    )
-            );
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<SQLAdapterTask>, Edge> node = scriptSQLAdapterTask(task, p);
             return BpmnNode.of(node, p);
         } else if (IntegrationType.FIN_SCORE.equals(type.getValue())) {
-            Node<View<FinScoreTask>, Edge> node = factoryManager.newNode(task.getId(), FinScoreTask.class);
-            FinScoreTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-            definition.setExecutionSet(
-                    new FinScoreTaskExecutionSet(
-                            new CacheType(p.getCacheType()),
-                            new IntegrationMode(p.getIntegrationMode())
-                    )
-            );
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
+            Node<View<FinScoreTask>, Edge> node = scriptFinScoreTask(task, p);
             return BpmnNode.of(node, p);
         } else {
             Node<View<ScriptTask>, Edge> node = factoryManager.newNode(task.getId(), ScriptTask.class);
@@ -413,6 +321,176 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
         }
+    }
+
+    private Node<View<FinScoreTask>, Edge> scriptFinScoreTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<FinScoreTask>, Edge> node = factoryManager.newNode(task.getId(), FinScoreTask.class);
+        FinScoreTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new FinScoreTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        new IntegrationMode(p.getIntegrationMode())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<SQLAdapterTask>, Edge> scriptSQLAdapterTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<SQLAdapterTask>, Edge> node = factoryManager.newNode(task.getId(), SQLAdapterTask.class);
+        SQLAdapterTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new SQLAdapterTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        p.getSQLAdapterIntegrationName()
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<TrustingSocialTask>, Edge> scriptTrustingTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<TrustingSocialTask>, Edge> node = factoryManager.newNode(task.getId(), TrustingSocialTask.class);
+        TrustingSocialTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new TrustingSocialTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<AdvanceAITask>, Edge> scriptAdvanceTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<AdvanceAITask>, Edge> node = factoryManager.newNode(task.getId(), AdvanceAITask.class);
+        AdvanceAITask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new AdvanceAITaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        new IntegrationMode(p.getIntegrationMode())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<SeonTask>, Edge> scriptSeonTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<SeonTask>, Edge> node = factoryManager.newNode(task.getId(), SeonTask.class);
+        SeonTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new SeonTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<DragonPayTask>, Edge> scriptDragonPayTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(task.getId(), DragonPayTask.class);
+        DragonPayTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new DragonPayTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<DBRequestTask>, Edge> scriptDataBaseTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<DBRequestTask>, Edge> node = factoryManager.newNode(task.getId(), DBRequestTask.class);
+        DBRequestTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new DBRequestTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        new DBRequestType(p.getDbRequestType())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<AmazonTask>, Edge> scriptAmazonTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<AmazonTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonTask.class);
+        AmazonTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new AmazonTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Node<View<ScoringTask>, Edge> scriptScoringTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
+        ScoringTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity()));
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
+    }
+
+    private Double convertTypeOrValue(String type, Double value) {
+        Double result;
+        switch (type) {
+            case "":
+                result = value;
+                break;
+            case CacheType.CACHE_ONLY:
+            case CacheType.FORCE_CACHE:
+                result = (double) Integer.MAX_VALUE;
+                break;
+            default:
+                result = 0.0;
+                break;
+        }
+        return result;
     }
 
     private BpmnNode userTask(org.eclipse.bpmn2.UserTask task) {

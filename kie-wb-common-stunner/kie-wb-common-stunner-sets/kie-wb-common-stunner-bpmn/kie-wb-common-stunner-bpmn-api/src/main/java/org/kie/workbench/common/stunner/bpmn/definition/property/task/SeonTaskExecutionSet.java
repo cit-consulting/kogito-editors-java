@@ -21,30 +21,25 @@ import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
-import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
-import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "cacheType")
+@FormDefinition(startElement = "cacheValue")
 public class SeonTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
-            type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)}
+            type = DecimalBoxFieldType.class,
+            labelKey = "cacheName.label"
     )
-    @SelectorDataProvider(
-            type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider")
     @Valid
-    private CacheType cacheType;
+    private Double cacheValue;
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SEON);
 
@@ -56,19 +51,21 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     );
 
     public SeonTaskExecutionSet() {
-        this(new CacheType());
+        this(0.0);
     }
 
-    public SeonTaskExecutionSet(final @MapsTo("cacheType") CacheType cacheType) {
-        this.cacheType = cacheType;
+    public SeonTaskExecutionSet(
+            final @MapsTo("cacheValue") Double cacheValue
+    ) {
+        this.cacheValue = cacheValue;
     }
 
-    public CacheType getCacheType() {
-        return cacheType;
+    public void setCacheValue(Double cacheValue) {
+        this.cacheValue = cacheValue;
     }
 
-    public void setCacheType(final CacheType cacheType) {
-        this.cacheType = cacheType;
+    public Double getCacheValue() {
+        return cacheValue;
     }
 
     public IntegrationType getIntegrationType() {
@@ -82,7 +79,7 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
-                Objects.hashCode(cacheType),
+                Objects.hashCode(cacheValue),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType)
         );
@@ -92,7 +89,7 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     public boolean equals(Object o) {
         if (o instanceof SeonTaskExecutionSet) {
             SeonTaskExecutionSet other = (SeonTaskExecutionSet) o;
-            return Objects.equals(cacheType, other.cacheType) &&
+            return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType);
         }

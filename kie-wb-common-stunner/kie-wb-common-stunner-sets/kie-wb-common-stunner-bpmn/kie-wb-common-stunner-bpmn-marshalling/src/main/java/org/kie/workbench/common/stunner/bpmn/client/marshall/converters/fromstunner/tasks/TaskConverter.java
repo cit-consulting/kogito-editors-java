@@ -47,6 +47,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIT
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
@@ -279,15 +280,9 @@ public class TaskConverter {
         TaskGeneralSet general = definition.getGeneral();
         p.setName(general.getName().getValue());
         p.setDocumentation(general.getDocumentation().getValue());
-
         ScriptTaskExecutionSet executionSet = definition.getExecutionSet();
-
         p.setScript(executionSet.getScript().getValue());
-        // p.setCashType(executionSet.getCashType().getValue());
-        // p.setIntegrationType(executionSet.getIntegrationType().getValue());
-
         p.setSimulationSet(definition.getSimulationSet());
-
         p.setAbsoluteBounds(n);
         return p;
     }
@@ -302,7 +297,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         AmazonTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -319,7 +314,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         DBRequestTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setDbRequestType(executionSet.getDbRequestType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
@@ -337,7 +332,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         DragonPayTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -354,7 +349,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         SeonTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -372,7 +367,7 @@ public class TaskConverter {
         AdvanceAITaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -389,7 +384,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         TrustingSocialTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -406,7 +401,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         SQLAdapterTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSQLAdapterIntegrationName(executionSet.getIntegrationName());
         p.setSimulationSet(definition.getSimulationSet());
@@ -424,7 +419,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         FinScoreTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setCacheType(executionSet.getCacheType().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setSimulationSet(definition.getSimulationSet());

@@ -25,6 +25,7 @@ import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
 import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
@@ -32,19 +33,16 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@FormDefinition(startElement = "cacheType")
+@FormDefinition(startElement = "cacheValue")
 public class FinScoreTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
-            type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = CacheType.DEFAULT)}
+            type = DecimalBoxFieldType.class,
+            labelKey = "cacheName.label"
     )
-    @SelectorDataProvider(
-            type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider")
     @Valid
-    private CacheType cacheType;
+    private Double cacheValue;
 
     @Property
     @FormField(
@@ -69,14 +67,14 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     );
 
     public FinScoreTaskExecutionSet() {
-        this(new CacheType(), new IntegrationMode());
+        this(0.0, new IntegrationMode());
     }
 
     public FinScoreTaskExecutionSet(
-            final @MapsTo("cacheType") CacheType cacheType,
+            final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationMode") IntegrationMode integrationMode
     ) {
-        this.cacheType = cacheType;
+        this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
     }
 
@@ -88,16 +86,16 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
         this.integrationMode = integrationMode;
     }
 
-    public CacheType getCacheType() {
-        return cacheType;
-    }
-
-    public void setCacheType(final CacheType cacheType) {
-        this.cacheType = cacheType;
-    }
-
     public IntegrationType getIntegrationType() {
         return integrationType;
+    }
+
+    public Double getCacheValue() {
+        return cacheValue;
+    }
+
+    public void setCacheValue(Double cacheValue) {
+        this.cacheValue = cacheValue;
     }
 
     public Script getScript() {
@@ -107,7 +105,7 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
-                Objects.hashCode(cacheType),
+                Objects.hashCode(cacheValue),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode)
@@ -118,7 +116,7 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     public boolean equals(Object o) {
         if (o instanceof FinScoreTaskExecutionSet) {
             FinScoreTaskExecutionSet other = (FinScoreTaskExecutionSet) o;
-            return Objects.equals(cacheType, other.cacheType) &&
+            return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode);

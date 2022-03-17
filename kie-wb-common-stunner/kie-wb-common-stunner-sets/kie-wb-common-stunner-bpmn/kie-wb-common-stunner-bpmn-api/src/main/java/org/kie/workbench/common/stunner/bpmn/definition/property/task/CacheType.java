@@ -20,27 +20,27 @@ import java.util.Objects;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
-import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.FieldDefinition;
-import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.FieldValue;
-import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.I18nMode;
-import org.kie.workbench.common.stunner.bpmn.definition.BPMNProperty;
-import org.kie.workbench.common.stunner.core.definition.annotation.Property;
-import org.kie.workbench.common.stunner.core.definition.annotation.property.Value;
+//import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.FieldDefinition;
+//import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.FieldValue;
+//import org.kie.workbench.common.forms.adf.definitions.annotations.metaModel.I18nMode;
+//import org.kie.workbench.common.stunner.bpmn.definition.BPMNProperty;
+//import org.kie.workbench.common.stunner.core.definition.annotation.Property;
+//import org.kie.workbench.common.stunner.core.definition.annotation.property.Value;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
 
 @Portable
 @Bindable
-@Property
-@FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
-public class CacheType implements BPMNProperty {
+//@Property
+//@FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
+public class CacheType /*implements BPMNProperty*/ {
 
     public final static String DEFAULT =  "DEFAULT";
     public final static String NONE = "NONE";
     public final static String CACHE_ONLY = "CACHE_ONLY";
     public final static String FORCE_CACHE = "FORCE_CACHE";
 
-    @Value
-    @FieldValue
+//    @Value
+//    @FieldValue
     private String value;
 
     public CacheType() {
