@@ -330,7 +330,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setExecutionSet(
                 new FinScoreTaskExecutionSet(
                         convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
-                        new IntegrationMode(p.getIntegrationMode())
+                        p.getIntegrationMode()
                 )
         );
         node.getContent().setBounds(p.getBounds());

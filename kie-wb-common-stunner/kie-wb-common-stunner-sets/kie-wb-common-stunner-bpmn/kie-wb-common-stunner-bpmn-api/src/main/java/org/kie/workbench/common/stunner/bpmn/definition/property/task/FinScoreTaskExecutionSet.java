@@ -21,12 +21,9 @@ import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
-import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
-import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
-import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -46,16 +43,11 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
-            type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = IntegrationMode.FULL)},
+            labelKey = "integrationMode.label",
             afterElement = "cacheType"
     )
-    @SelectorDataProvider(
-            type = SelectorDataProvider.ProviderType.CLIENT,
-            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider"
-    )
     @Valid
-    private IntegrationMode integrationMode;
+    private String integrationMode;
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.FIN_SCORE);
 
@@ -67,22 +59,22 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     );
 
     public FinScoreTaskExecutionSet() {
-        this(0.0, new IntegrationMode());
+        this(0.0, "");
     }
 
     public FinScoreTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
-            final @MapsTo("integrationMode") IntegrationMode integrationMode
+            final @MapsTo("integrationMode") String integrationMode
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
     }
 
-    public IntegrationMode getIntegrationMode() {
+    public String getIntegrationMode() {
         return integrationMode;
     }
 
-    public void setIntegrationMode(IntegrationMode integrationMode) {
+    public void setIntegrationMode(String integrationMode) {
         this.integrationMode = integrationMode;
     }
 

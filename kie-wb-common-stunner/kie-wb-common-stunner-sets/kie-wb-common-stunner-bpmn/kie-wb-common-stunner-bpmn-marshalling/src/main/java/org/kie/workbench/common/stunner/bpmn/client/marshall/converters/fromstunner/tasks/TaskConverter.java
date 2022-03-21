@@ -47,7 +47,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAIT
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.CacheType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DBRequestTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
@@ -421,7 +420,7 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
-        p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
+        p.setIntegrationMode(executionSet.getIntegrationMode());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;
