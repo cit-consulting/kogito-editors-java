@@ -74,6 +74,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayT
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationModeTrustSocial;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
@@ -365,7 +366,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
         definition.setExecutionSet(
                 new TrustingSocialTaskExecutionSet(
-                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        new IntegrationModeTrustSocial(p.getIntegrationMode())
                 )
         );
         node.getContent().setBounds(p.getBounds());

@@ -21,9 +21,12 @@ import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
+import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
+import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -41,6 +44,19 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private Double cacheValue;
 
+    @Valid
+    @Property
+    @FormField(
+            type = ListBoxFieldType.class,
+            settings = {@FieldParam(name = "addEmptyOption", value = IntegrationModeTrustSocial.V1)},
+            afterElement = "cacheValue"
+    )
+    @SelectorDataProvider(
+            type = SelectorDataProvider.ProviderType.CLIENT,
+            className = "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeTrustSocialProvider"
+    )
+    private IntegrationModeTrustSocial integrationMode;
+
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.TRUSTING_SOCIAL);
 
     private final Script script = new Script(
@@ -51,13 +67,15 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
     );
 
     public TrustingSocialTaskExecutionSet() {
-        this(0.0);
+        this(0.0, new IntegrationModeTrustSocial());
     }
 
     public TrustingSocialTaskExecutionSet(
-            final @MapsTo("cacheValue") Double cacheValue
+            final @MapsTo("cacheValue") Double cacheValue,
+            final @MapsTo("integrationMode") IntegrationModeTrustSocial integrationMode
     ) {
         this.cacheValue = cacheValue;
+        this.integrationMode = integrationMode;
     }
 
     public Double getCacheValue() {
@@ -66,6 +84,14 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
 
     public void setCacheValue(Double cacheValue) {
         this.cacheValue = cacheValue;
+    }
+
+    public IntegrationModeTrustSocial getIntegrationMode() {
+        return integrationMode;
+    }
+
+    public void setIntegrationMode(IntegrationModeTrustSocial integrationMode) {
+        this.integrationMode = integrationMode;
     }
 
     public IntegrationType getIntegrationType() {
@@ -80,6 +106,7 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
+                Objects.hashCode(integrationMode),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType)
         );
@@ -90,6 +117,7 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof TrustingSocialTaskExecutionSet) {
             TrustingSocialTaskExecutionSet other = (TrustingSocialTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
+                    Objects.equals(integrationMode, other.integrationMode) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType);
         }

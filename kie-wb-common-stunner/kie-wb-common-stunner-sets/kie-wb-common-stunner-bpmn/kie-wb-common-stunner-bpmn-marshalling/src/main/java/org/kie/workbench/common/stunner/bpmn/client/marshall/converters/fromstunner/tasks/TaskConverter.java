@@ -385,6 +385,7 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
+        p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;
