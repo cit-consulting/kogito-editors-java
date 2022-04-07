@@ -96,6 +96,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.StartMessageEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartSignalEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartTimerEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.TeleSignTask;
 import org.kie.workbench.common.stunner.bpmn.definition.TextAnnotation;
 import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
@@ -193,6 +194,7 @@ public class BPMNShapeFactory
                 .delegate(TrustingSocialTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(FinScoreTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(SQLAdapterTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(TeleSignTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

@@ -75,6 +75,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.StartMessageEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartNoneEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartSignalEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.StartTimerEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.TeleSignTask;
 import org.kie.workbench.common.stunner.bpmn.definition.TextAnnotation;
 import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
@@ -106,6 +107,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 SQLAdapterTask.class,
                 // part 5
                 FinScoreTask.class,
+                // part 6 (temp)
+                TeleSignTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,
