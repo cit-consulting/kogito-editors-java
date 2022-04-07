@@ -31,9 +31,10 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documen
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TeleSignTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.definition.annotation.morph.Morph;
@@ -53,28 +54,28 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class SQLAdapterTask extends BaseTask {
+public class TeleSignTask extends BaseTask {
 
     @Property
     @FormField(afterElement = "general")
     @Valid
-    protected SQLAdapterTaskExecutionSet executionSet;
+    protected TeleSignTaskExecutionSet executionSet;
 
-    public SQLAdapterTask() {
+    public TeleSignTask() {
         this(
-                new TaskGeneralSet(new Name("SQL Integration"), new Documentation("")),
-                new SQLAdapterTaskExecutionSet(),
+                new TaskGeneralSet(new Name("TeleSign Integration"), new Documentation("")),
+                new TeleSignTaskExecutionSet(),
                 new BackgroundSet(),
                 new FontSet(),
                 new RectangleDimensionsSet(),
                 new SimulationSet(),
-                new TaskType(TaskTypes.SQL_ADAPTER)
+                new TaskType(TaskTypes.TELE_SIGN)
         );
     }
 
-    public SQLAdapterTask(
+    public TeleSignTask(
             final @MapsTo("general") TaskGeneralSet general,
-            final @MapsTo("executionSet") SQLAdapterTaskExecutionSet executionSet,
+            final @MapsTo("executionSet") TeleSignTaskExecutionSet executionSet,
             final @MapsTo("backgroundSet") BackgroundSet backgroundSet,
             final @MapsTo("fontSet") FontSet fontSet,
             final @MapsTo("dimensionsSet") RectangleDimensionsSet dimensionsSet,
@@ -85,11 +86,11 @@ public class SQLAdapterTask extends BaseTask {
         this.executionSet = executionSet;
     }
 
-    public SQLAdapterTaskExecutionSet getExecutionSet() {
+    public TeleSignTaskExecutionSet getExecutionSet() {
         return executionSet;
     }
 
-    public void setExecutionSet(final SQLAdapterTaskExecutionSet executionSet) {
+    public void setExecutionSet(final TeleSignTaskExecutionSet executionSet) {
         this.executionSet = executionSet;
     }
 
@@ -100,8 +101,8 @@ public class SQLAdapterTask extends BaseTask {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof SQLAdapterTask) {
-            SQLAdapterTask other = (SQLAdapterTask) o;
+        if (o instanceof TeleSignTask) {
+            TeleSignTask other = (TeleSignTask) o;
             return super.equals(other) && executionSet.equals(other.executionSet);
         }
         return false;

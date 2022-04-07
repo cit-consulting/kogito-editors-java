@@ -102,6 +102,7 @@ public abstract class BaseTask implements BPMNViewDefinition {
                         .put(TaskTypes.TRUSTING_SOCIAL, TrustingSocialTask.class)
                         .put(TaskTypes.SQL_ADAPTER, SQLAdapterTask.class)
                         .put(TaskTypes.FIN_SCORE, FinScoreTask.class)
+                        .put(TaskTypes.TELE_SIGN, TeleSignTask.class)
                         .put(TaskTypes.BUSINESS_RULE,
                              BusinessRuleTask.class)
                         .put(TaskTypes.SERVICE_TASK,

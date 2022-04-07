@@ -42,6 +42,7 @@ public class IntegrationType implements BPMNProperty {
     public final static String TRUSTING_SOCIAL  = "TRUSTING_SOCIAL";
     public final static String SQL_ADAPTER  = "SQL_ADAPTER";
     public final static String FIN_SCORE  = "FIN_SCORE";
+    public final static String TELE_SIGN  = "TELE_SIGN";
 
     @Value
     @FieldValue

@@ -52,6 +52,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
+import org.kie.workbench.common.stunner.bpmn.definition.TeleSignTask;
 import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.dataio.DataIOSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documentation;
@@ -94,6 +95,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.TeleSignTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
@@ -302,6 +304,9 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         } else if (IntegrationType.FIN_SCORE.equals(type.getValue())) {
             Node<View<FinScoreTask>, Edge> node = scriptFinScoreTask(task, p);
             return BpmnNode.of(node, p);
+        } else if (IntegrationType.TELE_SIGN.equals(type.getValue())) {
+            Node<View<TeleSignTask>, Edge> node = teleSignTask(task, p);
+            return BpmnNode.of(node, p);
         } else {
             Node<View<ScriptTask>, Edge> node = factoryManager.newNode(task.getId(), ScriptTask.class);
             ScriptTask definition = node.getContent().getDefinition();
@@ -321,6 +326,23 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
         }
+    }
+
+    private Node<View<TeleSignTask>, Edge> teleSignTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<TeleSignTask>, Edge> node = factoryManager.newNode(task.getId(), TeleSignTask.class);
+        TeleSignTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new TeleSignTaskExecutionSet(
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
     }
 
     private Node<View<FinScoreTask>, Edge> scriptFinScoreTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
