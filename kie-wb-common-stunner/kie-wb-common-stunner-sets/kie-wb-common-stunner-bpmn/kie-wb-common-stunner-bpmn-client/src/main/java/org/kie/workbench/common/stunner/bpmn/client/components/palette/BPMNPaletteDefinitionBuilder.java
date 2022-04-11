@@ -49,6 +49,18 @@ import org.kie.workbench.common.stunner.bpmn.definition.EndSignalEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EndTerminateEvent;
 import org.kie.workbench.common.stunner.bpmn.definition.EventGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateCompensationEventThrowing;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateConditionalEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateErrorEventCatching;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateEscalationEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateEscalationEventThrowing;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateLinkEventCatching;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateLinkEventThrowing;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateMessageEventCatching;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateMessageEventThrowing;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateSignalEventCatching;
+import org.kie.workbench.common.stunner.bpmn.definition.IntermediateSignalEventThrowing;
 import org.kie.workbench.common.stunner.bpmn.definition.Lane;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
@@ -165,7 +177,8 @@ public class BPMNPaletteDefinitionBuilder
     public void init() {
         paletteDefinitionBuilder
                 .itemFilter(isDefinitionAllowed())
-                .categoryFilter(category -> BPMNCategories.START_EVENTS.equals(category)
+                .categoryFilter(category ->  BPMNCategories.INTERMEDIATE_EVENTS.equals(category)
+                        || BPMNCategories.START_EVENTS.equals(category)
                         || BPMNCategories.END_EVENTS.equals(category) || BPMNCategories.ACTIVITIES.equals(category)
                         || BPMNCategories.ARTIFACTS.equals(category) || BPMNCategories.GATEWAYS.equals(category)
                         || BPMNCategories.CONTAINERS.equals(category))
@@ -223,6 +236,19 @@ public class BPMNPaletteDefinitionBuilder
                 .or(isType(StartConditionalEvent.class))
                 .or(isType(StartEscalationEvent.class))
                 .or(isType(StartCompensationEvent.class))
+                // End Catching Intermediate Events
+                .or(isType(IntermediateMessageEventCatching.class))
+                .or(isType(IntermediateMessageEventThrowing.class))
+                .or(isType(IntermediateSignalEventCatching.class))
+                .or(isType(IntermediateSignalEventThrowing.class))
+                .or(isType(IntermediateLinkEventCatching.class))
+                .or(isType(IntermediateLinkEventThrowing.class))
+                .or(isType(IntermediateErrorEventCatching.class))
+                .or(isType(IntermediateEscalationEvent.class))
+                .or(isType(IntermediateEscalationEventThrowing.class))
+                .or(isType(IntermediateCompensationEvent.class))
+                .or(isType(IntermediateCompensationEventThrowing.class))
+                .or(isType(IntermediateConditionalEvent.class))
                 // End Events
                 .or(isType(EndSignalEvent.class))
                 .or(isType(EndMessageEvent.class))
