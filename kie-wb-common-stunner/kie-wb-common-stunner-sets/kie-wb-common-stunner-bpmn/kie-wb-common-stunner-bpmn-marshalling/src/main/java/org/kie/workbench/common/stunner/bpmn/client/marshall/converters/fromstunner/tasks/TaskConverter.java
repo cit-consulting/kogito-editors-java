@@ -60,7 +60,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.TeleSignTa
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
-import org.kie.workbench.common.stunner.core.graph.Edge;
 import org.kie.workbench.common.stunner.core.graph.Node;
 import org.kie.workbench.common.stunner.core.graph.content.view.View;
 
@@ -306,6 +305,7 @@ public class TaskConverter {
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setResultS3Key(executionSet.getResultS3Key());
         return p;
     }
 
@@ -320,6 +320,7 @@ public class TaskConverter {
         DBRequestTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setDbRequestType(executionSet.getDbRequestType().getValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
@@ -338,6 +339,7 @@ public class TaskConverter {
         DragonPayTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -356,6 +358,7 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         return p;
@@ -373,6 +376,7 @@ public class TaskConverter {
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setCacheValue(executionSet.getCacheValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
@@ -390,6 +394,7 @@ public class TaskConverter {
         TrustingSocialTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setSimulationSet(definition.getSimulationSet());
@@ -408,6 +413,7 @@ public class TaskConverter {
         SQLAdapterTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setSQLAdapterIntegrationName(executionSet.getIntegrationName());
         p.setSimulationSet(definition.getSimulationSet());
@@ -429,6 +435,7 @@ public class TaskConverter {
         p.setCacheValue(executionSet.getCacheValue());
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setAbsoluteBounds(n);
         return p;
     }
@@ -444,6 +451,7 @@ public class TaskConverter {
         FinScoreTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
         p.setCacheValue(executionSet.getCacheValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setIntegrationMode(executionSet.getIntegrationMode());
         p.setSimulationSet(definition.getSimulationSet());
@@ -461,6 +469,7 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         ScoringTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setScoringIdentity(executionSet.getScoringIdentity());
         p.setSimulationSet(definition.getSimulationSet());

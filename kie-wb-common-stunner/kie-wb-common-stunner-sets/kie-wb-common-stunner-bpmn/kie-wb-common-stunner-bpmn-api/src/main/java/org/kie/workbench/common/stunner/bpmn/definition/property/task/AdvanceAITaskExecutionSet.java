@@ -27,6 +27,7 @@ import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
 import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.type.TextBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -43,6 +44,14 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     )
     @Valid
     private Double cacheValue;
+
+    @Property
+    @FormField(
+            type = TextBoxFieldType.class,
+            labelKey = "resultS3Key.label"
+    )
+    @Valid
+    private String resultS3Key;
 
     @Property
     @FormField(
@@ -66,15 +75,17 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     );
 
     public AdvanceAITaskExecutionSet() {
-        this(0.0, new IntegrationMode());
+        this(0.0, new IntegrationMode(), "");
     }
 
     public AdvanceAITaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
-            final @MapsTo("integrationMode") IntegrationMode integrationMode
+            final @MapsTo("integrationMode") IntegrationMode integrationMode,
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
+        this.resultS3Key = resultS3Key;
     }
 
     public void setIntegrationMode(IntegrationMode integrationMode) {
@@ -87,6 +98,14 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
 
     public void setCacheValue(Double cacheValue) {
         this.cacheValue = cacheValue;
+    }
+
+    public String getResultS3Key() {
+        return resultS3Key;
+    }
+
+    public void setResultS3Key(String resultS3Key) {
+        this.resultS3Key = resultS3Key;
     }
 
     public IntegrationType getIntegrationType() {

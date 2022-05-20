@@ -335,7 +335,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
         definition.setExecutionSet(
                 new TeleSignTaskExecutionSet(
-                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -353,7 +354,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setExecutionSet(
                 new FinScoreTaskExecutionSet(
                         convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
-                        p.getIntegrationMode()
+                        p.getIntegrationMode(),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -371,7 +373,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setExecutionSet(
                 new SQLAdapterTaskExecutionSet(
                         convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
-                        p.getSQLAdapterIntegrationName()
+                        p.getSQLAdapterIntegrationName(),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -389,7 +392,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setExecutionSet(
                 new TrustingSocialTaskExecutionSet(
                         convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
-                        new IntegrationModeTrustSocial(p.getIntegrationMode())
+                        new IntegrationModeTrustSocial(p.getIntegrationMode()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -407,7 +411,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setExecutionSet(
                 new AdvanceAITaskExecutionSet(
                         convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
-                        new IntegrationMode(p.getIntegrationMode())
+                        new IntegrationMode(p.getIntegrationMode()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -424,7 +429,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
         definition.setExecutionSet(
                 new SeonTaskExecutionSet(
-                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -441,7 +447,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
         definition.setExecutionSet(
                 new DragonPayTaskExecutionSet(
-                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -459,7 +466,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setExecutionSet(
                 new DBRequestTaskExecutionSet(
                         convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
-                        new DBRequestType(p.getDbRequestType())
+                        new DBRequestType(p.getDbRequestType()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -476,7 +484,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
         definition.setExecutionSet(
                 new AmazonTaskExecutionSet(
-                        convertTypeOrValue(p.getCacheType(), p.getCacheValue())
+                        convertTypeOrValue(p.getCacheType(), p.getCacheValue()),
+                        p.getResultS3Key()
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -491,7 +500,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
         ScoringTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity()));
+        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity(), p.getResultS3Key()));
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());

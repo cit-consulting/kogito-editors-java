@@ -52,6 +52,10 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
         return CustomElement.cacheValue.of(element).get();
     }
 
+    public String getResultS3Key() {
+        return CustomElement.resultS3Key.of(element).get();
+    }
+
     public String getDbRequestType() {
         return CustomElement.dbRequestType.of(element).get();
     }

@@ -52,6 +52,10 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
         CustomElement.cacheType.of(scriptTask).set(async);
     }
 
+    public void setResultS3Key(String resultS3Key) {
+        CustomElement.resultS3Key.of(scriptTask).set(resultS3Key);
+    }
+
     public void setCacheValue(Double value) {
         CustomElement.cacheValue.of(scriptTask).set(value);
     }

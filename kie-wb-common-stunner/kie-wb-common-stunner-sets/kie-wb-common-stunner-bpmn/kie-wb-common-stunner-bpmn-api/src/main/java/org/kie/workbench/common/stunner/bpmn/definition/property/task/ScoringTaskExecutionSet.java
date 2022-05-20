@@ -21,9 +21,9 @@ import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
-import org.kie.workbench.common.forms.adf.definitions.annotations.FieldParam;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.type.TextBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -34,8 +34,13 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 public class ScoringTaskExecutionSet implements BPMNPropertySet {
 
     @Property
-    @FormField(settings = {@FieldParam(name = "mode", value = "ACTION_SCRIPT")}, afterElement = "scoringIdentity")
+    @FormField(
+            type = TextBoxFieldType.class,
+            labelKey = "resultS3Key.label"
+    )
     @Valid
+    private String resultS3Key;
+
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
@@ -54,11 +59,23 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SCORING);
 
     public ScoringTaskExecutionSet() {
-        this("");
+        this("", "");
     }
 
-    public ScoringTaskExecutionSet(final @MapsTo("scoringIdentity") String scoringIdentity) {
+    public ScoringTaskExecutionSet(
+            final @MapsTo("scoringIdentity") String scoringIdentity,
+            final @MapsTo("resultS3Key") String resultS3Key
+    ) {
         this.scoringIdentity = scoringIdentity;
+        this.resultS3Key = resultS3Key;
+    }
+
+    public String getResultS3Key() {
+        return resultS3Key;
+    }
+
+    public void setResultS3Key(String resultS3Key) {
+        this.resultS3Key = resultS3Key;
     }
 
     public void setScoringIdentity(String scoringIdentity) {

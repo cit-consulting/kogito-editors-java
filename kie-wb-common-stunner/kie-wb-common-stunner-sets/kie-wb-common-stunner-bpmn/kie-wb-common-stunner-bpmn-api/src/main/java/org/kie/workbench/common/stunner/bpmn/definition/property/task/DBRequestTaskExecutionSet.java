@@ -26,6 +26,7 @@ import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
 import org.kie.workbench.common.forms.adf.definitions.annotations.field.selector.SelectorDataProvider;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.type.ListBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.type.TextBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -45,9 +46,18 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
+            type = TextBoxFieldType.class,
+            labelKey = "resultS3Key.label",
+            afterElement = "cacheValue"
+    )
+    @Valid
+    private String resultS3Key;
+
+    @Property
+    @FormField(
             type = ListBoxFieldType.class,
             settings = {@FieldParam(name = "addEmptyOption", value = DBRequestType.WEB)},
-            afterElement = "cacheValue"
+            afterElement = "resultS3Key"
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,
@@ -66,15 +76,17 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.DATA_BASE_REQUEST);
 
     public DBRequestTaskExecutionSet() {
-        this(0.0, new DBRequestType());
+        this(0.0, new DBRequestType(), "");
     }
 
     public DBRequestTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
-            final @MapsTo("dbRequestType") DBRequestType dbRequestType
+            final @MapsTo("dbRequestType") DBRequestType dbRequestType,
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.dbRequestType = dbRequestType;
         this.cacheValue = cacheValue;
+        this.resultS3Key = resultS3Key;
     }
 
     public Double getCacheValue() {
@@ -83,6 +95,14 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
 
     public void setCacheValue(Double cacheValue) {
         this.cacheValue = cacheValue;
+    }
+
+    public String getResultS3Key() {
+        return resultS3Key;
+    }
+
+    public void setResultS3Key(String resultS3Key) {
+        this.resultS3Key = resultS3Key;
     }
 
     public DBRequestType getDbRequestType() {

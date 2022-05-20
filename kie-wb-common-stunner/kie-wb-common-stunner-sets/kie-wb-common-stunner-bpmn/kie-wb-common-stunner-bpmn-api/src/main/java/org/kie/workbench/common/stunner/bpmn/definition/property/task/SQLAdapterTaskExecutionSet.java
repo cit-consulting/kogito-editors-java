@@ -24,6 +24,7 @@ import org.jboss.errai.databinding.client.api.Bindable;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.type.TextBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -43,8 +44,17 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
 
     @Property
     @FormField(
-            labelKey = "org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet.integrationName.label",
+            type = TextBoxFieldType.class,
+            labelKey = "resultS3Key.label",
             afterElement = "cacheValue"
+    )
+    @Valid
+    private String resultS3Key;
+
+    @Property
+    @FormField(
+            labelKey = "org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet.integrationName.label",
+            afterElement = "resultS3Key"
     )
     @Valid
     private String integrationName;
@@ -59,13 +69,14 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     );
 
     public SQLAdapterTaskExecutionSet() {
-        this(0.0, "");
+        this(0.0, "", "");
     }
 
     public SQLAdapterTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
-            final @MapsTo("integrationName") String integrationName
-            ) {
+            final @MapsTo("integrationName") String integrationName,
+            final @MapsTo("resultS3Key") String resultS3Key
+    ) {
         this.cacheValue = cacheValue;
         this.integrationName = integrationName;
     }
@@ -88,6 +99,14 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
 
     public Double getCacheValue() {
         return cacheValue;
+    }
+
+    public String getResultS3Key() {
+        return resultS3Key;
+    }
+
+    public void setResultS3Key(String resultS3Key) {
+        this.resultS3Key = resultS3Key;
     }
 
     public Script getScript() {

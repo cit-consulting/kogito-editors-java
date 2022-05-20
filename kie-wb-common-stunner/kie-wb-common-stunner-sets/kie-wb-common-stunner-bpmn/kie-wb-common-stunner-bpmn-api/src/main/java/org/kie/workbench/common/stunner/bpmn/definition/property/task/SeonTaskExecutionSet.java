@@ -24,6 +24,7 @@ import org.jboss.errai.databinding.client.api.Bindable;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormDefinition;
 import org.kie.workbench.common.forms.adf.definitions.annotations.FormField;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.decimalBox.type.DecimalBoxFieldType;
+import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.type.TextBoxFieldType;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
@@ -41,6 +42,14 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private Double cacheValue;
 
+    @Property
+    @FormField(
+            type = TextBoxFieldType.class,
+            labelKey = "resultS3Key.label"
+    )
+    @Valid
+    private String resultS3Key;
+
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SEON);
 
     private final Script script = new Script(
@@ -51,13 +60,15 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     );
 
     public SeonTaskExecutionSet() {
-        this(0.0);
+        this(0.0, "");
     }
 
     public SeonTaskExecutionSet(
-            final @MapsTo("cacheValue") Double cacheValue
+            final @MapsTo("cacheValue") Double cacheValue,
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
+        this.resultS3Key = resultS3Key;
     }
 
     public void setCacheValue(Double cacheValue) {
@@ -66,6 +77,14 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
 
     public Double getCacheValue() {
         return cacheValue;
+    }
+
+    public String getResultS3Key() {
+        return resultS3Key;
+    }
+
+    public void setResultS3Key(String resultS3Key) {
+        this.resultS3Key = resultS3Key;
     }
 
     public IntegrationType getIntegrationType() {
