@@ -33,6 +33,7 @@ public enum TaskTypes {
     TELE_SIGN,
     SQL_ADAPTER,
     FIN_SCORE,
+    AMAZON_PHOTO_VALIDATION,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

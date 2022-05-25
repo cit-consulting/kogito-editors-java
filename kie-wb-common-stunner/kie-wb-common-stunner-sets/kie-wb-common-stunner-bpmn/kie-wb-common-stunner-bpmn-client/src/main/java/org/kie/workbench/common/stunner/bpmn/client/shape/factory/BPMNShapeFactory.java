@@ -41,6 +41,7 @@ import org.kie.workbench.common.stunner.bpmn.client.shape.def.ThrowingIntermedia
 import org.kie.workbench.common.stunner.bpmn.client.shape.view.handler.BPMNShapeViewHandlers;
 import org.kie.workbench.common.stunner.bpmn.definition.AdHocSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDefinition;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
@@ -195,6 +196,7 @@ public class BPMNShapeFactory
                 .delegate(FinScoreTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(SQLAdapterTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(TeleSignTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(AmazonPhotoValidationTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

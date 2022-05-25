@@ -27,6 +27,7 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstun
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.fromstunner.properties.UserTaskPropertyWriter;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
@@ -45,6 +46,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonPhotoValidationTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
@@ -60,6 +62,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.TeleSignTa
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
+import org.kie.workbench.common.stunner.core.graph.Edge;
 import org.kie.workbench.common.stunner.core.graph.Node;
 import org.kie.workbench.common.stunner.core.graph.content.view.View;
 
@@ -111,6 +114,9 @@ public class TaskConverter {
         }
         if (def instanceof TeleSignTask) {
             return teleSignTask(cast(node));
+        }
+        if (def instanceof AmazonPhotoValidationTask) {
+            return amazonPhotoValidationTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -421,7 +427,6 @@ public class TaskConverter {
         return p;
     }
 
-
     private PropertyWriter teleSignTask(Node<View<TeleSignTask>, ?> n)  {
         org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
         task.setId(n.getUUID());
@@ -436,6 +441,25 @@ public class TaskConverter {
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setResultS3Key(executionSet.getResultS3Key());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter amazonPhotoValidationTask(Node<View<AmazonPhotoValidationTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        AmazonPhotoValidationTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        AmazonPhotoValidationTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setResultS3Key(executionSet.getResultS3Key());
+        p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setAbsoluteBounds(n);
         return p;
     }

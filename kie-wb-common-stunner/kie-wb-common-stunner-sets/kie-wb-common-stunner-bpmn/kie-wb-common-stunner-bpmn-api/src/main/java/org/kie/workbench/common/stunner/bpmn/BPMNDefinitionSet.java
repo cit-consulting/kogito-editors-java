@@ -22,6 +22,7 @@ import org.jboss.errai.common.client.api.annotations.NonPortable;
 import org.jboss.errai.databinding.client.api.Bindable;
 import org.kie.workbench.common.stunner.bpmn.definition.AdHocSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
@@ -107,8 +108,10 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 SQLAdapterTask.class,
                 // part 5
                 FinScoreTask.class,
-                // part 6 (temp)
+                // part 6
                 TeleSignTask.class,
+                // part 7
+                AmazonPhotoValidationTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

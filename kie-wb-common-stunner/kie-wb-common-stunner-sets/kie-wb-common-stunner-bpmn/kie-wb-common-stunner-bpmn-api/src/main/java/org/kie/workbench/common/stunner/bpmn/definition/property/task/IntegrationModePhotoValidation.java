@@ -31,31 +31,23 @@ import org.kie.workbench.common.stunner.core.util.HashUtil;
 @Bindable
 @Property
 @FieldDefinition(i18nMode = I18nMode.OVERRIDE_I18N_KEY)
-public class IntegrationType implements BPMNProperty {
-    public final static String AMAZON = "AMAZON";
-    public final static String DATA_BASE_REQUEST = "DATA_BASE_REQUEST";
-    public final static String SCORING = "SCORING";
-    public final static String DRAGON_PAY = "DRAGON_PAY";
-    public final static String SEON = "SEON";
-    public final static String ADVANCE_AI = "ADVANCE_AI";
-    public final static String ADVANCE_AI_EXTENDED = "ADVANCE_AI_EXTENDED";
-    public final static String TRUSTING_SOCIAL  = "TRUSTING_SOCIAL";
-    public final static String SQL_ADAPTER  = "SQL_ADAPTER";
-    public final static String FIN_SCORE  = "FIN_SCORE";
-    public final static String TELE_SIGN  = "TELE_SIGN";
-    public final static String AMAZON_PHOTO_VALIDATION  = "AMAZON_PHOTO_VALIDATION";
+public class IntegrationModePhotoValidation implements BPMNProperty {
+
+    public final static String TEXT =  "text";
+    public final static String LABELS = "labels";
+    public final static String FACES = "faces";
 
     @Value
     @FieldValue
     private String value;
 
-    public IntegrationType() {
-        this(SCORING);
+    public IntegrationModePhotoValidation() {
+        this(TEXT);
     }
 
-    public IntegrationType(final String value) {
+    public IntegrationModePhotoValidation(final String value) {
         if (value == null || value.isEmpty()) {
-            this.value = SCORING;
+            this.value = TEXT;
         } else {
             this.value = value;
         }
@@ -76,8 +68,8 @@ public class IntegrationType implements BPMNProperty {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof IntegrationType) {
-            IntegrationType other = (IntegrationType) o;
+        if (o instanceof IntegrationModePhotoValidation) {
+            IntegrationModePhotoValidation other = (IntegrationModePhotoValidation) o;
             return Objects.equals(value, other.value);
         }
         return false;

@@ -40,6 +40,7 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunne
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.UserTaskPropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.ConverterUtils;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
@@ -63,6 +64,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
 import org.kie.workbench.common.stunner.bpmn.definition.property.service.GenericServiceTaskInfo;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonPhotoValidationTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationMode;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
@@ -75,6 +77,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayT
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationModePhotoValidation;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationModeTrustSocial;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
@@ -308,6 +311,9 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         } else if (IntegrationType.TELE_SIGN.equals(type.getValue())) {
             Node<View<TeleSignTask>, Edge> node = teleSignTask(task, p);
             return BpmnNode.of(node, p);
+        } else if (IntegrationType.AMAZON_PHOTO_VALIDATION.equals(type.getValue())) {
+            Node<View<AmazonPhotoValidationTask>, Edge> node = amazonPhotoValidationTask(task, p);
+            return BpmnNode.of(node, p);
         } else {
             Node<View<ScriptTask>, Edge> node = factoryManager.newNode(task.getId(), ScriptTask.class);
             ScriptTask definition = node.getContent().getDefinition();
@@ -327,6 +333,28 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             definition.setSimulationSet(p.getSimulationSet());
             return BpmnNode.of(node, p);
         }
+    }
+
+    private Node<View<AmazonPhotoValidationTask>, Edge> amazonPhotoValidationTask(
+            org.eclipse.bpmn2.ScriptTask task,
+            ScriptTaskPropertyReader p
+    ) {
+        Node<View<AmazonPhotoValidationTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonPhotoValidationTask.class);
+        AmazonPhotoValidationTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(
+                new AmazonPhotoValidationTaskExecutionSet(
+                        p.getCacheValue(),
+                        new IntegrationModePhotoValidation(p.getIntegrationMode()),
+                        p.getResultS3Key()
+                )
+        );
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
     }
 
     private Node<View<TeleSignTask>, Edge> teleSignTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {

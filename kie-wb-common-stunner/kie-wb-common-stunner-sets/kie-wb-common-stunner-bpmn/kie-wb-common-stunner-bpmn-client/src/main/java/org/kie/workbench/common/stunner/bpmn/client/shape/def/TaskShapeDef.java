@@ -25,6 +25,7 @@ import org.kie.workbench.common.stunner.bpmn.client.resources.BPMNGlyphFactory;
 import org.kie.workbench.common.stunner.bpmn.client.resources.BPMNSVGViewFactory;
 import org.kie.workbench.common.stunner.bpmn.client.shape.view.handler.TaskViewHandler;
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
+import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
@@ -70,6 +71,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(FinScoreTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(SQLAdapterTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(TeleSignTask.class, BPMNSVGViewFactory::scriptTask)
+                    .put(AmazonPhotoValidationTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
 
     public static final Map<Class<? extends BaseTask>, Glyph> GLYPHS =
@@ -88,6 +90,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(SQLAdapterTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(ScoringTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(TeleSignTask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                    .put(AmazonPhotoValidationTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
                     .build();
 
@@ -111,6 +114,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(FinScoreTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(SQLAdapterTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(TeleSignTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                    .put(AmazonPhotoValidationTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(GenericServiceTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
