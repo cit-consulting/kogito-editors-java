@@ -56,7 +56,8 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     @Property
     @FormField(
             type = ListBoxFieldType.class,
-            settings = {@FieldParam(name = "addEmptyOption", value = IntegrationMode.FULL)}
+            settings = {@FieldParam(name = "addEmptyOption", value = IntegrationMode.FULL)},
+            labelKey = "integrationMode.label"
     )
     @SelectorDataProvider(
             type = SelectorDataProvider.ProviderType.CLIENT,
@@ -126,7 +127,8 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
-                Objects.hashCode(integrationMode)
+                Objects.hashCode(integrationMode),
+                Objects.hashCode(resultS3Key)
         );
     }
 
@@ -137,7 +139,8 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
-                    Objects.equals(integrationMode, other.integrationMode);
+                    Objects.equals(integrationMode, other.integrationMode) &&
+                    Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;
     }

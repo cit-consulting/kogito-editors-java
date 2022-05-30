@@ -493,7 +493,6 @@ public class TaskConverter {
         p.setDocumentation(general.getDocumentation().getValue());
         ScoringTaskExecutionSet executionSet = definition.getExecutionSet();
         p.setIntegrationType(executionSet.getIntegrationType().getValue());
-        p.setResultS3Key(executionSet.getResultS3Key());
         p.setScript(executionSet.getScript().getValue());
         p.setScoringIdentity(executionSet.getScoringIdentity());
         p.setSimulationSet(definition.getSimulationSet());

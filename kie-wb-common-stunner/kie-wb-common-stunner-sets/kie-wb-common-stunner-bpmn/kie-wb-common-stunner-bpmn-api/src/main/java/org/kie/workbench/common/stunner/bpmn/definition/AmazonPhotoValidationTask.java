@@ -63,7 +63,7 @@ public class AmazonPhotoValidationTask extends BaseTask {
     protected AmazonPhotoValidationTaskExecutionSet executionSet;
 
     public AmazonPhotoValidationTask() {
-        this(new TaskGeneralSet(new Name("Amazon Photo Validation Task"), new Documentation("")),
+        this(new TaskGeneralSet(new Name("Amazon Photo Validation"), new Documentation("")),
              new AmazonPhotoValidationTaskExecutionSet(),
              new BackgroundSet(),
              new FontSet(),

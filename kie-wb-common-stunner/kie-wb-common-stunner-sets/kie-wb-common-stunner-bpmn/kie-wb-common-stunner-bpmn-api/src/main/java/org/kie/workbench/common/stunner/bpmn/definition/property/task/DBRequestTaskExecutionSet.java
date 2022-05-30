@@ -127,7 +127,8 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(dbRequestType),
                 Objects.hashCode(script),
-                Objects.hashCode(integrationType)
+                Objects.hashCode(integrationType),
+                Objects.hashCode(resultS3Key)
         );
     }
 
@@ -138,7 +139,8 @@ public class DBRequestTaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(dbRequestType, other.dbRequestType) &&
                     Objects.equals(script, other.script) &&
-                    Objects.equals(integrationType, other.integrationType);
+                    Objects.equals(integrationType, other.integrationType) &&
+                    Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;
     }

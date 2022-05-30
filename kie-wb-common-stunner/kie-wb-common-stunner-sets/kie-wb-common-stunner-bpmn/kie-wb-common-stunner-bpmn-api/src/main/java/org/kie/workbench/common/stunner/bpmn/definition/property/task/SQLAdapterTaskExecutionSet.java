@@ -79,6 +79,7 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     ) {
         this.cacheValue = cacheValue;
         this.integrationName = integrationName;
+        this.resultS3Key = resultS3Key;
     }
 
     public String getIntegrationName() {
@@ -118,6 +119,7 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(script),
+                Objects.hashCode(resultS3Key),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationName)
         );
@@ -130,7 +132,8 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
-                    Objects.equals(integrationName, other.integrationName);
+                    Objects.equals(integrationName, other.integrationName) &&
+                    Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;
     }

@@ -528,7 +528,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
         ScoringTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity(), p.getResultS3Key()));
+        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity()));
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
