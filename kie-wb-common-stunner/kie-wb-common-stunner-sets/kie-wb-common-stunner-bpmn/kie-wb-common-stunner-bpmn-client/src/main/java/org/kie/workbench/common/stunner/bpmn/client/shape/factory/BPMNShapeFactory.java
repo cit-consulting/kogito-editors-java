@@ -47,7 +47,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.BPMNDefinition;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNViewDefinition;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
-import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DataObject;
 import org.kie.workbench.common.stunner.bpmn.definition.DirectionalAssociation;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
@@ -188,7 +187,6 @@ public class BPMNShapeFactory
                           () -> svgShapeFactory)
                 .delegate(AmazonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(ScoringTask.class, new TaskShapeDef(), () -> svgShapeFactory)
-                .delegate(DBRequestTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(DragonPayTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(SeonTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AdvanceAITask.class, new TaskShapeDef(), () -> svgShapeFactory)

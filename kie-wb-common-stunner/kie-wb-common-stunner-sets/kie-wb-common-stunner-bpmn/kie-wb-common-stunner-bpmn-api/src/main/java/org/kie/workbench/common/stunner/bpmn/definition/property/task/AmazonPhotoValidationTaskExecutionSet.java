@@ -79,7 +79,7 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
     );
 
     public AmazonPhotoValidationTaskExecutionSet() {
-        this(0.0, new IntegrationModePhotoValidation(), "");
+        this(0.0, new IntegrationModePhotoValidation(), "default");
     }
 
     public AmazonPhotoValidationTaskExecutionSet(

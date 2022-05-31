@@ -26,7 +26,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTas
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNDiagramImpl;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
-import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DataObject;
 import org.kie.workbench.common.stunner.bpmn.definition.DirectionalAssociation;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
@@ -97,7 +96,6 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 // part 1
                 ScoringTask.class,
                 AmazonTask.class,
-                DBRequestTask.class,
                 // part 2
                 DragonPayTask.class,
                 SeonTask.class,

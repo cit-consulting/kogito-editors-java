@@ -62,7 +62,7 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
     );
 
     public AmazonTaskExecutionSet() {
-        this(0.0, "");
+        this(0.0, "default");
     }
 
     public AmazonTaskExecutionSet(

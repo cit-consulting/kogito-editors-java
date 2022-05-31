@@ -68,7 +68,7 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     );
 
     public FinScoreTaskExecutionSet() {
-        this(0.0, "", "");
+        this(0.0, "", "default");
     }
 
     public FinScoreTaskExecutionSet(

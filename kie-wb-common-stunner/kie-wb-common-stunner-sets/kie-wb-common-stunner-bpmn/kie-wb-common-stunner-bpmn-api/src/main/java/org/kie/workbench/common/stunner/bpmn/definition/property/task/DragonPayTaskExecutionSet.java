@@ -60,7 +60,7 @@ public class DragonPayTaskExecutionSet implements BPMNPropertySet {
     );
 
     public DragonPayTaskExecutionSet() {
-        this(0.0, "");
+        this(0.0, "default");
     }
 
     public DragonPayTaskExecutionSet(

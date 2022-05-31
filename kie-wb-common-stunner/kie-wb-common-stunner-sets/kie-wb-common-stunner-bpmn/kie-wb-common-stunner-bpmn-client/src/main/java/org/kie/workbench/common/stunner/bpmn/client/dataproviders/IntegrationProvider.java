@@ -35,7 +35,6 @@ public class IntegrationProvider implements SelectorDataProvider {
 
     private enum INTEGRATION_TYPE {
         AMAZON(IntegrationType.AMAZON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.AMAZON"),
-        DATA_BASE_REQUEST(IntegrationType.DATA_BASE_REQUEST, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DATA_BASE_REQUEST"),
         SCORING(IntegrationType.SCORING, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SCORING"),
         DRAGON_PAY(IntegrationType.DRAGON_PAY, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.DRAGON_PAY"),
         SEON(IntegrationType.SEON, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.SEON"),
@@ -80,15 +79,14 @@ public class IntegrationProvider implements SelectorDataProvider {
         valuePosition.put(INTEGRATION_TYPE.ADVANCE_AI.value(), 0);
         valuePosition.put(INTEGRATION_TYPE.ADVANCE_AI_EXTENDED.value(), 1);
         valuePosition.put(INTEGRATION_TYPE.AMAZON.value(), 2);
-        valuePosition.put(INTEGRATION_TYPE.DATA_BASE_REQUEST.value(), 3);
-        valuePosition.put(INTEGRATION_TYPE.DRAGON_PAY.value(), 4);
-        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 5);
-        valuePosition.put(INTEGRATION_TYPE.SEON.value(), 6);
-        valuePosition.put(INTEGRATION_TYPE.SQL_ADAPTER.value(), 7);
-        valuePosition.put(INTEGRATION_TYPE.TRUSTING_SOCIAL.value(), 8);
-        valuePosition.put(INTEGRATION_TYPE.FIN_SCORE.value(), 9);
-        valuePosition.put(INTEGRATION_TYPE.TELE_SIGN.value(), 10);
-        valuePosition.put(INTEGRATION_TYPE.AMAZON_PHOTO_VALIDATION.value(), 11);
+        valuePosition.put(INTEGRATION_TYPE.DRAGON_PAY.value(), 3);
+        valuePosition.put(INTEGRATION_TYPE.SCORING.value(), 4);
+        valuePosition.put(INTEGRATION_TYPE.SEON.value(), 5);
+        valuePosition.put(INTEGRATION_TYPE.SQL_ADAPTER.value(), 6);
+        valuePosition.put(INTEGRATION_TYPE.TRUSTING_SOCIAL.value(), 7);
+        valuePosition.put(INTEGRATION_TYPE.FIN_SCORE.value(), 8);
+        valuePosition.put(INTEGRATION_TYPE.TELE_SIGN.value(), 9);
+        valuePosition.put(INTEGRATION_TYPE.AMAZON_PHOTO_VALIDATION.value(), 10);
     }
 
     private SafeComparator<Object> getComparator() {

@@ -60,7 +60,6 @@ public class TaskType implements BPMNProperty {
             .add(TaskTypes.SCRIPT)
             .add(TaskTypes.SCORING)
             .add(TaskTypes.AMAZON)
-            .add(TaskTypes.DATA_BASE_REQUEST)
             .add(TaskTypes.DRAGON_PAY)
             .add(TaskTypes.SEON)
             .add(TaskTypes.ADVANCE_AI)

@@ -29,7 +29,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTas
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
-import org.kie.workbench.common.stunner.bpmn.definition.DBRequestTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
@@ -63,7 +62,6 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(ScriptTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(ScoringTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(AmazonTask.class, BPMNSVGViewFactory::scriptTask)
-                    .put(DBRequestTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(DragonPayTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(SeonTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(AdvanceAITask.class, BPMNSVGViewFactory::scriptTask)
@@ -81,7 +79,6 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(UserTask.class, BPMNGlyphFactory.TASK_USER)
                     .put(ScriptTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(AmazonTask.class, BPMNGlyphFactory.TASK_SCRIPT)
-                    .put(DBRequestTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(DragonPayTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(SeonTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(AdvanceAITask.class, BPMNGlyphFactory.TASK_SCRIPT)
@@ -106,7 +103,6 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(ScriptTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(ScoringTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(AmazonTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
-                    .put(DBRequestTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(DragonPayTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(SeonTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(AdvanceAITask.class, DEFAULT_TASK_MARGINS_WITH_ICON)

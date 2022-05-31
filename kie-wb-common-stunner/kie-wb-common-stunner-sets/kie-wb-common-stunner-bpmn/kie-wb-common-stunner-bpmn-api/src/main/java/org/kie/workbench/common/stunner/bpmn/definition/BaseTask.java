@@ -95,7 +95,6 @@ public abstract class BaseTask implements BPMNViewDefinition {
                              ScriptTask.class)
                         .put(TaskTypes.AMAZON, AmazonTask.class)
                         .put(TaskTypes.SCORING, ScoringTask.class)
-                        .put(TaskTypes.DATA_BASE_REQUEST, DBRequestTask.class)
                         .put(TaskTypes.DRAGON_PAY, DragonPayTask.class)
                         .put(TaskTypes.SEON, SeonTask.class)
                         .put(TaskTypes.ADVANCE_AI, AdvanceAITask.class)

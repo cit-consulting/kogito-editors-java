@@ -76,7 +76,7 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     );
 
     public AdvanceAITaskExecutionSet() {
-        this(0.0, new IntegrationMode(), "");
+        this(0.0, new IntegrationMode(), "default");
     }
 
     public AdvanceAITaskExecutionSet(
