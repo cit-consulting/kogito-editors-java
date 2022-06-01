@@ -71,7 +71,7 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"advanceai-integration\")"
+                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"advanceai-integration\");"
             )
     );
 
