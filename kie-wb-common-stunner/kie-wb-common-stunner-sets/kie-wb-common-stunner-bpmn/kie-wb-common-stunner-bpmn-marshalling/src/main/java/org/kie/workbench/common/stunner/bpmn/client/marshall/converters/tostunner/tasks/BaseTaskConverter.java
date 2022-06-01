@@ -97,6 +97,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskEx
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TeleSignTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.variables.ProcessVariables;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.graph.Edge;
@@ -308,23 +309,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             Node<View<AmazonPhotoValidationTask>, Edge> node = amazonPhotoValidationTask(task, p);
             return BpmnNode.of(node, p);
         } else {
-            Node<View<ScriptTask>, Edge> node = factoryManager.newNode(task.getId(), ScriptTask.class);
-            ScriptTask definition = node.getContent().getDefinition();
-            definition.setGeneral(new TaskGeneralSet(
-                    new Name(p.getName() + "(invalid task)"),
-                    new Documentation(p.getDocumentation())
-            ));
-            definition.setExecutionSet(new ScriptTaskExecutionSet(
-                    new Script(p.getScript()),
-                    new IsAsync(),
-                    new AdHocAutostart()
-            ));
-            node.getContent().setBounds(p.getBounds());
-            definition.setDimensionsSet(p.getRectangleDimensionsSet());
-            definition.setBackgroundSet(p.getBackgroundSet());
-            definition.setFontSet(p.getFontSet());
-            definition.setSimulationSet(p.getSimulationSet());
-            return BpmnNode.of(node, p);
+            throw new RuntimeException("invalid task");
         }
     }
 

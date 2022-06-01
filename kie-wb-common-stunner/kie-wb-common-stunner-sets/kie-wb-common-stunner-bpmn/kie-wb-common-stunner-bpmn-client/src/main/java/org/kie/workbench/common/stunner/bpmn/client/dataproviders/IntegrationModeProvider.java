@@ -36,7 +36,8 @@ public class IntegrationModeProvider implements SelectorDataProvider {
     private enum ADVANCE_AI_TYPE {
         FULL(IntegrationMode.FULL, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.FULL"),
         DOC(IntegrationMode.DOC, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.DOC"),
-        DOC_PHONE(IntegrationMode.DOC_PHONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.DOC_PHONE");
+        DOC_PHONE(IntegrationMode.DOC_PHONE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.DOC_PHONE"),
+        HIGH_RISK(IntegrationMode.HIGH_RISK, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.IntegrationModeProvider.HIGH_RISK");
 
         private final String value;
 
@@ -71,6 +72,7 @@ public class IntegrationModeProvider implements SelectorDataProvider {
         valuePosition.put(ADVANCE_AI_TYPE.FULL.value(), 0);
         valuePosition.put(ADVANCE_AI_TYPE.DOC.value(), 1);
         valuePosition.put(ADVANCE_AI_TYPE.DOC_PHONE.value(), 2);
+        valuePosition.put(ADVANCE_AI_TYPE.HIGH_RISK.value(), 3);
     }
 
     private SafeComparator<Object> getComparator() {

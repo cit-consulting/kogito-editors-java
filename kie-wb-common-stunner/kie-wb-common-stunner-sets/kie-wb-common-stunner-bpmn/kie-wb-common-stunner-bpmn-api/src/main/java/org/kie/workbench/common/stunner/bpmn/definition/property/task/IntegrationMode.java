@@ -35,7 +35,8 @@ public class IntegrationMode implements BPMNProperty {
 
     public final static String FULL =  "full";
     public final static String DOC = "doc";
-    public final static String DOC_PHONE = "doc-phone";
+    public final static String DOC_PHONE = "doc_phone";
+    public final static String HIGH_RISK = "high_risk";
 
     @Value
     @FieldValue
