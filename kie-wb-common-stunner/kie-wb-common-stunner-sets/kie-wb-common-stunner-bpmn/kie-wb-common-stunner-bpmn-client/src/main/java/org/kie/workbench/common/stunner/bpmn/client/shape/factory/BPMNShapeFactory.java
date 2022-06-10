@@ -83,6 +83,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
@@ -195,6 +196,7 @@ public class BPMNShapeFactory
                 .delegate(SQLAdapterTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(TeleSignTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AmazonPhotoValidationTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(S3FetchTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

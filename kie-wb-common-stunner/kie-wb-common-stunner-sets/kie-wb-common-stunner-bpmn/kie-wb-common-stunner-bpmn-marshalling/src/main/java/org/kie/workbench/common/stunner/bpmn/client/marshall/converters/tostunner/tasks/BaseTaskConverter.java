@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import org.eclipse.bpmn2.ManualTask;
 import org.eclipse.bpmn2.ReceiveTask;
+import org.eclipse.bpmn2.ScriptTask;
 import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.Task;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.MarshallingRequest.Mode;
@@ -48,9 +49,9 @@ import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
-import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.TeleSignTask;
 import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
@@ -89,6 +90,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnEntryAct
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.OnExitAction;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleFlowGroup;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.S3FetchTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
@@ -308,9 +310,25 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         } else if (IntegrationType.AMAZON_PHOTO_VALIDATION.equals(type.getValue())) {
             Node<View<AmazonPhotoValidationTask>, Edge> node = amazonPhotoValidationTask(task, p);
             return BpmnNode.of(node, p);
+        } else if (IntegrationType.S3_FETCH.equals(type.getValue())) {
+            Node<View<S3FetchTask>, Edge> node = s3FetchValidationTask(task, p);
+            return BpmnNode.of(node, p);
         } else {
             throw new RuntimeException("invalid task");
         }
+    }
+
+    private Node<View<S3FetchTask>, Edge> s3FetchValidationTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
+        Node<View<S3FetchTask>, Edge> node = factoryManager.newNode(task.getId(), S3FetchTask.class);
+        S3FetchTask definition = node.getContent().getDefinition();
+        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
+        definition.setExecutionSet(new S3FetchTaskExecutionSet(p.getCacheValue(), p.getResultS3Key()));
+        node.getContent().setBounds(p.getBounds());
+        definition.setDimensionsSet(p.getRectangleDimensionsSet());
+        definition.setBackgroundSet(p.getBackgroundSet());
+        definition.setFontSet(p.getFontSet());
+        definition.setSimulationSet(p.getSimulationSet());
+        return node;
     }
 
     private Node<View<AmazonPhotoValidationTask>, Edge> amazonPhotoValidationTask(

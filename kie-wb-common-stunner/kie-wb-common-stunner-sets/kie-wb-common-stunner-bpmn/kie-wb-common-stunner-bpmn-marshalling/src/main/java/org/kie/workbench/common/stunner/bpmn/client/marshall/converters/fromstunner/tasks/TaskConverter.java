@@ -36,6 +36,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
@@ -52,6 +53,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRu
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLanguage;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.S3FetchTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
@@ -111,6 +113,9 @@ public class TaskConverter {
         }
         if (def instanceof AmazonPhotoValidationTask) {
             return amazonPhotoValidationTask(cast(node));
+        }
+        if (def instanceof S3FetchTask) {
+            return s3FetchTask(cast(node));
         }
         if (def instanceof BusinessRuleTask) {
             return businessRuleTask(cast(node));
@@ -435,6 +440,24 @@ public class TaskConverter {
         p.setSimulationSet(definition.getSimulationSet());
         p.setResultS3Key(executionSet.getResultS3Key());
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
+        p.setAbsoluteBounds(n);
+        return p;
+    }
+
+    private PropertyWriter s3FetchTask(Node<View<S3FetchTask>, ?> n)  {
+        org.eclipse.bpmn2.ScriptTask task = bpmn2.createScriptTask();
+        task.setId(n.getUUID());
+        S3FetchTask definition = n.getContent().getDefinition();
+        ScriptTaskPropertyWriter p = propertyWriterFactory.of(task);
+        TaskGeneralSet general = definition.getGeneral();
+        p.setName(general.getName().getValue());
+        p.setDocumentation(general.getDocumentation().getValue());
+        S3FetchTaskExecutionSet executionSet = definition.getExecutionSet();
+        p.setIntegrationType(executionSet.getIntegrationType().getValue());
+        p.setScript(executionSet.getScript().getValue());
+        p.setCacheValue(executionSet.getCacheValue());
+        p.setSimulationSet(definition.getSimulationSet());
+        p.setResultS3Key(executionSet.getResultS3Key());
         p.setAbsoluteBounds(n);
         return p;
     }

@@ -62,6 +62,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociatio
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ParallelGateway;
 import org.kie.workbench.common.stunner.bpmn.definition.ReusableSubprocess;
+import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
@@ -110,6 +111,8 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 TeleSignTask.class,
                 // part 7
                 AmazonPhotoValidationTask.class,
+                // part 8
+                S3FetchTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

@@ -33,6 +33,7 @@ public enum TaskTypes {
     SQL_ADAPTER,
     FIN_SCORE,
     AMAZON_PHOTO_VALIDATION,
+    S3_FETCH,
     BUSINESS_RULE,
     SERVICE_TASK;
 }

@@ -33,6 +33,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
+import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScoringTask;
 import org.kie.workbench.common.stunner.bpmn.definition.ScriptTask;
@@ -70,6 +71,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(SQLAdapterTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(TeleSignTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(AmazonPhotoValidationTask.class, BPMNSVGViewFactory::scriptTask)
+                    .put(S3FetchTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
 
     public static final Map<Class<? extends BaseTask>, Glyph> GLYPHS =
@@ -88,6 +90,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(ScoringTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(TeleSignTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(AmazonPhotoValidationTask.class, BPMNGlyphFactory.TASK_SCRIPT)
+                    .put(S3FetchTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
                     .build();
 
@@ -111,6 +114,7 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(SQLAdapterTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(TeleSignTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(AmazonPhotoValidationTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+                    .put(S3FetchTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(GenericServiceTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
