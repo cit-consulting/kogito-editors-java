@@ -55,7 +55,7 @@ public class DragonPayTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.dragonpay.DragonpayIntegration.process(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"dragonpay-integration\");"
             )
     );
 

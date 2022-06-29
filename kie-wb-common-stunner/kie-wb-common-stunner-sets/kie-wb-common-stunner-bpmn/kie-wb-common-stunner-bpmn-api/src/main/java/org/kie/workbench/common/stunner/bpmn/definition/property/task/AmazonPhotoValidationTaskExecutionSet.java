@@ -74,7 +74,7 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.photovalidation.PhotoValidationIntegration.process(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"aws-photo-validation\");"
             )
     );
 

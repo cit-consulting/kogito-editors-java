@@ -64,7 +64,7 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.dbadapter.DBAdapterIntegration.process(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.integration.DBAdapterIntegration.process(kcontext);"
             )
     );
 

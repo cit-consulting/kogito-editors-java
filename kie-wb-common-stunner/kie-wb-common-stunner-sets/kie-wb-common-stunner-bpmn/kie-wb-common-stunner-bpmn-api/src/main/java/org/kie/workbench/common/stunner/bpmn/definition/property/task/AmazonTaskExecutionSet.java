@@ -57,7 +57,7 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.amazon.AmazonIntegration.process(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"amazon-rekognition\");"
             )
     );
 

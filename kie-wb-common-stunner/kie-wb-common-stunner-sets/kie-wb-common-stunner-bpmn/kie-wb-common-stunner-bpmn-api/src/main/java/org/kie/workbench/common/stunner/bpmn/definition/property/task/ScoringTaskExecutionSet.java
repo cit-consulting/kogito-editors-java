@@ -35,7 +35,7 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.python.ScoringClientAdapter.call(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.scoring.ScoringAdapter.call(kcontext);"
             )
     );
 

@@ -72,7 +72,7 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.trustingsocial.TrustingSocial.process(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"trusting-social-integration\");"
             )
     );
 

@@ -55,7 +55,7 @@ public class TeleSignTaskExecutionSet implements BPMNPropertySet {
     private final Script script = new Script(
             new ScriptTypeValue(
                     "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.telesign.TelesignIntegration.process(kcontext);"
+                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"telesign-integration\");"
             )
     );
 
