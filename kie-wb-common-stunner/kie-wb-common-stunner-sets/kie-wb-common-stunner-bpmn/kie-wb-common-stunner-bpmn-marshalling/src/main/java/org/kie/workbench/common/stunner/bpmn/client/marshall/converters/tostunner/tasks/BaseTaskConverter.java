@@ -322,7 +322,13 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<S3FetchTask>, Edge> node = factoryManager.newNode(task.getId(), S3FetchTask.class);
         S3FetchTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new S3FetchTaskExecutionSet(p.getCacheValue(), p.getResultS3Key()));
+        definition.setExecutionSet(
+                new S3FetchTaskExecutionSet(
+                        p.getCacheValue(),
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
+                )
+        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
@@ -342,7 +348,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                 new AmazonPhotoValidationTaskExecutionSet(
                         p.getCacheValue(),
                         new IntegrationModePhotoValidation(p.getIntegrationMode()),
-                        p.getResultS3Key()
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -357,7 +364,13 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<TeleSignTask>, Edge> node = factoryManager.newNode(task.getId(), TeleSignTask.class);
         TeleSignTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new TeleSignTaskExecutionSet(p.getCacheValue(), p.getResultS3Key()));
+        definition.setExecutionSet(
+                new TeleSignTaskExecutionSet(
+                        p.getCacheValue(),
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
+                )
+        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
@@ -374,7 +387,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                 new FinScoreTaskExecutionSet(
                         p.getCacheValue(),
                         p.getIntegrationMode(),
-                        p.getResultS3Key()
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -393,7 +407,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                 new SQLAdapterTaskExecutionSet(
                         p.getCacheValue(),
                         p.getSQLAdapterIntegrationName(),
-                        p.getResultS3Key()
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -412,7 +427,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                 new TrustingSocialTaskExecutionSet(
                         p.getCacheValue(),
                         new IntegrationModeTrustSocial(p.getIntegrationMode()),
-                        p.getResultS3Key()
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -431,7 +447,8 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                 new AdvanceAITaskExecutionSet(
                         p.getCacheValue(),
                         new IntegrationMode(p.getIntegrationMode()),
-                        p.getResultS3Key()
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
                 )
         );
         node.getContent().setBounds(p.getBounds());
@@ -446,7 +463,13 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<SeonTask>, Edge> node = factoryManager.newNode(task.getId(), SeonTask.class);
         SeonTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new SeonTaskExecutionSet(p.getCacheValue(), p.getResultS3Key()));
+        definition.setExecutionSet(
+                new SeonTaskExecutionSet(
+                        p.getCacheValue(),
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
+                )
+        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
@@ -459,7 +482,13 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(task.getId(), DragonPayTask.class);
         DragonPayTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new DragonPayTaskExecutionSet(p.getCacheValue(), p.getResultS3Key()));
+        definition.setExecutionSet(
+                new DragonPayTaskExecutionSet(
+                        p.getCacheValue(),
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
+                )
+        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
@@ -472,7 +501,13 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<AmazonTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonTask.class);
         AmazonTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new AmazonTaskExecutionSet(p.getCacheValue(), p.getResultS3Key()));
+        definition.setExecutionSet(
+                new AmazonTaskExecutionSet(
+                        p.getCacheValue(),
+                        p.getResultS3Key(),
+                        new IsAsync(p.getIsAsync())
+                )
+        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
@@ -485,7 +520,12 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
         ScoringTask definition = node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(new ScoringTaskExecutionSet(p.getScoringIdentity()));
+        definition.setExecutionSet(
+                new ScoringTaskExecutionSet(
+                        p.getScoringIdentity(),
+                        new IsAsync(p.getIsAsync())
+                )
+        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());

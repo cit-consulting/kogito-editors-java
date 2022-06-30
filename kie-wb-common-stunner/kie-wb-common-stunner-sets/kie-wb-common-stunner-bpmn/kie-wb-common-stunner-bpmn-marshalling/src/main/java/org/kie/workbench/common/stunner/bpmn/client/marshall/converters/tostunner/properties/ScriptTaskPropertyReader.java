@@ -77,4 +77,8 @@ public class ScriptTaskPropertyReader extends TaskPropertyReader {
     public String getSQLAdapterIntegrationName() {
         return CustomElement.integrationName.of(element).get();
     }
+
+    public Boolean getIsAsync() {
+        return CustomElement.async.of(element).get();
+    }
 }

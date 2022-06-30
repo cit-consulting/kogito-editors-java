@@ -75,4 +75,8 @@ public class ScriptTaskPropertyWriter extends ActivityPropertyWriter {
     public void setSQLAdapterIntegrationName(String integrationName) {
         CustomElement.integrationName.of(scriptTask).set(integrationName);
     }
+
+    public void setIsAsync(Boolean isAsync) {
+        CustomElement.async.of(scriptTask).set(isAsync);
+    }
 }

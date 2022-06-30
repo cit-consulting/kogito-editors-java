@@ -311,6 +311,7 @@ public class TaskConverter {
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
         p.setResultS3Key(executionSet.getResultS3Key());
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -329,6 +330,7 @@ public class TaskConverter {
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -347,6 +349,7 @@ public class TaskConverter {
         p.setResultS3Key(executionSet.getResultS3Key());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -366,6 +369,7 @@ public class TaskConverter {
         p.setScript(executionSet.getScript().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -385,6 +389,7 @@ public class TaskConverter {
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -404,6 +409,7 @@ public class TaskConverter {
         p.setSQLAdapterIntegrationName(executionSet.getIntegrationName());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -422,6 +428,7 @@ public class TaskConverter {
         p.setSimulationSet(definition.getSimulationSet());
         p.setResultS3Key(executionSet.getResultS3Key());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -441,6 +448,7 @@ public class TaskConverter {
         p.setResultS3Key(executionSet.getResultS3Key());
         p.setIntegrationMode(executionSet.getIntegrationMode().getValue());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -459,6 +467,7 @@ public class TaskConverter {
         p.setSimulationSet(definition.getSimulationSet());
         p.setResultS3Key(executionSet.getResultS3Key());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -478,6 +487,7 @@ public class TaskConverter {
         p.setIntegrationMode(executionSet.getIntegrationMode());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 
@@ -495,6 +505,7 @@ public class TaskConverter {
         p.setScoringIdentity(executionSet.getScoringIdentity());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
+        p.setIsAsync(executionSet.getIsAsync().getValue());
         return p;
     }
 

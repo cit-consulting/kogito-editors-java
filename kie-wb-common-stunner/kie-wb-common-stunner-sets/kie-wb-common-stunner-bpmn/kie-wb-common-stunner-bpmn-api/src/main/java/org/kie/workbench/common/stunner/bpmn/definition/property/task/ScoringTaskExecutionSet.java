@@ -47,16 +47,25 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private String scoringIdentity;
 
+    @Property
+    @FormField(
+            afterElement = "scoringIdentity"
+    )
+    @Valid
+    private IsAsync isAsync;
+
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SCORING);
 
     public ScoringTaskExecutionSet() {
-        this("");
+        this("", new IsAsync());
     }
 
     public ScoringTaskExecutionSet(
-            final @MapsTo("scoringIdentity") String scoringIdentity
+            final @MapsTo("scoringIdentity") String scoringIdentity,
+            final @MapsTo("isAsync") IsAsync isAsync
     ) {
         this.scoringIdentity = scoringIdentity;
+        this.isAsync = isAsync;
     }
 
     public void setScoringIdentity(String scoringIdentity) {
@@ -75,12 +84,21 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
         return script;
     }
 
+    public void setIsAsync(IsAsync isAsync) {
+        this.isAsync = isAsync;
+    }
+
+    public IsAsync getIsAsync() {
+        return isAsync;
+    }
+
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
-                Objects.hashCode(scoringIdentity)
+                Objects.hashCode(scoringIdentity),
+                Objects.hashCode(isAsync)
         );
     }
 
@@ -90,6 +108,7 @@ public class ScoringTaskExecutionSet implements BPMNPropertySet {
             ScoringTaskExecutionSet other = (ScoringTaskExecutionSet) o;
             return Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
+                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(scoringIdentity, other.scoringIdentity);
         }
         return false;

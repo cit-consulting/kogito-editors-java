@@ -58,6 +58,14 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private String integrationMode;
 
+
+    @Property
+    @FormField(
+            afterElement = "integrationMode"
+    )
+    @Valid
+    private IsAsync isAsync;
+
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.FIN_SCORE);
 
     private final Script script = new Script(
@@ -68,17 +76,19 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     );
 
     public FinScoreTaskExecutionSet() {
-        this(0.0, "", "default");
+        this(0.0, "", "default", new IsAsync());
     }
 
     public FinScoreTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationMode") String integrationMode,
-            final @MapsTo("resultS3Key") String resultS3Key
+            final @MapsTo("resultS3Key") String resultS3Key,
+            final @MapsTo("isAsync") IsAsync isAsync
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
         this.resultS3Key = resultS3Key;
+        this.isAsync = isAsync;
     }
 
     public String getIntegrationMode() {
@@ -113,6 +123,14 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
         return script;
     }
 
+    public void setIsAsync(IsAsync isAsync) {
+        this.isAsync = isAsync;
+    }
+
+    public IsAsync getIsAsync() {
+        return isAsync;
+    }
+
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
@@ -120,7 +138,8 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
-                Objects.hashCode(resultS3Key)
+                Objects.hashCode(resultS3Key),
+                Objects.hashCode(isAsync)
         );
     }
 
@@ -132,6 +151,7 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
+                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;

@@ -69,6 +69,13 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
     )
     private IntegrationModePhotoValidation integrationMode;
 
+    @Property
+    @FormField(
+            afterElement = "integrationMode"
+    )
+    @Valid
+    private IsAsync isAsync;
+
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.AMAZON_PHOTO_VALIDATION);
 
     private final Script script = new Script(
@@ -79,17 +86,19 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
     );
 
     public AmazonPhotoValidationTaskExecutionSet() {
-        this(0.0, new IntegrationModePhotoValidation(), "default");
+        this(0.0, new IntegrationModePhotoValidation(), "default", new IsAsync());
     }
 
     public AmazonPhotoValidationTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationMode") IntegrationModePhotoValidation integrationMode,
-            final @MapsTo("resultS3Key") String resultS3Key
+            final @MapsTo("resultS3Key") String resultS3Key,
+            final @MapsTo("isAsync") IsAsync isAsync
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
         this.resultS3Key = resultS3Key;
+        this.isAsync = isAsync;
     }
 
     public IntegrationModePhotoValidation getIntegrationMode() {
@@ -124,6 +133,14 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
         return script;
     }
 
+    public IsAsync getIsAsync() {
+        return isAsync;
+    }
+
+    public void setIsAsync(IsAsync isAsync) {
+        this.isAsync = isAsync;
+    }
+
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
@@ -131,7 +148,8 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
                 Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
-                Objects.hashCode(resultS3Key)
+                Objects.hashCode(resultS3Key),
+                Objects.hashCode(isAsync)
         );
     }
 
@@ -143,6 +161,7 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
                     Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
+                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;
