@@ -42,6 +42,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.TeleSignTask;
 import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
+import org.kie.workbench.common.stunner.bpmn.workitem.riskengine.MyCustomTask;
 import org.kie.workbench.common.stunner.core.client.shape.view.HasTitle.HorizontalAlignment;
 import org.kie.workbench.common.stunner.core.client.shape.view.handler.CompositeShapeViewHandler;
 import org.kie.workbench.common.stunner.core.client.shape.view.handler.FontHandler;
@@ -72,7 +73,9 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(TeleSignTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(AmazonPhotoValidationTask.class, BPMNSVGViewFactory::scriptTask)
                     .put(S3FetchTask.class, BPMNSVGViewFactory::scriptTask)
-                    .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask);
+                    .put(BusinessRuleTask.class, BPMNSVGViewFactory::businessRuleTask)
+
+                    .put(MyCustomTask.class, BPMNSVGViewFactory::scriptTask);
 
     public static final Map<Class<? extends BaseTask>, Glyph> GLYPHS =
             new Maps.Builder<Class<? extends BaseTask>, Glyph>()
@@ -92,6 +95,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(AmazonPhotoValidationTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(S3FetchTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .put(BusinessRuleTask.class, BPMNGlyphFactory.TASK_BUSINESS_RULE)
+
+                    .put(MyCustomTask.class, BPMNGlyphFactory.TASK_SCRIPT)
                     .build();
 
     private static final Map<Enum, Double> DEFAULT_TASK_MARGINS_WITH_ICON =
@@ -118,6 +123,8 @@ public class TaskShapeDef extends BaseDimensionedShapeDef
                     .put(BusinessRuleTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(CustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .put(GenericServiceTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
+
+                    .put(MyCustomTask.class, DEFAULT_TASK_MARGINS_WITH_ICON)
                     .build();
 
     @Override

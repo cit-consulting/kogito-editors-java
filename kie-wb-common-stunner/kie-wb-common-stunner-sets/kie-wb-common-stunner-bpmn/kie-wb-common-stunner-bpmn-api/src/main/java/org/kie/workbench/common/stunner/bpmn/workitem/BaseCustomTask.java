@@ -29,7 +29,7 @@ import org.kie.workbench.common.stunner.core.definition.annotation.definition.Ca
 public abstract class BaseCustomTask extends BaseTask {
 
     @Category
-    public static final transient String category = BPMNCategories.CUSTOM_TASKS;
+    public static final transient String category = BPMNCategories.ACTIVITIES;
 
     public BaseCustomTask(TaskGeneralSet general, BackgroundSet backgroundSet, FontSet fontSet, RectangleDimensionsSet dimensionsSet, SimulationSet simulationSet, TaskType taskType) {
         super(general, backgroundSet, fontSet, dimensionsSet, simulationSet, taskType);

@@ -103,6 +103,7 @@ import org.kie.workbench.common.stunner.bpmn.definition.TrustingSocialTask;
 import org.kie.workbench.common.stunner.bpmn.definition.UserTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.WorkItemDefinitionRegistry;
+import org.kie.workbench.common.stunner.bpmn.workitem.riskengine.MyCustomTask;
 import org.kie.workbench.common.stunner.core.client.preferences.StunnerPreferencesRegistries;
 import org.kie.workbench.common.stunner.core.client.preferences.StunnerTextPreferences;
 import org.kie.workbench.common.stunner.core.client.shape.Shape;
@@ -197,6 +198,9 @@ public class BPMNShapeFactory
                 .delegate(TeleSignTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AmazonPhotoValidationTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(S3FetchTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+
+                .delegate(MyCustomTask.class, new TaskShapeDef(), () -> svgShapeFactory)
+
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)
