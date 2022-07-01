@@ -82,28 +82,24 @@ public class TaskPropertyWriter extends ActivityPropertyWriter {
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
         } else if (baseTask instanceof AmazonTask) {
             AmazonTaskExecutionSet executionSet = ((AmazonTask) baseTask).getExecutionSet();
             setIntegrationType(executionSet.getIntegrationType().getValue());
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
         } else if (baseTask instanceof SeonTask) {
             SeonTaskExecutionSet executionSet = ((SeonTask) baseTask).getExecutionSet();
             setIntegrationType(executionSet.getIntegrationType().getValue());
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
         } else if (baseTask instanceof AdvanceAITask) {
             AdvanceAITaskExecutionSet executionSet = ((AdvanceAITask) baseTask).getExecutionSet();
             setIntegrationType(executionSet.getIntegrationType().getValue());
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
             setIntegrationMode(executionSet.getIntegrationMode().getValue());
         } else if (baseTask instanceof TrustingSocialTask) {
             TrustingSocialTaskExecutionSet executionSet = ((TrustingSocialTask) baseTask).getExecutionSet();
@@ -111,7 +107,6 @@ public class TaskPropertyWriter extends ActivityPropertyWriter {
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
             setIntegrationMode(executionSet.getIntegrationMode().getValue());
         } else if (baseTask instanceof FinScoreTask) {
             FinScoreTaskExecutionSet executionSet = ((FinScoreTask) baseTask).getExecutionSet();
@@ -119,7 +114,6 @@ public class TaskPropertyWriter extends ActivityPropertyWriter {
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
             setIntegrationMode(executionSet.getIntegrationMode());
         } else if (baseTask instanceof SQLAdapterTask) {
             SQLAdapterTaskExecutionSet executionSet = ((SQLAdapterTask) baseTask).getExecutionSet();
@@ -127,21 +121,18 @@ public class TaskPropertyWriter extends ActivityPropertyWriter {
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
         } else if (baseTask instanceof TeleSignTask) {
             TeleSignTaskExecutionSet executionSet = ((TeleSignTask) baseTask).getExecutionSet();
             setIntegrationType(executionSet.getIntegrationType().getValue());
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
         } else if (baseTask instanceof AmazonPhotoValidationTask) {
             AmazonPhotoValidationTaskExecutionSet executionSet = ((AmazonPhotoValidationTask) baseTask).getExecutionSet();
             setIntegrationType(executionSet.getIntegrationType().getValue());
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
             setIntegrationMode(executionSet.getIntegrationMode().getValue());
         } else if (baseTask instanceof S3FetchTask) {
             S3FetchTaskExecutionSet executionSet = ((S3FetchTask) baseTask).getExecutionSet();
@@ -149,7 +140,6 @@ public class TaskPropertyWriter extends ActivityPropertyWriter {
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
             setResultS3Key(executionSet.getResultS3Key());
-            setIsAsync(executionSet.getIsAsync().getValue());
         }
 
         return this;
