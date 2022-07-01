@@ -286,8 +286,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             node.getContent().getDefinition().setExecutionSet(
                     new AmazonTaskExecutionSet(
                             p.getCacheValue(),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -296,8 +295,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             node.getContent().getDefinition().setExecutionSet(
                     new DragonPayTaskExecutionSet(
                             p.getCacheValue(),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -306,8 +304,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             node.getContent().getDefinition().setExecutionSet(
                     new SeonTaskExecutionSet(
                             p.getCacheValue(),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -317,8 +314,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                     new AdvanceAITaskExecutionSet(
                             p.getCacheValue(),
                             new IntegrationMode(p.getIntegrationMode()),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -328,8 +324,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                     new TrustingSocialTaskExecutionSet(
                             p.getCacheValue(),
                             new IntegrationModeTrustSocial(p.getIntegrationMode()),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -346,8 +341,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                     new SQLAdapterTaskExecutionSet(
                             p.getCacheValue(),
                             sqlAdapterIdentity,
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -357,8 +351,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                     new FinScoreTaskExecutionSet(
                             p.getCacheValue(),
                             p.getIntegrationMode(),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -367,8 +360,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             node.getContent().getDefinition().setExecutionSet(
                     new TeleSignTaskExecutionSet(
                             p.getCacheValue(),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -378,8 +370,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
                     new AmazonPhotoValidationTaskExecutionSet(
                             p.getCacheValue(),
                             new IntegrationModePhotoValidation(p.getIntegrationMode()),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -388,8 +379,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             node.getContent().getDefinition().setExecutionSet(
                     new S3FetchTaskExecutionSet(
                             p.getCacheValue(),
-                            p.getResultS3Key(),
-                            new IsAsync(p.getIsAsync())
+                            p.getResultS3Key()
                     )
             );
             return node;
@@ -433,8 +423,7 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
         definition.setExecutionSet(
                 new ScoringTaskExecutionSet(
-                        p.getScoringIdentity(),
-                        new IsAsync(p.getIsAsync())
+                        p.getScoringIdentity()
                 )
         );
         node.getContent().setBounds(p.getBounds());

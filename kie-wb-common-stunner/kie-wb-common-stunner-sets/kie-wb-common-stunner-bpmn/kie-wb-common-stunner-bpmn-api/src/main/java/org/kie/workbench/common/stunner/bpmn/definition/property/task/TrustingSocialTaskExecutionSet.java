@@ -67,13 +67,6 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
     )
     private IntegrationModeTrustSocial integrationMode;
 
-    @Property
-    @FormField(
-            afterElement = "integrationMode"
-    )
-    @Valid
-    private IsAsync isAsync;
-
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.TRUSTING_SOCIAL);
 
     private final String integrationIdentity = "trusting-social-integration";
@@ -83,19 +76,17 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
     }
 
     public TrustingSocialTaskExecutionSet() {
-        this(0.0, new IntegrationModeTrustSocial(), "default", new IsAsync());
+        this(0.0, new IntegrationModeTrustSocial(), "default");
     }
 
     public TrustingSocialTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationMode") IntegrationModeTrustSocial integrationMode,
-            final @MapsTo("resultS3Key") String resultS3Key,
-            final @MapsTo("isAsync") IsAsync isAsync
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
         this.resultS3Key = resultS3Key;
-        this.isAsync = isAsync;
     }
 
     public Double getCacheValue() {
@@ -126,23 +117,13 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-
-    public void setIsAsync(IsAsync isAsync) {
-        this.isAsync = isAsync;
-    }
-
-    public IsAsync getIsAsync() {
-        return isAsync;
-    }
-
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(integrationMode),
                 Objects.hashCode(integrationType),
-                Objects.hashCode(resultS3Key),
-                Objects.hashCode(isAsync)
+                Objects.hashCode(resultS3Key)
         );
     }
 
@@ -153,7 +134,6 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
                     Objects.equals(integrationType, other.integrationType) &&
-                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;

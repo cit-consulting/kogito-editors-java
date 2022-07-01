@@ -58,14 +58,6 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private String integrationMode;
 
-
-    @Property
-    @FormField(
-            afterElement = "integrationMode"
-    )
-    @Valid
-    private IsAsync isAsync;
-
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.FIN_SCORE);
 
     private final String integrationIdentity = "finscore-integration";
@@ -75,19 +67,17 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     }
 
     public FinScoreTaskExecutionSet() {
-        this(0.0, "", "default", new IsAsync());
+        this(0.0, "", "default");
     }
 
     public FinScoreTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationMode") String integrationMode,
-            final @MapsTo("resultS3Key") String resultS3Key,
-            final @MapsTo("isAsync") IsAsync isAsync
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
         this.resultS3Key = resultS3Key;
-        this.isAsync = isAsync;
     }
 
     public String getIntegrationMode() {
@@ -117,24 +107,13 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     public void setResultS3Key(String resultS3Key) {
         this.resultS3Key = resultS3Key;
     }
-
-
-    public void setIsAsync(IsAsync isAsync) {
-        this.isAsync = isAsync;
-    }
-
-    public IsAsync getIsAsync() {
-        return isAsync;
-    }
-
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
-                Objects.hashCode(resultS3Key),
-                Objects.hashCode(isAsync)
+                Objects.hashCode(resultS3Key)
         );
     }
 
@@ -145,7 +124,6 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
-                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;

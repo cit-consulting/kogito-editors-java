@@ -67,13 +67,6 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     @Valid
     private IntegrationMode integrationMode;
 
-    @Property
-    @FormField(
-            afterElement = "integrationMode"
-    )
-    @Valid
-    private IsAsync isAsync;
-
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.ADVANCE_AI);
 
     private final String integrationIdentity = "advanceai-integration";
@@ -83,19 +76,17 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     }
 
     public AdvanceAITaskExecutionSet() {
-        this(0.0, new IntegrationMode(), "default", new IsAsync());
+        this(0.0, new IntegrationMode(), "default");
     }
 
     public AdvanceAITaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationMode") IntegrationMode integrationMode,
-            final @MapsTo("resultS3Key") String resultS3Key,
-            final @MapsTo("isAsync") IsAsync isAsync
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
         this.integrationMode = integrationMode;
         this.resultS3Key = resultS3Key;
-        this.isAsync = isAsync;
     }
 
     public void setIntegrationMode(IntegrationMode integrationMode) {
@@ -127,22 +118,13 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
         return integrationMode;
     }
 
-    public IsAsync getIsAsync() {
-        return isAsync;
-    }
-
-    public void setIsAsync(IsAsync isAsync) {
-        this.isAsync = isAsync;
-    }
-
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
-                Objects.hashCode(resultS3Key),
-                Objects.hashCode(isAsync)
+                Objects.hashCode(resultS3Key)
         );
     }
 
@@ -153,7 +135,6 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
-                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;

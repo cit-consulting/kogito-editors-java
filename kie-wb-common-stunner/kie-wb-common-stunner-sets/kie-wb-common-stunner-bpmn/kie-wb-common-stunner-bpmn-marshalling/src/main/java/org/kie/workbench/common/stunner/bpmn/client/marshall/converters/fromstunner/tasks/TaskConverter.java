@@ -274,7 +274,7 @@ public class TaskConverter {
         p.setScoringIdentity(executionSet.getScoringIdentity());
         p.setSimulationSet(definition.getSimulationSet());
         p.setAbsoluteBounds(n);
-        p.setIsAsync(executionSet.getIsAsync().getValue());
+        p.setIsAsync(true);
         return p;
     }
 

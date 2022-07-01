@@ -59,13 +59,6 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private String integrationName;
 
-    @Property
-    @FormField(
-            afterElement = "integrationName"
-    )
-    @Valid
-    private IsAsync isAsync;
-
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SQL_ADAPTER);
 
     public String getIntegrationIdentity() {
@@ -73,19 +66,17 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     }
 
     public SQLAdapterTaskExecutionSet() {
-        this(0.0, "", "default", new IsAsync());
+        this(0.0, "", "default");
     }
 
     public SQLAdapterTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
             final @MapsTo("integrationName") String integrationName,
-            final @MapsTo("resultS3Key") String resultS3Key,
-            final @MapsTo("isAsync") IsAsync isAsync
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
         this.integrationName = integrationName;
         this.resultS3Key = resultS3Key;
-        this.isAsync = isAsync;
     }
 
     public String getIntegrationName() {
@@ -116,23 +107,13 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
         this.resultS3Key = resultS3Key;
     }
 
-
-    public void setIsAsync(IsAsync isAsync) {
-        this.isAsync = isAsync;
-    }
-
-    public IsAsync getIsAsync() {
-        return isAsync;
-    }
-
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(integrationType),
-                Objects.hashCode(integrationName),
-                Objects.hashCode(isAsync)
+                Objects.hashCode(integrationName)
         );
     }
 
@@ -143,7 +124,6 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationName, other.integrationName) &&
-                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;

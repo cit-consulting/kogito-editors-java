@@ -50,13 +50,6 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     @Valid
     private String resultS3Key;
 
-    @Property
-    @FormField(
-            afterElement = "resultS3Key"
-    )
-    @Valid
-    private IsAsync isAsync;
-
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SEON);
 
     private final String integrationIdentity = "seon-integration";
@@ -66,17 +59,15 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
     }
 
     public SeonTaskExecutionSet() {
-        this(0.0, "default", new IsAsync());
+        this(0.0, "default");
     }
 
     public SeonTaskExecutionSet(
             final @MapsTo("cacheValue") Double cacheValue,
-            final @MapsTo("resultS3Key") String resultS3Key,
-            final @MapsTo("isAsync") IsAsync isAsync
+            final @MapsTo("resultS3Key") String resultS3Key
     ) {
         this.cacheValue = cacheValue;
         this.resultS3Key = resultS3Key;
-        this.isAsync = isAsync;
     }
 
     public void setCacheValue(Double cacheValue) {
@@ -99,21 +90,12 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public IsAsync getIsAsync() {
-        return isAsync;
-    }
-
-    public void setIsAsync(IsAsync isAsync) {
-        this.isAsync = isAsync;
-    }
-
     @Override
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(integrationType),
-                Objects.hashCode(resultS3Key),
-                Objects.hashCode(isAsync)
+                Objects.hashCode(resultS3Key)
         );
     }
 
@@ -123,7 +105,6 @@ public class SeonTaskExecutionSet implements BPMNPropertySet {
             SeonTaskExecutionSet other = (SeonTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(integrationType, other.integrationType) &&
-                    Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);
         }
         return false;
