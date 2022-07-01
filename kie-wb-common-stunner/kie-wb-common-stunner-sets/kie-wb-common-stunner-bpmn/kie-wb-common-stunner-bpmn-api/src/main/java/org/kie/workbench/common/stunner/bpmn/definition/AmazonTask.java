@@ -54,7 +54,7 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class AmazonTask extends BaseTask {
+public class AmazonTask extends BaseTask implements IntegrationTask {
 
     @Property
     @FormField(afterElement = "general")

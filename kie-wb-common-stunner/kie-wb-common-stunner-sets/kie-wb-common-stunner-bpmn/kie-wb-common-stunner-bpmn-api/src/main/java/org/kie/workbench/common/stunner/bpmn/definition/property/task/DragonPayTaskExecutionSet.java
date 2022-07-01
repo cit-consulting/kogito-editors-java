@@ -16,8 +16,6 @@
 
 package org.kie.workbench.common.stunner.bpmn.definition.property.task;
 
-import java.util.Objects;
-import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
@@ -28,6 +26,9 @@ import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.typ
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
+
+import javax.validation.Valid;
+import java.util.Objects;
 
 @Portable
 @Bindable
@@ -60,12 +61,8 @@ public class DragonPayTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.DRAGON_PAY);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"dragonpay-integration\");"
-            )
-    );
+    private final String integrationIdentity = "dragonpay-integration";
+
 
     public DragonPayTaskExecutionSet() {
         this(0.0, "default", new IsAsync());
@@ -101,8 +98,8 @@ public class DragonPayTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public Script getScript() {
-        return script;
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
     }
 
     public IsAsync getIsAsync() {
@@ -117,7 +114,6 @@ public class DragonPayTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(isAsync)
@@ -129,7 +125,6 @@ public class DragonPayTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof DragonPayTaskExecutionSet) {
             DragonPayTaskExecutionSet other = (DragonPayTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);

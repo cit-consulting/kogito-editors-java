@@ -53,7 +53,7 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class S3FetchTask extends BaseTask {
+public class S3FetchTask extends BaseTask implements IntegrationTask {
 
     @Property
     @FormField(afterElement = "general")

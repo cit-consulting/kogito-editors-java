@@ -33,7 +33,6 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGen
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
-import org.kie.workbench.common.stunner.bpmn.workitem.riskengine.MyCustomTask;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.definition.annotation.definition.Category;
 import org.kie.workbench.common.stunner.core.definition.annotation.definition.Labels;
@@ -109,8 +108,6 @@ public abstract class BaseTask implements BPMNViewDefinition {
                              BusinessRuleTask.class)
                         .put(TaskTypes.SERVICE_TASK,
                              GenericServiceTask.class)
-
-                        .put(TaskTypes.MY_CUSTOM, MyCustomTask.class)
                         .build();
 
         @Override

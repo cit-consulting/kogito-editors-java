@@ -16,8 +16,6 @@
 
 package org.kie.workbench.common.stunner.bpmn.definition.property.task;
 
-import java.util.Objects;
-import javax.validation.Valid;
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
@@ -31,6 +29,9 @@ import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.typ
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
+
+import javax.validation.Valid;
+import java.util.Objects;
 
 @Portable
 @Bindable
@@ -75,12 +76,11 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.ADVANCE_AI);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"advanceai-integration\");"
-            )
-    );
+    private final String integrationIdentity = "advanceai-integration";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
+    }
 
     public AdvanceAITaskExecutionSet() {
         this(0.0, new IntegrationMode(), "default", new IsAsync());
@@ -122,9 +122,6 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public Script getScript() {
-        return script;
-    }
 
     public IntegrationMode getIntegrationMode() {
         return integrationMode;
@@ -142,7 +139,6 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
                 Objects.hashCode(resultS3Key),
@@ -155,7 +151,6 @@ public class AdvanceAITaskExecutionSet implements BPMNPropertySet {
         if (o instanceof AdvanceAITaskExecutionSet) {
             AdvanceAITaskExecutionSet other = (AdvanceAITaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
                     Objects.equals(isAsync, other.isAsync) &&

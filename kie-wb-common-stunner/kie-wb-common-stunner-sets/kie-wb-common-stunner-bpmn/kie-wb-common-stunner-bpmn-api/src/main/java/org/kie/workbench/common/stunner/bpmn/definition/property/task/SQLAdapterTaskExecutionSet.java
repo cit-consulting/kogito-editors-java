@@ -68,15 +68,12 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.SQL_ADAPTER);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.DBAdapterIntegration.process(kcontext);"
-            )
-    );
+    public String getIntegrationIdentity() {
+        return getIntegrationName();
+    }
 
     public SQLAdapterTaskExecutionSet() {
-        this(0.0, "", "", new IsAsync());
+        this(0.0, "", "default", new IsAsync());
     }
 
     public SQLAdapterTaskExecutionSet(
@@ -119,9 +116,6 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
         this.resultS3Key = resultS3Key;
     }
 
-    public Script getScript() {
-        return script;
-    }
 
     public void setIsAsync(IsAsync isAsync) {
         this.isAsync = isAsync;
@@ -135,7 +129,6 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationName),
@@ -148,7 +141,6 @@ public class SQLAdapterTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof SQLAdapterTaskExecutionSet) {
             SQLAdapterTaskExecutionSet other = (SQLAdapterTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationName, other.integrationName) &&
                     Objects.equals(isAsync, other.isAsync) &&

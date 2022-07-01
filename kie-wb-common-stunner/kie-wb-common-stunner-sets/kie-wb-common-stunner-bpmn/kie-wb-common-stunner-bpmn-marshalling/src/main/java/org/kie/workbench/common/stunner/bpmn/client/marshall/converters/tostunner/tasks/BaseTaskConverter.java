@@ -16,8 +16,6 @@
 
 package org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.tasks;
 
-import java.util.Optional;
-
 import org.eclipse.bpmn2.ManualTask;
 import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.ScriptTask;
@@ -43,6 +41,8 @@ import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.util.Con
 import org.kie.workbench.common.stunner.bpmn.definition.AdvanceAITask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonPhotoValidationTask;
 import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
+import org.kie.workbench.common.stunner.bpmn.definition.BPMNViewDefinition;
+import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseUserTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
@@ -65,15 +65,15 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.service.Generic
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdHocAutostart;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AdvanceAITaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonPhotoValidationTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationMode;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BaseUserTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.BusinessRuleTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DecisionName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DmnModelName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.EmptyTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationMode;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationModePhotoValidation;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationModeTrustSocial;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
@@ -93,19 +93,18 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.RuleLangua
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.S3FetchTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScoringTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.Script;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.ScriptTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskName;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TeleSignTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TrustingSocialTaskExecutionSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.variables.ProcessVariables;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTask;
 import org.kie.workbench.common.stunner.bpmn.workitem.CustomTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.graph.Edge;
 import org.kie.workbench.common.stunner.core.graph.Node;
 import org.kie.workbench.common.stunner.core.graph.content.view.View;
 import org.kie.workbench.common.stunner.core.util.StringUtils;
+
+import java.util.Optional;
 
 public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends BaseUserTaskExecutionSet>
         extends AbstractConverter implements NodeConverter<Task> {
@@ -122,20 +121,21 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
 
     @Override
     public Result<BpmnNode> convert(Task task) {
-        return Match.<Task, BpmnNode>of()
-                .when(e -> e instanceof org.eclipse.bpmn2.BusinessRuleTask, this::businessRuleTask)
-                .when(e -> e instanceof org.eclipse.bpmn2.ScriptTask, this::scriptTask)
-                .when(e -> e instanceof org.eclipse.bpmn2.UserTask, this::userTask)
-                .when(e -> e instanceof org.eclipse.bpmn2.ServiceTask, this::serviceTaskResolver)
-                .when(e -> org.eclipse.bpmn2.impl.TaskImpl.class.equals(e.getClass()), this::defaultTaskResolver)
-                .missing(e -> e instanceof ManualTask, ManualTask.class)
-                .missing(e -> e instanceof CustomTask, SendTask.class)
-                .missing(e -> e instanceof ReceiveTask, ReceiveTask.class)
-                .orElse(this::defaultTaskResolver)
-                .inputDecorator(BPMNElementDecorators.flowElementDecorator())
-                .outputDecorator(BPMNElementDecorators.bpmnNodeDecorator())
-                .mode(getMode())
-                .apply(task);
+            return Match.<Task, BpmnNode>of()
+                        .when(e -> e instanceof org.eclipse.bpmn2.BusinessRuleTask, this::businessRuleTask)
+                        .when(e -> e instanceof org.eclipse.bpmn2.UserTask, this::userTask)
+                        .when(e -> e instanceof org.eclipse.bpmn2.ServiceTask, this::serviceTaskResolver)
+                        .when(e -> e instanceof org.eclipse.bpmn2.ScriptTask, this::convertTask)
+                        .when(e -> e instanceof org.eclipse.bpmn2.Task, this::convertTask)
+                        .when(e -> org.eclipse.bpmn2.impl.TaskImpl.class.equals(e.getClass()), this::defaultTaskResolver)
+                        .missing(e -> e instanceof ManualTask, ManualTask.class)
+                        .missing(e -> e instanceof CustomTask, SendTask.class)
+                        .missing(e -> e instanceof ReceiveTask, ReceiveTask.class)
+                        .orElse(this::defaultTaskResolver)
+                        .inputDecorator(BPMNElementDecorators.flowElementDecorator())
+                        .outputDecorator(BPMNElementDecorators.bpmnNodeDecorator())
+                        .mode(getMode())
+                        .apply(task);
     }
 
     private BpmnNode jbpmServiceTask(Task task) {
@@ -277,244 +277,155 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
         return BpmnNode.of(node, p);
     }
 
-    private BpmnNode scriptTask(org.eclipse.bpmn2.ScriptTask task) {
-        ScriptTaskPropertyReader p = propertyReaderFactory.of(task);
-        IntegrationType type = new IntegrationType(p.getIntegrationType());
+    private Node<? extends View<? extends BPMNViewDefinition>, ?> getNode(final String id,
+                                                                          final IntegrationType type,
+                                                                          TaskPropertyReader p,
+                                                                          final TypedFactoryManager factoryManager) {
         if (IntegrationType.AMAZON.equals(type.getValue())) {
-            Node<View<AmazonTask>, Edge> node = scriptAmazonTask(task, p);
-            return BpmnNode.of(node, p);
-        } else if (IntegrationType.SCORING.equals(type.getValue())) {
-            Node<View<ScoringTask>, Edge> node = scriptScoringTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<AmazonTask>, Edge> node = factoryManager.newNode(id, AmazonTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new AmazonTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.DRAGON_PAY.equals(type.getValue())) {
-            Node<View<DragonPayTask>, Edge> node = scriptDragonPayTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(id, DragonPayTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new DragonPayTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.SEON.equals(type.getValue())) {
-            Node<View<SeonTask>, Edge> node = scriptSeonTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<SeonTask>, Edge> node = factoryManager.newNode(id, SeonTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new SeonTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.ADVANCE_AI.equals(type.getValue())) {
-            Node<View<AdvanceAITask>, Edge> node = scriptAdvanceTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<AdvanceAITask>, Edge> node = factoryManager.newNode(id, AdvanceAITask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new AdvanceAITaskExecutionSet(
+                            p.getCacheValue(),
+                            new IntegrationMode(p.getIntegrationMode()),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.TRUSTING_SOCIAL.equals(type.getValue())) {
-            Node<View<TrustingSocialTask>, Edge> node = scriptTrustingTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<TrustingSocialTask>, Edge> node = factoryManager.newNode(id, TrustingSocialTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new TrustingSocialTaskExecutionSet(
+                            p.getCacheValue(),
+                            new IntegrationModeTrustSocial(p.getIntegrationMode()),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.SQL_ADAPTER.equals(type.getValue())) {
-            Node<View<SQLAdapterTask>, Edge> node = scriptSQLAdapterTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<SQLAdapterTask>, Edge> node = factoryManager.newNode(id, SQLAdapterTask.class);
+            String sqlAdapterIdentity;
+            //part of migration from scriptnode to tasknode
+            if (p instanceof ScriptTaskPropertyReader) {
+                sqlAdapterIdentity = p.getSQLAdapterIntegrationName();
+            } else {
+                sqlAdapterIdentity = p.getIntegrationName();
+            }
+            node.getContent().getDefinition().setExecutionSet(
+                    new SQLAdapterTaskExecutionSet(
+                            p.getCacheValue(),
+                            sqlAdapterIdentity,
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.FIN_SCORE.equals(type.getValue())) {
-            Node<View<FinScoreTask>, Edge> node = scriptFinScoreTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<FinScoreTask>, Edge> node = factoryManager.newNode(id, FinScoreTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new FinScoreTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getIntegrationMode(),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.TELE_SIGN.equals(type.getValue())) {
-            Node<View<TeleSignTask>, Edge> node = teleSignTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<TeleSignTask>, Edge> node = factoryManager.newNode(id, TeleSignTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new TeleSignTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.AMAZON_PHOTO_VALIDATION.equals(type.getValue())) {
-            Node<View<AmazonPhotoValidationTask>, Edge> node = amazonPhotoValidationTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<AmazonPhotoValidationTask>, Edge> node = factoryManager.newNode(id, AmazonPhotoValidationTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new AmazonPhotoValidationTaskExecutionSet(
+                            p.getCacheValue(),
+                            new IntegrationModePhotoValidation(p.getIntegrationMode()),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else if (IntegrationType.S3_FETCH.equals(type.getValue())) {
-            Node<View<S3FetchTask>, Edge> node = s3FetchValidationTask(task, p);
-            return BpmnNode.of(node, p);
+            final Node<View<S3FetchTask>, Edge> node = factoryManager.newNode(id, S3FetchTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new S3FetchTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key(),
+                            new IsAsync(p.getIsAsync())
+                    )
+            );
+            return node;
         } else {
             throw new RuntimeException("invalid task");
         }
     }
 
-    private Node<View<S3FetchTask>, Edge> s3FetchValidationTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<S3FetchTask>, Edge> node = factoryManager.newNode(task.getId(), S3FetchTask.class);
-        S3FetchTask definition = node.getContent().getDefinition();
+    private BpmnNode convertTask(org.eclipse.bpmn2.Task task) {
+        boolean migrate = task instanceof ScriptTask;
+        TaskPropertyReader p;
+        if (migrate) {
+            p = propertyReaderFactory.of((ScriptTask) task);
+        } else {
+            p = propertyReaderFactory.of(task);
+        }
+        IntegrationType type = new IntegrationType(p.getIntegrationType());
+        //ignore migrate for scoring task
+        if (migrate && IntegrationType.SCORING.equals(type.getValue())) {
+            Node<View<ScoringTask>, Edge> node = scriptScoringTask((ScriptTask) task, (ScriptTaskPropertyReader) p);
+            return BpmnNode.of(node, p);
+        }
+
+        final Node<? extends View<? extends BPMNViewDefinition>, ?> node = getNode(task.getId(), type, p, factoryManager);
+        BaseTask definition = (BaseTask) node.getContent().getDefinition();
         definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new S3FetchTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
         node.getContent().setBounds(p.getBounds());
         definition.setDimensionsSet(p.getRectangleDimensionsSet());
         definition.setBackgroundSet(p.getBackgroundSet());
         definition.setFontSet(p.getFontSet());
         definition.setSimulationSet(p.getSimulationSet());
-        return node;
+
+        return BpmnNode.of(node, p);
+
     }
 
-    private Node<View<AmazonPhotoValidationTask>, Edge> amazonPhotoValidationTask(
-            org.eclipse.bpmn2.ScriptTask task,
-            ScriptTaskPropertyReader p
-    ) {
-        Node<View<AmazonPhotoValidationTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonPhotoValidationTask.class);
-        AmazonPhotoValidationTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new AmazonPhotoValidationTaskExecutionSet(
-                        p.getCacheValue(),
-                        new IntegrationModePhotoValidation(p.getIntegrationMode()),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<TeleSignTask>, Edge> teleSignTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<TeleSignTask>, Edge> node = factoryManager.newNode(task.getId(), TeleSignTask.class);
-        TeleSignTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new TeleSignTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<FinScoreTask>, Edge> scriptFinScoreTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<FinScoreTask>, Edge> node = factoryManager.newNode(task.getId(), FinScoreTask.class);
-        FinScoreTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new FinScoreTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getIntegrationMode(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<SQLAdapterTask>, Edge> scriptSQLAdapterTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<SQLAdapterTask>, Edge> node = factoryManager.newNode(task.getId(), SQLAdapterTask.class);
-        SQLAdapterTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new SQLAdapterTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getSQLAdapterIntegrationName(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<TrustingSocialTask>, Edge> scriptTrustingTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<TrustingSocialTask>, Edge> node = factoryManager.newNode(task.getId(), TrustingSocialTask.class);
-        TrustingSocialTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new TrustingSocialTaskExecutionSet(
-                        p.getCacheValue(),
-                        new IntegrationModeTrustSocial(p.getIntegrationMode()),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<AdvanceAITask>, Edge> scriptAdvanceTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<AdvanceAITask>, Edge> node = factoryManager.newNode(task.getId(), AdvanceAITask.class);
-        AdvanceAITask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new AdvanceAITaskExecutionSet(
-                        p.getCacheValue(),
-                        new IntegrationMode(p.getIntegrationMode()),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<SeonTask>, Edge> scriptSeonTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<SeonTask>, Edge> node = factoryManager.newNode(task.getId(), SeonTask.class);
-        SeonTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new SeonTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<DragonPayTask>, Edge> scriptDragonPayTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<DragonPayTask>, Edge> node = factoryManager.newNode(task.getId(), DragonPayTask.class);
-        DragonPayTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new DragonPayTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
-
-    private Node<View<AmazonTask>, Edge> scriptAmazonTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
-        Node<View<AmazonTask>, Edge> node = factoryManager.newNode(task.getId(), AmazonTask.class);
-        AmazonTask definition = node.getContent().getDefinition();
-        definition.setGeneral(new TaskGeneralSet(new Name(p.getName()), new Documentation(p.getDocumentation())));
-        definition.setExecutionSet(
-                new AmazonTaskExecutionSet(
-                        p.getCacheValue(),
-                        p.getResultS3Key(),
-                        new IsAsync(p.getIsAsync())
-                )
-        );
-        node.getContent().setBounds(p.getBounds());
-        definition.setDimensionsSet(p.getRectangleDimensionsSet());
-        definition.setBackgroundSet(p.getBackgroundSet());
-        definition.setFontSet(p.getFontSet());
-        definition.setSimulationSet(p.getSimulationSet());
-        return node;
-    }
 
     private Node<View<ScoringTask>, Edge> scriptScoringTask(org.eclipse.bpmn2.ScriptTask task, ScriptTaskPropertyReader p) {
         Node<View<ScoringTask>, Edge> node = factoryManager.newNode(task.getId(), ScoringTask.class);
@@ -563,9 +474,9 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
     private BpmnNode defaultTaskResolver(Task task) {
         //in case serviceTaskName attribute is present handle as a Service Task, default is a None Task
         return Optional.ofNullable(CustomAttribute.serviceTaskName.of(task).get())
-                .filter(ConverterUtils::nonEmpty)
-                .map(name -> jbpmServiceTask(task))
-                .orElseGet(() -> noneTask(task));
+                       .filter(ConverterUtils::nonEmpty)
+                       .map(name -> jbpmServiceTask(task))
+                       .orElseGet(() -> noneTask(task));
     }
 
     private BpmnNode serviceTaskResolver(final Task task) {

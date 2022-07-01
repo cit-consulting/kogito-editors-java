@@ -16,10 +16,6 @@
 
 package org.kie.workbench.common.stunner.bpmn.definition.property.task;
 
-import java.util.Objects;
-
-import javax.validation.Valid;
-
 import org.jboss.errai.common.client.api.annotations.MapsTo;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.jboss.errai.databinding.client.api.Bindable;
@@ -30,6 +26,9 @@ import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.textBox.typ
 import org.kie.workbench.common.stunner.bpmn.definition.BPMNPropertySet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
+
+import javax.validation.Valid;
+import java.util.Objects;
 
 @Portable
 @Bindable
@@ -61,13 +60,6 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.AMAZON);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"amazon-rekognition\");"
-            )
-    );
-
     public AmazonTaskExecutionSet() {
         this(0.0, "default", new IsAsync());
     }
@@ -80,6 +72,12 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
         this.cacheValue = cacheValue;
         this.resultS3Key = resultS3Key;
         this.isAsync = isAsync;
+    }
+
+    private final String integrationIdentity = "amazon-rekognition";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
     }
 
     public Double getCacheValue() {
@@ -102,10 +100,6 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public Script getScript() {
-        return script;
-    }
-
     public void setIsAsync(IsAsync isAsync) {
         this.isAsync = isAsync;
     }
@@ -118,7 +112,6 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(isAsync)
@@ -130,7 +123,6 @@ public class AmazonTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof AmazonTaskExecutionSet) {
             AmazonTaskExecutionSet other = (AmazonTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);

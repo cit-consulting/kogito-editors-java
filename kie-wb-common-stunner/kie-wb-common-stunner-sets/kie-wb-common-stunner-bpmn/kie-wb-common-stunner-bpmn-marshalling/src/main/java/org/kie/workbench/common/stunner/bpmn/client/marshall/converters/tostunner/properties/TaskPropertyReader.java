@@ -18,6 +18,8 @@ package org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunn
 
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.di.BPMNDiagram;
+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.CustomAttribute;
+import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.customproperties.CustomElement;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.DefinitionResolver;
 
 public class TaskPropertyReader extends ActivityPropertyReader {
@@ -27,5 +29,52 @@ public class TaskPropertyReader extends ActivityPropertyReader {
     public TaskPropertyReader(Task task, BPMNDiagram diagram, DefinitionResolver definitionResolver) {
         super(task, diagram, definitionResolver);
         this.task = task;
+    }
+
+    public String getCacheType() {
+        return CustomElement.cacheType.of(element).get();
+    }
+
+    public Double getCacheValue() {
+        return CustomElement.cacheValue.of(element).get();
+    }
+
+    public String getResultS3Key() {
+        return CustomElement.resultS3Key.of(element).get();
+    }
+
+    public String getDbRequestType() {
+        return CustomElement.dbRequestType.of(element).get();
+    }
+
+    public String getIntegrationType() {
+        return CustomElement.integrationType.of(element).get();
+    }
+
+    public String getTaskName() {
+        return CustomAttribute.serviceTaskName.of(task).get();
+    }
+
+    public String getIntegrationMode() {
+        String advanceAIType = CustomElement.advanceAIType.of(element).get();
+        String integrationMode = CustomElement.integrationMode.of(element).get();
+        if (integrationMode != null) {
+            return integrationMode;
+        } else {
+            return advanceAIType;
+        }
+    }
+
+    public String getSQLAdapterIntegrationName() {
+        return CustomElement.integrationName.of(element).get();
+    }
+
+    public String getIntegrationName() {
+        return CustomElement.integrationIdentity.of(task).get();
+
+    }
+
+    public Boolean getIsAsync() {
+        return CustomElement.async.of(element).get();
     }
 }

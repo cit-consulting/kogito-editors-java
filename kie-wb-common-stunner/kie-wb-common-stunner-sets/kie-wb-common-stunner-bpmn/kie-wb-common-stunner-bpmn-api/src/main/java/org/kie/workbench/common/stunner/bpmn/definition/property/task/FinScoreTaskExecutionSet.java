@@ -68,12 +68,11 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.FIN_SCORE);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"finscore-integration\");"
-            )
-    );
+    private final String integrationIdentity = "finscore-integration";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
+    }
 
     public FinScoreTaskExecutionSet() {
         this(0.0, "", "default", new IsAsync());
@@ -119,9 +118,6 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
         this.resultS3Key = resultS3Key;
     }
 
-    public Script getScript() {
-        return script;
-    }
 
     public void setIsAsync(IsAsync isAsync) {
         this.isAsync = isAsync;
@@ -135,7 +131,6 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
                 Objects.hashCode(resultS3Key),
@@ -148,7 +143,6 @@ public class FinScoreTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof FinScoreTaskExecutionSet) {
             FinScoreTaskExecutionSet other = (FinScoreTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
                     Objects.equals(isAsync, other.isAsync) &&

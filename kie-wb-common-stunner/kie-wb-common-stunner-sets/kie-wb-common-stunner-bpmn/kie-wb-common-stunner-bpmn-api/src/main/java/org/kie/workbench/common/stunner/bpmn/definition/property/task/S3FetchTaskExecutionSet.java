@@ -60,12 +60,11 @@ public class S3FetchTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.S3_FETCH);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"s3-fetch\");"
-            )
-    );
+    private final String integrationIdentity = "s3-file-integration";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
+    }
 
     public S3FetchTaskExecutionSet() {
         this(0.0, "default", new IsAsync());
@@ -101,9 +100,6 @@ public class S3FetchTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public Script getScript() {
-        return script;
-    }
 
     public IsAsync getIsAsync() {
         return isAsync;
@@ -117,7 +113,6 @@ public class S3FetchTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(isAsync)
@@ -129,7 +124,6 @@ public class S3FetchTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof S3FetchTaskExecutionSet) {
             S3FetchTaskExecutionSet other = (S3FetchTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);

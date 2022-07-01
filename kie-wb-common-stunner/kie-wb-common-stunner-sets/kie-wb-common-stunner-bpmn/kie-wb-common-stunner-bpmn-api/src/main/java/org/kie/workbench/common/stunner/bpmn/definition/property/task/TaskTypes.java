@@ -35,7 +35,5 @@ public enum TaskTypes {
     AMAZON_PHOTO_VALIDATION,
     S3_FETCH,
     BUSINESS_RULE,
-    SERVICE_TASK,
-
-    MY_CUSTOM;
+    SERVICE_TASK
 }

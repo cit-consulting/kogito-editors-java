@@ -53,7 +53,7 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class SQLAdapterTask extends BaseTask {
+public class SQLAdapterTask extends BaseTask implements IntegrationTask {
 
     @Property
     @FormField(afterElement = "general")

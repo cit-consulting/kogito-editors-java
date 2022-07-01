@@ -123,6 +123,10 @@ public class PropertyWriterFactory {
     public ServiceTaskPropertyWriter of(Task e) {
         return new ServiceTaskPropertyWriter(e, variableScope, dataObjects);
     }
+    public TaskPropertyWriter ofReal(Task e) {
+        return new TaskPropertyWriter(e, variableScope, dataObjects);
+    }
+
 
     public GenericServiceTaskPropertyWriter of(ServiceTask e) {
         return new GenericServiceTaskPropertyWriter(e, variableScope, dataObjects);

@@ -59,15 +59,14 @@ public class TeleSignTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.TELE_SIGN);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"telesign-integration\");"
-            )
-    );
+    private final String integrationIdentity = "telesign-integration";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
+    }
 
     public TeleSignTaskExecutionSet() {
-        this(0.0, "", new IsAsync());
+        this(0.0, "default", new IsAsync());
     }
 
     public TeleSignTaskExecutionSet(
@@ -100,10 +99,6 @@ public class TeleSignTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public Script getScript() {
-        return script;
-    }
-
     public IsAsync getIsAsync() {
         return isAsync;
     }
@@ -116,7 +111,6 @@ public class TeleSignTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(isAsync)
@@ -128,7 +122,6 @@ public class TeleSignTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof TeleSignTaskExecutionSet) {
             TeleSignTaskExecutionSet other = (TeleSignTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);

@@ -35,6 +35,7 @@ public class CustomElement<T> {
     public static final MetadataTypeDefinition<String> scoringIdentity = new StringElement("scoringIdentity", "");
     public static final MetadataTypeDefinition<String> dbRequestType = new StringElement("dbRequestType", "");
     public static final MetadataTypeDefinition<String> integrationType = new StringElement("integrationType", "");
+    public static final MetadataTypeDefinition<String> integrationIdentity = new StringElement("topicName", "");
     public static final MetadataTypeDefinition<String> resultS3Key = new StringElement("resultS3Key", "");
 
     // SQL Adapter

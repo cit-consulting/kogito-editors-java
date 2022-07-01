@@ -76,15 +76,14 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.TRUSTING_SOCIAL);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"trusting-social-integration\");"
-            )
-    );
+    private final String integrationIdentity = "trusting-social-integration";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
+    }
 
     public TrustingSocialTaskExecutionSet() {
-        this(0.0, new IntegrationModeTrustSocial(), "", new IsAsync());
+        this(0.0, new IntegrationModeTrustSocial(), "default", new IsAsync());
     }
 
     public TrustingSocialTaskExecutionSet(
@@ -127,9 +126,6 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
         return integrationType;
     }
 
-    public Script getScript() {
-        return script;
-    }
 
     public void setIsAsync(IsAsync isAsync) {
         this.isAsync = isAsync;
@@ -144,7 +140,6 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
                 Objects.hashCode(integrationMode),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(resultS3Key),
                 Objects.hashCode(isAsync)
@@ -157,7 +152,6 @@ public class TrustingSocialTaskExecutionSet implements BPMNPropertySet {
             TrustingSocialTaskExecutionSet other = (TrustingSocialTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(isAsync, other.isAsync) &&
                     Objects.equals(resultS3Key, other.resultS3Key);

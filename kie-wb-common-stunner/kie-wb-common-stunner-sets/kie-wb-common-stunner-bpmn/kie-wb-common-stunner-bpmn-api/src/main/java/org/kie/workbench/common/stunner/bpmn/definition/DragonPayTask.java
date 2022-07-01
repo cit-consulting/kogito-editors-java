@@ -31,9 +31,9 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.general.Documen
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.Name;
 import org.kie.workbench.common.stunner.bpmn.definition.property.general.TaskGeneralSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.simulation.SimulationSet;
-import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.TaskTypes;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.core.definition.annotation.Definition;
 import org.kie.workbench.common.stunner.core.definition.annotation.Property;
 import org.kie.workbench.common.stunner.core.definition.annotation.morph.Morph;
@@ -53,7 +53,7 @@ import static org.kie.workbench.common.forms.adf.engine.shared.formGeneration.pr
         startElement = "general",
         defaultFieldSettings = {@FieldParam(name = FIELD_CONTAINER_PARAM, value = COLLAPSIBLE_CONTAINER)}
 )
-public class DragonPayTask extends BaseTask {
+public class DragonPayTask extends BaseTask implements IntegrationTask {
 
     @Property
     @FormField(afterElement = "general")

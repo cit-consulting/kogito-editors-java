@@ -78,12 +78,11 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
 
     private final IntegrationType integrationType = new IntegrationType(IntegrationType.AMAZON_PHOTO_VALIDATION);
 
-    private final Script script = new Script(
-            new ScriptTypeValue(
-                    "java",
-                    "com.digitalfinance.riskengine.bpmn.integration.CommonIntegration.process(kcontext, \"aws-photo-validation\");"
-            )
-    );
+    private final String integrationIdentity = "aws-photo-validation";
+
+    public String getIntegrationIdentity() {
+        return integrationIdentity;
+    }
 
     public AmazonPhotoValidationTaskExecutionSet() {
         this(0.0, new IntegrationModePhotoValidation(), "default", new IsAsync());
@@ -129,10 +128,6 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
         this.resultS3Key = resultS3Key;
     }
 
-    public Script getScript() {
-        return script;
-    }
-
     public IsAsync getIsAsync() {
         return isAsync;
     }
@@ -145,7 +140,6 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
     public int hashCode() {
         return HashUtil.combineHashCodes(
                 Objects.hashCode(cacheValue),
-                Objects.hashCode(script),
                 Objects.hashCode(integrationType),
                 Objects.hashCode(integrationMode),
                 Objects.hashCode(resultS3Key),
@@ -158,7 +152,6 @@ public class AmazonPhotoValidationTaskExecutionSet implements BPMNPropertySet {
         if (o instanceof AmazonPhotoValidationTaskExecutionSet) {
             AmazonPhotoValidationTaskExecutionSet other = (AmazonPhotoValidationTaskExecutionSet) o;
             return Objects.equals(cacheValue, other.cacheValue) &&
-                    Objects.equals(script, other.script) &&
                     Objects.equals(integrationType, other.integrationType) &&
                     Objects.equals(integrationMode, other.integrationMode) &&
                     Objects.equals(isAsync, other.isAsync) &&
