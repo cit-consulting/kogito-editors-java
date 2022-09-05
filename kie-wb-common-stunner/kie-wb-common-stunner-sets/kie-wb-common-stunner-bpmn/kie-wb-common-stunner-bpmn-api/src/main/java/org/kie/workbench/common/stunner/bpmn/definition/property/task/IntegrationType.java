@@ -44,6 +44,8 @@ public class IntegrationType implements BPMNProperty {
     public final static String TELE_SIGN  = "TELE_SIGN";
     public final static String AMAZON_PHOTO_VALIDATION  = "AMAZON_PHOTO_VALIDATION";
     public final static String S3_FETCH  = "S3_FETCH";
+    public final static String MBA  = "MBA";
+    public final static String JUICY  = "JUICY";
 
     @Value
     @FieldValue

@@ -104,6 +104,8 @@ public abstract class BaseTask implements BPMNViewDefinition {
                         .put(TaskTypes.TELE_SIGN, TeleSignTask.class)
                         .put(TaskTypes.AMAZON_PHOTO_VALIDATION, AmazonPhotoValidationTask.class)
                         .put(TaskTypes.S3_FETCH, S3FetchTask.class)
+                        .put(TaskTypes.MBA, MBATask.class)
+                        .put(TaskTypes.JUICY, JuicyTask.class)
                         .put(TaskTypes.BUSINESS_RULE,
                              BusinessRuleTask.class)
                         .put(TaskTypes.SERVICE_TASK,

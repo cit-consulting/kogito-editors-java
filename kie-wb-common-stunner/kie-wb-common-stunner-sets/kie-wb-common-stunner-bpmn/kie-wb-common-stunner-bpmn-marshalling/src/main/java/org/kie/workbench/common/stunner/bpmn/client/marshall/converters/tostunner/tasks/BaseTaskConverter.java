@@ -48,6 +48,8 @@ import org.kie.workbench.common.stunner.bpmn.definition.BusinessRuleTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
 import org.kie.workbench.common.stunner.bpmn.definition.GenericServiceTask;
+import org.kie.workbench.common.stunner.bpmn.definition.JuicyTask;
+import org.kie.workbench.common.stunner.bpmn.definition.MBATask;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
 import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
@@ -79,6 +81,8 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.Integratio
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IntegrationType;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsAsync;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.IsMultipleInstance;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.JuicyTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.MBATaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCollectionInput;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCollectionOutput;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.MultipleInstanceCompletionCondition;
@@ -378,6 +382,24 @@ public abstract class BaseTaskConverter<U extends BaseUserTask<S>, S extends Bas
             final Node<View<S3FetchTask>, Edge> node = factoryManager.newNode(id, S3FetchTask.class);
             node.getContent().getDefinition().setExecutionSet(
                     new S3FetchTaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key()
+                    )
+            );
+            return node;
+        } else if (IntegrationType.MBA.equals(type.getValue())) {
+            final Node<View<MBATask>, Edge> node = factoryManager.newNode(id, MBATask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new MBATaskExecutionSet(
+                            p.getCacheValue(),
+                            p.getResultS3Key()
+                    )
+            );
+            return node;
+        } else if (IntegrationType.JUICY.equals(type.getValue())) {
+            final Node<View<JuicyTask>, Edge> node = factoryManager.newNode(id, JuicyTask.class);
+            node.getContent().getDefinition().setExecutionSet(
+                    new JuicyTaskExecutionSet(
                             p.getCacheValue(),
                             p.getResultS3Key()
                     )

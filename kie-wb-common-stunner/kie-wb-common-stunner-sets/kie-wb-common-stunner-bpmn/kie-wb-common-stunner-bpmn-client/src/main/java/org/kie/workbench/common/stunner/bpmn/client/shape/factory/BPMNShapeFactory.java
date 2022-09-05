@@ -77,7 +77,9 @@ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateMessageEvent
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateSignalEventCatching;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateSignalEventThrowing;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateTimerEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.JuicyTask;
 import org.kie.workbench.common.stunner.bpmn.definition.Lane;
+import org.kie.workbench.common.stunner.bpmn.definition.MBATask;
 import org.kie.workbench.common.stunner.bpmn.definition.MultipleInstanceSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociation;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
@@ -197,7 +199,8 @@ public class BPMNShapeFactory
                 .delegate(TeleSignTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(AmazonPhotoValidationTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(S3FetchTask.class, new TaskShapeDef(), () -> svgShapeFactory)
-
+                .delegate(MBATask.class, new TaskShapeDef(), () -> svgShapeFactory)
+                .delegate(JuicyTask.class, new TaskShapeDef(), () -> svgShapeFactory)
                 .delegate(BusinessRuleTask.class,
                           new TaskShapeDef(),
                           () -> svgShapeFactory)

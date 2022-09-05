@@ -34,6 +34,8 @@ public enum TaskTypes {
     FIN_SCORE,
     AMAZON_PHOTO_VALIDATION,
     S3_FETCH,
+    MBA,
+    JUICY,
     BUSINESS_RULE,
     SERVICE_TASK
 }

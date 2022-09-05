@@ -56,7 +56,9 @@ import org.kie.workbench.common.stunner.bpmn.definition.IntermediateMessageEvent
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateSignalEventCatching;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateSignalEventThrowing;
 import org.kie.workbench.common.stunner.bpmn.definition.IntermediateTimerEvent;
+import org.kie.workbench.common.stunner.bpmn.definition.JuicyTask;
 import org.kie.workbench.common.stunner.bpmn.definition.Lane;
+import org.kie.workbench.common.stunner.bpmn.definition.MBATask;
 import org.kie.workbench.common.stunner.bpmn.definition.MultipleInstanceSubprocess;
 import org.kie.workbench.common.stunner.bpmn.definition.NonDirectionalAssociation;
 import org.kie.workbench.common.stunner.bpmn.definition.NoneTask;
@@ -113,6 +115,9 @@ import org.kie.workbench.common.stunner.core.rule.annotation.Occurrences;
                 AmazonPhotoValidationTask.class,
                 // part 8
                 S3FetchTask.class,
+                // part 9
+                MBATask.class,
+                JuicyTask.class,
                 // other
                 BPMNDiagramImpl.class,
                 Lane.class,

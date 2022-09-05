@@ -45,7 +45,8 @@ public class IntegrationProvider implements SelectorDataProvider {
         FIN_SCORE(IntegrationType.FIN_SCORE, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.FIN_SCORE"),
         TELE_SIGN(IntegrationType.TELE_SIGN, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.TELE_SIGN"),
         AMAZON_PHOTO_VALIDATION(IntegrationType.AMAZON_PHOTO_VALIDATION, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.AMAZON_PHOTO_VALIDATION"),
-        S3_FETCH(IntegrationType.S3_FETCH, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.S3_FETCH");
+        S3_FETCH(IntegrationType.S3_FETCH, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.S3_FETCH"),
+        MBA(IntegrationType.MBA, "org.kie.workbench.common.stunner.bpmn.client.dataproviders.CacheProvider.MBA");
 
         private final String value;
 
@@ -89,6 +90,7 @@ public class IntegrationProvider implements SelectorDataProvider {
         valuePosition.put(INTEGRATION_TYPE.TELE_SIGN.value(), 9);
         valuePosition.put(INTEGRATION_TYPE.AMAZON_PHOTO_VALIDATION.value(), 10);
         valuePosition.put(INTEGRATION_TYPE.S3_FETCH.value(), 11);
+        valuePosition.put(INTEGRATION_TYPE.MBA.value(), 12);
     }
 
     private SafeComparator<Object> getComparator() {

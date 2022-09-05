@@ -10,6 +10,8 @@ import org.kie.workbench.common.stunner.bpmn.definition.AmazonTask;
 import org.kie.workbench.common.stunner.bpmn.definition.BaseTask;
 import org.kie.workbench.common.stunner.bpmn.definition.DragonPayTask;
 import org.kie.workbench.common.stunner.bpmn.definition.FinScoreTask;
+import org.kie.workbench.common.stunner.bpmn.definition.JuicyTask;
+import org.kie.workbench.common.stunner.bpmn.definition.MBATask;
 import org.kie.workbench.common.stunner.bpmn.definition.S3FetchTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SQLAdapterTask;
 import org.kie.workbench.common.stunner.bpmn.definition.SeonTask;
@@ -21,6 +23,8 @@ import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonPhot
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.AmazonTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.DragonPayTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.FinScoreTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.JuicyTaskExecutionSet;
+import org.kie.workbench.common.stunner.bpmn.definition.property.task.MBATaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.S3FetchTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SQLAdapterTaskExecutionSet;
 import org.kie.workbench.common.stunner.bpmn.definition.property.task.SeonTaskExecutionSet;
@@ -136,6 +140,18 @@ public class TaskPropertyWriter extends ActivityPropertyWriter {
             setIntegrationMode(executionSet.getIntegrationMode().getValue());
         } else if (baseTask instanceof S3FetchTask) {
             S3FetchTaskExecutionSet executionSet = ((S3FetchTask) baseTask).getExecutionSet();
+            setIntegrationType(executionSet.getIntegrationType().getValue());
+            setIntegrationIdentity(executionSet.getIntegrationIdentity());
+            setCacheValue(executionSet.getCacheValue());
+            setResultS3Key(executionSet.getResultS3Key());
+        } else if (baseTask instanceof MBATask) {
+            MBATaskExecutionSet executionSet = ((MBATask) baseTask).getExecutionSet();
+            setIntegrationType(executionSet.getIntegrationType().getValue());
+            setIntegrationIdentity(executionSet.getIntegrationIdentity());
+            setCacheValue(executionSet.getCacheValue());
+            setResultS3Key(executionSet.getResultS3Key());
+        } else if (baseTask instanceof JuicyTask) {
+            JuicyTaskExecutionSet executionSet = ((JuicyTask) baseTask).getExecutionSet();
             setIntegrationType(executionSet.getIntegrationType().getValue());
             setIntegrationIdentity(executionSet.getIntegrationIdentity());
             setCacheValue(executionSet.getCacheValue());
